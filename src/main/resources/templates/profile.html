@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/layout/main.html">
+<div layout:fragment="productsContent">
+    <h1 class="text-center">HELLO <span th:text="${#authentication.principal.fullName}"></span></h1>
+</div>
+</html>

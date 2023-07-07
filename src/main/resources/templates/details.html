@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/layout/main.html"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div layout:fragment="productsContent">
+    <div class="row mb-3" >
+        <div class="row" id="cardListBody">
+
+        </div>
+
+        <script type="text/javascript">
+            let href = document.location.href
+            let text = href.split('/').pop();
+            let txt = document.location.href.split('/').pop();
+            loadNotebooks();
+            loadProcessor();
+
+            loadVideoCard();
+            loadNotebookModel();
+
+
+
+
+            function loadNotebooks() {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/notebook/"+txt, true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let notebookList = JSON.parse(httpRequest.responseText);
+
+                        let cardContent = "";
+                            cardContent += "<input type='hidden' value='"+txt+"' id='id'>"
+                            cardContent += "<input type='text' class=\"form-control\" value='"+notebookList.title+"' id='title'>";
+                        cardContent += "<div id='modelListBody'>";
+                        cardContent += "</div>";
+                            cardContent += "<div id='selectListBody'>";
+                        cardContent += "</div>";
+                            cardContent += "<div id='videoCardListBody'>";
+                        cardContent += "</div>";
+                            cardContent +=  "<select id='diagonal' class='form-select'>";
+                             cardContent += "<option value='"+notebookList.diagonal+"' selected>"+notebookList.diagonal+"</option>";
+                             cardContent += "<option value='"+11.6+"'>"+"11.6"+"</option>";
+                             cardContent += "<option value='"+12.5+"'>"+"12.5"+"</option>";
+                             cardContent += "<option value='"+13.3+"'>"+"13.3"+"</option>";
+                             cardContent += "<option value='"+14+"'>"+"14"+"</option>";
+                             cardContent += "<option value='"+15.4+"'>"+"15.4"+"</option>";
+                             cardContent += "<option value='"+15.6+"'>"+"15.6"+"</option>";
+                             cardContent += "<option value='"+17+"'>"+"17"+"</option>";
+                             cardContent += "<option value='"+17.3+"'>"+"17.3"+"</option>";
+                            cardContent += "</select>";
+                        cardContent +=  "<select id='memory' class='form-select'>";
+                        cardContent += "<option value='"+notebookList.memory+"' selected>"+notebookList.memory+"</option>";
+                        cardContent += "<option value='"+32+"'>"+"32"+"</option>";
+                        cardContent += "<option value='"+64+"'>"+"64"+"</option>";
+                        cardContent += "<option value='"+128+"'>"+"128"+"</option>";
+                        cardContent += "<option value='"+256+"'>"+"256"+"</option>";
+                        cardContent += "<option value='"+500+"'>"+"500"+"</option>";
+                        cardContent += "<option value='"+512+"'>"+"512"+"</option>";
+                        cardContent += "<option value='"+1000+"'>"+"1000"+"</option>";
+                        cardContent += "<option value='"+1500+"'>"+"1500"+"</option>";
+                        cardContent += "<option value='"+2000+"'>"+"2000"+"</option>";
+                        cardContent += "<option value='"+3000+"'>"+"3000"+"</option>";
+                        cardContent += "</select>";
+                        cardContent +=  "<select id='ozu' class='form-select'>";
+                        cardContent += "<option value='"+notebookList.ozu+"' selected>"+notebookList.ozu+"</option>";
+                        cardContent += "<option value='"+2+"'>"+"2"+"</option>";
+                        cardContent += "<option value='"+4+"'>"+"4"+"</option>";
+                        cardContent += "<option value='"+8+"'>"+"8"+"</option>";
+                        cardContent += "<option value='"+16+"'>"+"16"+"</option>";
+                        cardContent += "<option value='"+32+"'>"+"32"+"</option>";
+                        cardContent += "<option value='"+64+"'>"+"64"+"</option>";
+                        cardContent += "</select>";
+                        cardContent += "<input type='text' id='description' class=\"form-control\" value='"+notebookList.description+"'>";
+                        cardContent += "<input type='number' id='price' value='"+notebookList.price+"'>";
+                        cardContent +="<div class=\"row mt-3\">";
+                        cardContent +=  "<div class=\"col-12\">";
+                        cardContent +=    "<button class=\"btn btn-success\" onclick='editLaptop()'>Редкатировать</button>";
+                        cardContent +=    "<button class=\"btn btn-danger\" onclick='deleteLaptop()'>Удалить</button>";
+                        cardContent += "</div>";
+                        cardContent += "</div>";
+
+                            loadProcessor(notebookList.processor.id)
+                            loadVideoCard(notebookList.videoCard.id)
+                            loadNotebookModel(notebookList.notebookModel.id)
+
+
+                            document.getElementById("cardListBody").innerHTML = cardContent;
+                    }
+                }
+                httpRequest.send();
+            }
+
+            function loadProcessor(id) {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/processor", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let processorList = JSON.parse(httpRequest.responseText);
+
+                        let selectContent = "";
+                        selectContent += "<select id='processor' class=\"form-select\">";
+                        for (let i = 0; i < processorList.length; i++) {
+
+                            selectContent += "<option  value='"+processorList[i].id+"'>"+ processorList[i].model+ "</option>";
+                            if (processorList[i].id === id) {
+                                selectContent +=    "<option  value='"+processorList[i].id+"' selected>"+ processorList[i].model+ "</option>"
+                            }
+                        }
+                        selectContent += "</select>";
+                        document.getElementById("selectListBody").innerHTML = selectContent;
+                    }
+                }
+                httpRequest.send();
+            }
+            function loadVideoCard(id) {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/videoCard", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let videoCardList = JSON.parse(httpRequest.responseText);
+
+                        let videoCardContent = "";
+                        videoCardContent += "<select id='videoCard' class=\"form-select\">";
+                        for (let i = 0; i < videoCardList.length; i++) {
+
+                            videoCardContent += "<option  value='"+videoCardList[i].id+"'>"+ videoCardList[i].model+ "</option>";
+                            if (videoCardList[i].id === id) {
+                                videoCardContent +=    "<option  value='"+videoCardList[i].id+"' selected>"+ videoCardList[i].model+ "</option>"
+                            }
+                        }
+                        videoCardContent += "</select>";
+                        document.getElementById("videoCardListBody").innerHTML = videoCardContent;
+                    }
+                }
+                httpRequest.send();
+            }
+            function loadNotebookModel(id) {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/model", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let modelList = JSON.parse(httpRequest.responseText);
+
+                        let modelContent = "";
+                        modelContent += "<select id='notebookModel' class=\"form-select\">";
+                        for (let i = 0; i < modelList.length; i++) {
+
+                            modelContent += "<option  value='"+modelList[i].id+"'>"+ modelList[i].name+ "</option>";
+                            if (modelList[i].id === id) {
+                                modelContent += "<option  value='"+modelList[i].id+"' selected>"+ modelList[i].name+ "</option>"
+                            }
+                        }
+                        modelContent += "</select>";
+                        document.getElementById("modelListBody").innerHTML = modelContent;
+                    }
+                }
+                httpRequest.send();
+            }
+            function editLaptop() {
+                let put = {
+                    "id" : document.getElementById("id").value,
+                    "title" : document.getElementById("title").value,
+                    "description" : document.getElementById("description").value,
+                    "price" : document.getElementById("price").value,
+                    "processor" : {
+                        "id" : document.getElementById("processor").value
+                    },
+                    "videoCard" : {
+                        "id" : document.getElementById("videoCard").value
+                    },
+                    "notebookModel" : {
+                        "id" : document.getElementById("notebookModel").value
+                    },
+                    "memory" : document.getElementById("memory").value,
+                    "ozu" : document.getElementById("ozu").value,
+                    "diagonal" : document.getElementById("diagonal").value
+                }
+                let req = new XMLHttpRequest();
+                req.onload = function () {
+                    loadNotebooks();
+                }
+                req.open("PUT", "http://localhost:8888/notebook",)
+                req.setRequestHeader("Content-type", "application/json")
+                req.send(JSON.stringify(put))
+            }
+            function deleteLaptop(){
+
+                let approve = confirm("Вы уверены?");
+
+                if(approve){
+
+                    let Id = document.getElementById("id");
+
+                    const httpRequest = new XMLHttpRequest();
+                    httpRequest.open("DELETE", "/notebook/"+txt, true);
+
+                    httpRequest.onreadystatechange = function () {
+                        if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                           alert("Ноутбук удален");
+                        }
+                    };
+
+                    httpRequest.send();
+                }
+
+            }
+        </script>
+    </div>
+
+</div>
+</html>

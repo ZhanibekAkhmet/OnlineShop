@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/layout/main.html"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div layout:fragment="productsContent">
+    <div class="row mb-3" >
+        <div class="col-6 mx-auto">
+            <form th:action="@{'/upload-image'}" method="post" enctype="multipart/form-data">
+                <div class="card" >
+                    <img src="" class="card-img-top" >
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <input class="form-control" type="file" name="image" >
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <button class="btn btn-success">Загрузить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row mt-3">
+                <div class="col-12">
+                    <label>NAME : </label>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <input type="text" class="form-control" id="title">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <label>DESCRIPTION : </label>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <textarea class="form-control" id="description"></textarea>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <label>PRICE : </label>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <input type="number" class="form-control" id="price">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <label>Processor : </label>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <div  id="selectListBody">
+
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <label>Video card : </label>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <div  id="videoCardListBody">
+
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <label>Model: </label>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <div  id="modelListBody">
+
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <label>Оперативная память: </label>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                   <select class="form-select" id="ozu">
+                       <option value="2">2 ГБ</option>
+                       <option value="4">4 ГБ</option>
+                       <option value="8">8 ГБ</option>
+                       <option value="16">16 ГБ</option>
+                       <option value="32">32 ГБ</option>
+                       <option value="64">64 ГБ</option>
+                   </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <label>Объем накопителя: </label>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <select class="form-select" id="memory">
+                        <option value="32">32 ГБ</option>
+                        <option value="64">64 ГБ</option>
+                        <option value="128">128 ГБ</option>
+                        <option value="256">256 ГБ</option>
+                        <option value="500">500 ГБ</option>
+                        <option value="512">512 ГБ</option>
+                        <option value="1000">1000 ГБ</option>
+                        <option value="1500">1500 ГБ</option>
+                        <option value="2000">2000 ГБ</option>
+                        <option value="3000">3000 ГБ</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <label>Диагональ экрана: </label>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <select class="form-select" id="diagonal">
+                        <option value="11.6">11.6 </option>
+                        <option value="12.5">12.5 </option>
+                        <option value="13.3">13.3 </option>
+                        <option value="14">14 </option>
+                        <option value="15.4">15.4 </option>
+                        <option value="15.6">15.6 </option>
+                        <option value="17">17 </option>
+                        <option value="17.3">17.3 </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <button class="btn btn-success" onclick="addLaptop()">ADD Laptop</button>
+                </div>
+            </div>
+
+        </div>
+        <script type="text/javascript">
+            loadProcessor();
+            loadVideoCard();
+            loadNotebookModel();
+            function loadProcessor() {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/processor", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let processorList = JSON.parse(httpRequest.responseText);
+
+                        let selectContent = "";
+                        selectContent += "<select id='processor' class=\"form-select\">";
+                        for (let i = 0; i < processorList.length; i++) {
+
+                            selectContent += "<option  value='"+processorList[i].id+"'>"+ processorList[i].model+ "</option>";
+
+                        }
+                        selectContent += "</select>";
+                        document.getElementById("selectListBody").innerHTML = selectContent;
+                    }
+                }
+                httpRequest.send();
+            }
+            function loadVideoCard() {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/videoCard", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let videoCardList = JSON.parse(httpRequest.responseText);
+
+                        let videoCardContent = "";
+                        videoCardContent += "<select id='videoCard' class=\"form-select\">";
+                        for (let i = 0; i < videoCardList.length; i++) {
+
+                            videoCardContent += "<option  value='"+videoCardList[i].id+"'>"+ videoCardList[i].model+ "</option>";
+
+                        }
+                        videoCardContent += "</select>";
+                        document.getElementById("videoCardListBody").innerHTML = videoCardContent;
+                    }
+                }
+                httpRequest.send();
+            }
+            function loadNotebookModel() {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/model", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let modelList = JSON.parse(httpRequest.responseText);
+
+                        let modelContent = "";
+                        modelContent += "<select id='notebookModel' class=\"form-select\">";
+                        for (let i = 0; i < modelList.length; i++) {
+
+                            modelContent += "<option  value='"+modelList[i].id+"'>"+ modelList[i].name+ "</option>";
+
+                        }
+                        modelContent += "</select>";
+                        document.getElementById("modelListBody").innerHTML = modelContent;
+                    }
+                }
+                httpRequest.send();
+            }
+            function addLaptop() {
+                let post = {
+                    "title" : document.getElementById("title").value,
+                    "description" : document.getElementById("description").value,
+                    "price" : document.getElementById("price").value,
+                    "processor" : {
+                        "id" : document.getElementById("processor").value
+                    },
+                    "videoCard" : {
+                        "id" : document.getElementById("videoCard").value
+                    },
+                    "notebookModel" : {
+                        "id" : document.getElementById("notebookModel").value
+                    },
+                    "memory" : document.getElementById("memory").value,
+                    "ozu" : document.getElementById("ozu").value,
+                    "diagonal" : document.getElementById("diagonal").value
+                }
+                let req = new XMLHttpRequest();
+                req.onload = function () {
+                    loadNotebooks();
+                }
+                req.open("POST", "http://localhost:8888/notebook",)
+                req.setRequestHeader("Content-type", "application/json")
+                req.send(JSON.stringify(post))
+            }
+        </script>
+    </div>
+
+</div>
+</html>
