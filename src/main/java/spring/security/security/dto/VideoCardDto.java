@@ -1,6 +1,5 @@
 package spring.security.security.dto;
 
-import jakarta.persistence.GeneratedValue;
 import lombok.Getter;
 import lombok.Setter;
 

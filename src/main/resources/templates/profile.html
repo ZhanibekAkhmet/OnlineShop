@@ -3,5 +3,82 @@
       layout:decorate="/layout/main.html">
 <div layout:fragment="productsContent">
     <h1 class="text-center">HELLO <span th:text="${#authentication.principal.fullName}"></span></h1>
+    <input type="hidden" th:value="${#authentication.principal.id}" id="userID">
+    <div class="row" id="cardListBody"></div>
+    <script>
+        loadOrder()
+        function loadOrder() {
+            let id = document.getElementById("userID").value;
+            const httpRequest = new XMLHttpRequest();
+            httpRequest.open("GET", "/orders/"+id, true);
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+                    let ordersList = JSON.parse(httpRequest.responseText);
+                    let cardContent = "";
+                    for (let i = 0; i < ordersList.length; i++) {
+                        cardContent += "<div class=\"col-sm-12 mt-3\">";
+                        cardContent += "<div class=\"border border-dark p-3\">";
+                        cardContent += "<div class=\"d-flex justify-content-between\">";
+                        // Display the order status as text in the top left corner
+                        let statusText;
+                        switch (ordersList[i].status) {
+                            case 0:
+                                statusText = "Заказ создан и скоро будет обработан менеджером!";
+                                break;
+                            case 1:
+                                statusText = "Обрабатывается";
+                                break;
+                            case 2:
+                                statusText = "Куплен!";
+                                break;
+                            case 3:
+                                statusText = "Отменён";
+                                break;
+                        }
+                        cardContent += "<div><strong>Status: " + statusText + "</strong></div>";
+                        cardContent += "<div><strong>Total: " + ordersList[i].total + "</strong></div>";
+                        cardContent += "</div>";
+                        cardContent += "<h4 class=\"text-center bg-light\">Order #" + ordersList[i].id +"   Имя: " +ordersList[i].user.fullName+";   email: "+ordersList[i].user.email+ "; Телефон: "+ordersList[i].user.phone+"</h4>";
+                        cardContent += "<table class=\"table\">";
+                        cardContent += "<thead><tr><th>Model</th><th>Name</th><th>Price</th><th>Quantity</th></tr></thead>";
+                        cardContent += "<tbody>";
+                        for (let j = 0; j < ordersList[i].orderItems.length; j++) {
+                            let orderItem = ordersList[i].orderItems[j];
+                            cardContent += "<tr>";
+                            cardContent += "<td>" + orderItem.item.notebookModel.name + "</td>";
+                            cardContent += "<td>" + orderItem.item.name + "</td>";
+                            cardContent += "<td>" + orderItem.item.price + "</td>";
+                            cardContent += "<td>" + orderItem.quantity + "</td>";
+                            cardContent += "</tr>";
+                        }
+                        cardContent += "</tbody></table>";
+                        cardContent += "<div class=\"text-right\"><button class=\"btn btn-danger\" onclick='updateOrderStatus(" + ordersList[i].id + ")'>Отменить</button></div>";
+                        cardContent += "</div></div>";
+                    }
+                    document.getElementById("cardListBody").innerHTML = cardContent;
+                }
+            }
+            httpRequest.send();
+        }
+
+
+
+
+        function updateOrderStatus(orderId) {
+            let approve = confirm("Вы уверены, что хотите отменить заказ?");
+
+            if(approve){
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("PUT", "/orders/" + orderId + "/status?status=" + 3, true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+                        loadOrder();
+                    }
+                }
+                httpRequest.send();
+            }
+
+        }
+    </script>
 </div>
 </html>

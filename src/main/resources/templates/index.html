@@ -3,32 +3,366 @@
       layout:decorate="/layout/main.html"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div layout:fragment="productsContent">
-    <div  class="row" id="cardListBody">
+        <!-- Other form elements here -->
+    <button class="btn btn-success" onclick="loadItems()">Все товары</button>
+    <button class="btn btn-success" onclick="loadLaptop()">Ноутбуки</button>
+    <button class="btn btn-success" onclick="loadPhone()">Телефоны</button>
+
+    <div class="mt-2" id="quantityListBody"></div>
+
+    <div  class="row mt-2" id="cardListBody">
     </div>
+
+
+
         <script type="text/javascript">
 
-        loadNotebooks();
+            loadItems();
+            loadQuantity()
+            function loadItems() {
+                // Retrieve the list of NotebookModels
+                const notebookModelRequest = new XMLHttpRequest();
+                notebookModelRequest.open("GET", "/model", true);
+                notebookModelRequest.onreadystatechange = function () {
+                    if (notebookModelRequest.readyState == XMLHttpRequest.DONE && notebookModelRequest.status == 200) {
+                        let notebookModels = JSON.parse(notebookModelRequest.responseText);
 
+                        // Retrieve the list of items
+                        const itemsRequest = new XMLHttpRequest();
+                        itemsRequest.open("GET", "/items", true);
+                        itemsRequest.onreadystatechange = function () {
+                            if (itemsRequest.readyState == XMLHttpRequest.DONE && itemsRequest.status == 200) {
+                                let notebookList = JSON.parse(itemsRequest.responseText);
+                                let cardContent = "";
+                                cardContent += "<div class=\"row\">";
+                                cardContent += "<div class=\"col-sm-12\">";
+                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsCheap()\">Сначала дешевые</button>";
+                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsExpensive()\">Сначала дорогие</button>";
+                                cardContent += "<select class='form-select' id='notebookModelSelect' onchange='loadItemsModel()'>";
+                                cardContent += "<option value='all'>All Notebook Models</option>";
+                                for (let i = 0; i < notebookModels.length; i++) {
+                                    cardContent += "<option value='" + notebookModels[i].id + "'>" + notebookModels[i].name + "</option>";
+                                }
+                                cardContent += "</select>";
+                                cardContent += "</div>";
+                                cardContent += "</div>";
+                                for (let i = 0; i < notebookList.length; i++) {
+                                    cardContent += "<div class=\"col-sm-4 mt-3\">";
+                                    cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
+                                    cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
 
-        function loadNotebooks() {
+                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
+                                    cardContent += "<div>";
+                                    cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
+                                    cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
+                                    if (notebookList[i].categories.id==1){
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                                    }else if (notebookList[i].categories.id==2){
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                                    }
+                                    cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
+                                    cardContent += "</div>";
+                                    cardContent += "</div>";
+                                    cardContent += "</div>";
+                                }
+                                document.getElementById("cardListBody").innerHTML = cardContent;
+                            }
+                        }
+                        itemsRequest.send();
+                    }
+                }
+                notebookModelRequest.send();
+            }
+
+            function loadItemsCheap() {
+
+                const notebookModelRequest = new XMLHttpRequest();
+                notebookModelRequest.open("GET", "/model", true);
+                notebookModelRequest.onreadystatechange = function () {
+                    if (notebookModelRequest.readyState == XMLHttpRequest.DONE && notebookModelRequest.status == 200) {
+                        let notebookModels = JSON.parse(notebookModelRequest.responseText);
+
+                        // Retrieve the list of items
+                        const itemsRequest = new XMLHttpRequest();
+                        itemsRequest.open("GET", "/items/cheap", true);
+                        itemsRequest.onreadystatechange = function () {
+                            if (itemsRequest.readyState == XMLHttpRequest.DONE && itemsRequest.status == 200) {
+                                let notebookList = JSON.parse(itemsRequest.responseText);
+                                let cardContent = "";
+                                cardContent += "<div class=\"row\">";
+                                cardContent += "<div class=\"col-sm-12\">";
+                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsCheap()\">Сначала дешевые</button>";
+                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsExpensive()\">Сначала дорогие</button>";
+                                cardContent += "<select class='form-select' id='notebookModelSelect' onchange='loadItemsModel()'>";
+                                for (let i = 0; i < notebookModels.length; i++) {
+                                    cardContent += "<option value='" + notebookModels[i].id + "'>" + notebookModels[i].name + "</option>";
+                                }
+                                cardContent += "</select>";
+                                cardContent += "</div>";
+                                cardContent += "</div>";
+                                for (let i = 0; i < notebookList.length; i++) {
+                                    cardContent += "<div class=\"col-sm-4 mt-3\">";
+                                    cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
+                                    cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
+
+                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
+                                    cardContent += "<div>";
+                                    cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
+                                    cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
+                                    if (notebookList[i].categories.id==1){
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                                    }else if (notebookList[i].categories.id==2){
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                                    }
+                                    cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
+                                    cardContent += "</div>";
+                                    cardContent += "</div>";
+                                    cardContent += "</div>";
+                                }
+                                document.getElementById("cardListBody").innerHTML = cardContent;
+                            }
+                        }
+                        itemsRequest.send();
+                    }
+                }
+                notebookModelRequest.send();
+            }
+            function loadItemsCheapModel(id) {
+                const notebookModelRequest = new XMLHttpRequest();
+                notebookModelRequest.open("GET", "/model", true);
+                notebookModelRequest.onreadystatechange = function () {
+                    if (notebookModelRequest.readyState == XMLHttpRequest.DONE && notebookModelRequest.status == 200) {
+                        let notebookModels = JSON.parse(notebookModelRequest.responseText);
+
+                        // Retrieve the list of items
+                        const itemsRequest = new XMLHttpRequest();
+                        itemsRequest.open("GET", "/items/modelPrice/"+id, true);
+                        itemsRequest.onreadystatechange = function () {
+                            if (itemsRequest.readyState == XMLHttpRequest.DONE && itemsRequest.status == 200) {
+                                let notebookList = JSON.parse(itemsRequest.responseText);
+                                let cardContent = "";
+                                cardContent += "<div class=\"row\">";
+                                cardContent += "<div class=\"col-sm-12\">";
+                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsCheap()\">Сначала дешевые</button>";
+                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsExpensive()\">Сначала дорогие</button>";
+                                cardContent += "<select class='form-select' id='notebookModelSelect' onchange='loadItemsModel()'>";
+                                for (let i = 0; i < notebookModels.length; i++) {
+                                    cardContent += "<option value='" + notebookModels[i].id + "'>" + notebookModels[i].name + "</option>";
+                                }
+                                cardContent += "</select>";
+                                cardContent += "</div>";
+                                cardContent += "</div>";
+                                for (let i = 0; i < notebookList.length; i++) {
+                                    cardContent += "<div class=\"col-sm-4 mt-3\">";
+                                    cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
+                                    cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
+
+                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
+                                    cardContent += "<div>";
+                                    cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
+                                    cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
+                                    if (notebookList[i].categories.id==1){
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                                    }else if (notebookList[i].categories.id==2){
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                                    }
+                                    cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
+                                    cardContent += "</div>";
+                                    cardContent += "</div>";
+                                    cardContent += "</div>";
+                                }
+                                document.getElementById("cardListBody").innerHTML = cardContent;
+                            }
+                        }
+                        itemsRequest.send();
+                    }
+                }
+                notebookModelRequest.send();
+            }
+            function loadItemExpensiveModel(id) {
+                const notebookModelRequest = new XMLHttpRequest();
+                notebookModelRequest.open("GET", "/model", true);
+                notebookModelRequest.onreadystatechange = function () {
+                    if (notebookModelRequest.readyState == XMLHttpRequest.DONE && notebookModelRequest.status == 200) {
+                        let notebookModels = JSON.parse(notebookModelRequest.responseText);
+
+                        // Retrieve the list of items
+                        const itemsRequest = new XMLHttpRequest();
+                        itemsRequest.open("GET", "/items/modelPriceDesc/"+id, true);
+                        itemsRequest.onreadystatechange = function () {
+                            if (itemsRequest.readyState == XMLHttpRequest.DONE && itemsRequest.status == 200) {
+                                let notebookList = JSON.parse(itemsRequest.responseText);
+                                let cardContent = "";
+                                cardContent += "<div class=\"row\">";
+                                cardContent += "<div class=\"col-sm-12\">";
+                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsCheap()\">Сначала дешевые</button>";
+                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsExpensive()\">Сначала дорогие</button>";
+                                cardContent += "<select class='form-select' id='notebookModelSelect' onchange='loadItemsModel()'>";
+                                for (let i = 0; i < notebookModels.length; i++) {
+                                    cardContent += "<option value='" + notebookModels[i].id + "'>" + notebookModels[i].name + "</option>";
+                                }
+                                cardContent += "</select>";
+                                cardContent += "</div>";
+                                cardContent += "</div>";
+                                for (let i = 0; i < notebookList.length; i++) {
+                                    cardContent += "<div class=\"col-sm-4 mt-3\">";
+                                    cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
+                                    cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
+
+                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
+                                    cardContent += "<div>";
+                                    cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
+                                    cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
+                                    if (notebookList[i].categories.id==1){
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                                    }else if (notebookList[i].categories.id==2){
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                                    }
+                                    cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
+                                    cardContent += "</div>";
+                                    cardContent += "</div>";
+                                    cardContent += "</div>";
+                                }
+                                document.getElementById("cardListBody").innerHTML = cardContent;
+                            }
+                        }
+                        itemsRequest.send();
+                    }
+                }
+                notebookModelRequest.send();
+            }
+            function loadItemsModel() {
+                let id = document.getElementById("notebookModelSelect").value;
+                const notebookModelRequest = new XMLHttpRequest();
+                notebookModelRequest.open("GET", "/model", true);
+                notebookModelRequest.onreadystatechange = function () {
+                    if (notebookModelRequest.readyState == XMLHttpRequest.DONE && notebookModelRequest.status == 200) {
+                        let notebookModels = JSON.parse(notebookModelRequest.responseText);
+
+                        // Retrieve the list of items
+                        const itemsRequest = new XMLHttpRequest();
+                        itemsRequest.open("GET", "/items/model/"+id, true);
+                        itemsRequest.onreadystatechange = function () {
+                            if (itemsRequest.readyState == XMLHttpRequest.DONE && itemsRequest.status == 200) {
+                                let notebookList = JSON.parse(itemsRequest.responseText);
+                                let cardContent = "";
+                                cardContent += "<div class=\"row\">";
+                                cardContent += "<div class=\"col-sm-12\">";
+                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsCheap\">Сначала дешевые</button>";
+                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsExpensive()\">Сначала дорогие</button>";
+                                cardContent += "<select class='form-select' id='notebookModelSelect' onchange='loadItemsModel()'>";
+                                cardContent += "<option value='all'>All Notebook Models</option>";
+                                for (let i = 0; i < notebookModels.length; i++) {
+                                    cardContent += "<option value='" + notebookModels[i].id + "'>" + notebookModels[i].name + "</option>";
+                                }
+                                cardContent += "</select>";
+                                cardContent += "</div>";
+                                cardContent += "</div>";
+                                for (let i = 0; i < notebookList.length; i++) {
+                                    cardContent += "<div class=\"col-sm-4 mt-3\">";
+                                    cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
+                                    cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
+
+                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
+                                    cardContent += "<div>";
+                                    cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
+                                    cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
+                                    if (notebookList[i].categories.id==1){
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                                    }else if (notebookList[i].categories.id==2){
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                                    }
+                                    cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
+                                    cardContent += "</div>";
+                                    cardContent += "</div>";
+                                    cardContent += "</div>";
+                                }
+                                document.getElementById("cardListBody").innerHTML = cardContent;
+                            }
+                        }
+                        itemsRequest.send();
+                    }
+                }
+                notebookModelRequest.send();
+            }
+            function loadItemsExpensive() {
+
+                const notebookModelRequest = new XMLHttpRequest();
+                notebookModelRequest.open("GET", "/model", true);
+                notebookModelRequest.onreadystatechange = function () {
+                    if (notebookModelRequest.readyState == XMLHttpRequest.DONE && notebookModelRequest.status == 200) {
+                        let notebookModels = JSON.parse(notebookModelRequest.responseText);
+
+                        // Retrieve the list of items
+                        const itemsRequest = new XMLHttpRequest();
+                        itemsRequest.open("GET", "/items/expensive", true);
+                        itemsRequest.onreadystatechange = function () {
+                            if (itemsRequest.readyState == XMLHttpRequest.DONE && itemsRequest.status == 200) {
+                                let notebookList = JSON.parse(itemsRequest.responseText);
+                                let cardContent = "";
+                                cardContent += "<div class=\"row\">";
+                                cardContent += "<div class=\"col-sm-12\">";
+                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsCheap()\">Сначала дешевые</button>";
+                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsExpensive()\">Сначала дорогие</button>";
+                                cardContent += "<select class='form-select' id='notebookModelSelect' onchange='loadItemsModel()'>";
+                                cardContent += "<option value='all'>All Notebook Models</option>";
+                                for (let i = 0; i < notebookModels.length; i++) {
+                                    cardContent += "<option value='" + notebookModels[i].id + "'>" + notebookModels[i].name + "</option>";
+                                }
+                                cardContent += "</select>";
+                                cardContent += "</div>";
+                                cardContent += "</div>";
+                                for (let i = 0; i < notebookList.length; i++) {
+                                    cardContent += "<div class=\"col-sm-4 mt-3\">";
+                                    cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
+                                    cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
+
+                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
+                                    cardContent += "<div>";
+                                    cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
+                                    cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
+                                    if (notebookList[i].categories.id==1){
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                                    }else if (notebookList[i].categories.id==2){
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                                    }
+                                    cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
+                                    cardContent += "</div>";
+                                    cardContent += "</div>";
+                                    cardContent += "</div>";
+                                }
+                                document.getElementById("cardListBody").innerHTML = cardContent;
+                            }
+                        }
+                        itemsRequest.send();
+                    }
+                }
+                notebookModelRequest.send();
+            }
+        function loadLaptop() {
 
             const httpRequest = new XMLHttpRequest();
-            httpRequest.open("GET", "/notebook", true);
+            httpRequest.open("GET", "/items/1", true);
             httpRequest.onreadystatechange = function () {
                 if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
 
                     let notebookList = JSON.parse(httpRequest.responseText);
-
                     let cardContent = "";
                     for (let i = 0; i < notebookList.length; i++) {
                         cardContent += "<div class=\"col-sm-4 mt-3\">";
                         cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
-                        cardContent += "<h4 class=\"text-center bg-light\">"+ notebookList[i].notebookModel.name +" " + notebookList[i].title + "</h4>";
+                        cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
+                        cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
                         cardContent += "<div>";
                         cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
                         cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
-                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>"
-                        cardContent += "<a class=\"btn btn-primary\" href="+notebookList[i].id+"/bucket>" + "В корзину" +"</a>"
+                        if (notebookList[i].categories.id==1){
+                            cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                        }else if (notebookList[i].categories.id==2){
+                            cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                        }
+                        // cardContent += "<input type='hidden' value='"+notebookList[i].id+"' id='LaptopId'>";
+                        cardContent += "<button class=\"btn btn-primary\" onclick='addBucketLaptop(\""+notebookList[i].id+"\")'>" + "В корзину" +"</button>"
                         cardContent += "</div>";
                         cardContent += "</div>";
                         cardContent += "</div>";
@@ -38,7 +372,82 @@
             }
             httpRequest.send();
         }
+            function loadPhone() {
 
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/items/2", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let notebookList = JSON.parse(httpRequest.responseText);
+                        let cardContent = "";
+                        for (let i = 0; i < notebookList.length; i++) {
+                            cardContent += "<div class=\"col-sm-4 mt-3\">";
+                            cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
+                            cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
+                            cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
+                            cardContent += "<div>";
+                            cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
+                            cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
+                            if (notebookList[i].categories.id==1){
+                                cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                            }else if (notebookList[i].categories.id==2){
+                                cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                            }
+                            cardContent += "<button class=\"btn btn-primary\" onclick='addBucketItem(\""+notebookList[i].id+"\")'>" + "В корзину" +"</button>"
+                            cardContent += "</div>";
+                            cardContent += "</div>";
+                            cardContent += "</div>";
+                        }
+                        document.getElementById("cardListBody").innerHTML = cardContent;
+                    }
+                }
+                httpRequest.send();
+            }
+            function addBucket(id) {
+                let req = new XMLHttpRequest();
+                req.onload = function () {
+                    loadQuantity()
+                }
+                req.open("POST", "http://localhost:8888/shopping-cart/add/"+id)
+                req.setRequestHeader("Content-type", "application/json")
+                req.send()
+            }
+            function addBucketLaptop(id) {
+
+                let req = new XMLHttpRequest();
+                req.onload = function () {
+                    loadQuantity()
+                }
+                req.open("POST", "http://localhost:8888/shopping-cart/add/"+id)
+                req.setRequestHeader("Content-type", "application/json")
+                req.send()
+            }
+            function addBucketItem(id) {
+                let req = new XMLHttpRequest();
+                req.onload = function () {
+                    loadQuantity()
+                }
+                req.open("POST", "http://localhost:8888/shopping-cart/add/"+id)
+                req.setRequestHeader("Content-type", "application/json")
+                req.send()
+            }
+            function loadQuantity() {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/shopping-cart/quantity", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let cartList = httpRequest.responseText;
+                        let cardContent = "";
+                        cardContent += "<a class='btn btn-primary' href='/bucket'>"+"Корзина "+cartList+"</a>";
+
+                        document.getElementById("quantityListBody").innerHTML = cardContent;
+                    }
+                }
+                httpRequest.send();
+            }
     </script>
 
 </div>

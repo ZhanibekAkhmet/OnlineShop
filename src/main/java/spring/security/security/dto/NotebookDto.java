@@ -1,23 +1,20 @@
 package spring.security.security.dto;
 
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
-import spring.security.security.model.Notebooks.NotebookModel;
+
+import spring.security.security.model.Item;
 import spring.security.security.model.Notebooks.Processor;
 import spring.security.security.model.Notebooks.VideoCard;
 
-import java.math.BigDecimal;
+
 
 @Getter
 @Setter
 public class NotebookDto {
     private Long id;
-    @ManyToOne
-    private NotebookModel notebookModel;
-    private String title;
-    private String description;
-    private BigDecimal price;
     @ManyToOne
     private Processor processor;
     @ManyToOne
@@ -25,4 +22,6 @@ public class NotebookDto {
     private int memory;
     private int ozu;
     private double diagonal;
+    @OneToOne
+    private Item item;
 }

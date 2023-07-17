@@ -21,10 +21,9 @@ public class User extends BaseModel implements UserDetails {
     private String password;
     @Column(name = "full_name")
     private String fullName;
+    private String phone;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Permission> permissions;
-    @OneToOne(cascade = CascadeType.REMOVE)
-    private Bucket bucket;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

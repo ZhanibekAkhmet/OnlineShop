@@ -49,18 +49,6 @@
             </div>
             <div class="row mt-3">
                 <div class="col-12">
-                    <label>Video card : </label>
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-12">
-                    <div  id="videoCardListBody">
-
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-12">
                     <label>Model: </label>
                 </div>
             </div>
@@ -130,19 +118,18 @@
             </div>
             <div class="row mt-3">
                 <div class="col-12">
-                    <button class="btn btn-success" onclick="addLaptop()">ADD Laptop</button>
+                    <button class="btn btn-success" onclick="addPhone()">ADD Laptop</button>
                 </div>
             </div>
 
         </div>
         <script type="text/javascript">
             loadProcessor();
-            loadVideoCard();
             loadNotebookModel();
             function loadProcessor() {
 
                 const httpRequest = new XMLHttpRequest();
-                httpRequest.open("GET", "/processor", true);
+                httpRequest.open("GET", "/PhoneProcessor", true);
                 httpRequest.onreadystatechange = function () {
                     if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
 
@@ -152,33 +139,11 @@
                         selectContent += "<select id='processor' class=\"form-select\">";
                         for (let i = 0; i < processorList.length; i++) {
 
-                            selectContent += "<option  value='"+processorList[i].id+"'>"+ processorList[i].model+ "</option>";
+                            selectContent += "<option  value='"+processorList[i].id+"'>"+ processorList[i].name+ "</option>";
 
                         }
                         selectContent += "</select>";
                         document.getElementById("selectListBody").innerHTML = selectContent;
-                    }
-                }
-                httpRequest.send();
-            }
-            function loadVideoCard() {
-
-                const httpRequest = new XMLHttpRequest();
-                httpRequest.open("GET", "/videoCard", true);
-                httpRequest.onreadystatechange = function () {
-                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
-
-                        let videoCardList = JSON.parse(httpRequest.responseText);
-
-                        let videoCardContent = "";
-                        videoCardContent += "<select id='videoCard' class=\"form-select\">";
-                        for (let i = 0; i < videoCardList.length; i++) {
-
-                            videoCardContent += "<option  value='"+videoCardList[i].id+"'>"+ videoCardList[i].model+ "</option>";
-
-                        }
-                        videoCardContent += "</select>";
-                        document.getElementById("videoCardListBody").innerHTML = videoCardContent;
                     }
                 }
                 httpRequest.send();
@@ -205,15 +170,11 @@
                 }
                 httpRequest.send();
             }
-            function addLaptop() {
+            function addPhone() {
                 let post = {
-                    "processor" : {
+                    "phoneProcessor" : {
                         "id" : document.getElementById("processor").value
                     },
-                    "videoCard" : {
-                        "id" : document.getElementById("videoCard").value
-                    },
-
                     "memory" : document.getElementById("memory").value,
                     "ozu" : document.getElementById("ozu").value,
                     "diagonal" : document.getElementById("diagonal").value,
@@ -222,7 +183,7 @@
                         "description": document.getElementById("description").value,
                         "price": document.getElementById("price").value,
                         "categories": {
-                            "id": 1,
+                            "id": 2,
                         },
                         "notebookModel" : {
                             "id" : document.getElementById("notebookModel").value
@@ -233,7 +194,7 @@
                 req.onload = function () {
                     loadNotebooks();
                 }
-                req.open("POST", "http://localhost:8888/notebook",)
+                req.open("POST", "http://localhost:8888/phone",)
                 req.setRequestHeader("Content-type", "application/json")
                 req.send(JSON.stringify(post))
             }

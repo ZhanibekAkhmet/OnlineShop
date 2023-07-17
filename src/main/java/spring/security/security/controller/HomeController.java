@@ -3,36 +3,18 @@ package spring.security.security.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import spring.security.security.dto.BucketDto;
 import spring.security.security.model.User;
-import spring.security.security.service.BucketService;
-import spring.security.security.service.NotebookService;
-import spring.security.security.service.UploadImageService;
-import spring.security.security.service.UserService;
+import spring.security.security.service.*;
 
-import java.security.Principal;
-import java.util.Map;
 
 @Controller
 public class HomeController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private UploadImageService uploadImageService;
-    @Autowired
-    private NotebookService notebookService;
-    @Autowired
-    private BucketService bucketService;
-    @GetMapping(value = "/addLaptop")
-    public String addLaptopPage(){
-        return "addLaptop";
-    }
+
     @GetMapping(value = "/")
     public String indexPage(){
         return "index";
@@ -40,6 +22,10 @@ public class HomeController {
     @GetMapping(value = "/detailsLaptop/{id}")
     public String detailsPage(){
         return "details";
+    }
+    @GetMapping(value = "/detailsPhone/{id}")
+    public String detailsPhonePage(){
+        return "phoneDetails";
     }
     @GetMapping(value = "/sign-in-page")
     public String signinnPage(){
@@ -66,12 +52,14 @@ public class HomeController {
     public String tosignupPage(@RequestParam(name = "user_email") String email,
                                @RequestParam(name = "user_password") String password,
                                @RequestParam(name = "user_repeat_password") String repeat_password,
-                               @RequestParam(name = "user_full_name") String full_name){
+                               @RequestParam(name = "user_full_name") String full_name,
+                               @RequestParam(name = "phone") String phone){
         if (password.equals(repeat_password)){
             User user = new User();
             user.setEmail(email);
             user.setFullName(full_name);
             user.setPassword(password);
+            user.setPhone(phone);
             User newUser = userService.addUser(user);
             if (newUser != null) {
                 return "redirect:/sign-up-page?success";
@@ -98,35 +86,11 @@ public class HomeController {
                     return "redirect:/update-password-page?passwordmismatch";
                 }
     }
-    @PostMapping(value = "/upload-image")
-    public String uploadImage(@RequestParam(name = "image")MultipartFile file){
-        uploadImageService.UploadPicture(file);
-        return "redirect:/addLaptop";
-    }
-    @GetMapping  (value = "/{id}/bucket")
-    public String addBucket(@PathVariable Long id, Principal principal){
-        if (principal==null){
-            return "redirect:/";
-        }
-        notebookService.addToUserBucket(id,principal.getName());
-        return "redirect:/";
-    }
+
+    @PreAuthorize("isAuthenticated()")
     @GetMapping  (value = "/bucket")
-    public String datailsBucket(Model model, Principal principal){
-        if (principal==null){
-            model.addAttribute("bucket", new BucketDto());
-        }else {
-            BucketDto bucketDto = bucketService.getBucketByUser(principal.getName());
-            model.addAttribute("bucket", bucketDto);
-        }
+    public String datailsBucket(){
         return "bucket";
     }
-    @GetMapping  (value = "/{id}/bucketDelete")
-    public String deleteBucket(@PathVariable Long id, Principal principal){
-        if (principal==null){
-            return "redirect:/";
-        }
-        notebookService.removeNotebookFromBucketByUser(principal.getName(),id);
-        return "redirect:/bucket";
-    }
+
 }

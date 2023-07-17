@@ -2,9 +2,7 @@ package spring.security.security.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import spring.security.security.model.Notebooks.Processor;
 import spring.security.security.model.Notebooks.VideoCard;
-import spring.security.security.service.ProcessorService;
 import spring.security.security.service.VideoCardService;
 
 import java.util.List;

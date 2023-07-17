@@ -3,10 +3,7 @@ package spring.security.security.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import spring.security.security.dto.NotebookDto;
-import spring.security.security.model.Notebooks.Notebook;
 import spring.security.security.service.NotebookService;
-
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -34,5 +31,4 @@ public class NotebookRestController {
     public void deleteNotebook(@PathVariable(name = "id")Long id){
         notebookService.deleteNotebook(id);
     }
-
 }
