@@ -18,7 +18,7 @@ public class PhoneRestController {
     }
     @GetMapping(value = "{id}")
     public PhoneDto   getPhone(@PathVariable(name = "id") Long id){
-        return phoneService.getPhone(id);
+        return phoneService.getPhoneByItem(id);
     }
     @PostMapping
     public PhoneDto addPhone(@RequestBody PhoneDto phoneDto){

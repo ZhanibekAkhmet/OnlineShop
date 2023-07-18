@@ -6,14 +6,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import spring.security.security.model.Item;
-import spring.security.security.model.Notebooks.Processor;
-import spring.security.security.model.Notebooks.VideoCard;
+import spring.security.security.model.Laptop.Processor;
+import spring.security.security.model.Laptop.VideoCard;
 
 
 
 @Getter
 @Setter
-public class NotebookDto {
+public class LaptopDto {
     private Long id;
     @ManyToOne
     private Processor processor;

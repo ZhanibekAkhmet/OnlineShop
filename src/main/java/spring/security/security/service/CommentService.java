@@ -3,11 +3,8 @@ package spring.security.security.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.security.security.model.Comment;
-import spring.security.security.model.Notebooks.NotebookModel;
 import spring.security.security.repository.CommentRepository;
-import spring.security.security.repository.NotebookModelRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service

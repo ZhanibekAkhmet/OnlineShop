@@ -4,18 +4,6 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div layout:fragment="productsContent">
     <div class="row mb-3" >
-<!--            <div class="card" >-->
-<!--                <div class="card-body">-->
-<!--                    <div class="mb-3">-->
-<!--                        <input class="form-control" type="file" id="image" >-->
-<!--                    </div>-->
-<!--                    <div class="row">-->
-<!--                        <div class="col-12">-->
-<!--                            <button class="btn btn-success" onclick="addImage()">Загрузить</button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
         <div class="row" id="cardListBody">
 
         </div>
@@ -39,87 +27,16 @@
 
             loadVideoCard();
             loadNotebookModel();
-
-
-
-
-            // function loadNotebooks() {
-            //     const httpRequest = new XMLHttpRequest();
-            //     httpRequest.open("GET", "/notebook/"+txt, true);
-            //     httpRequest.onreadystatechange = function () {
-            //         if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
-            //             let notebookList = JSON.parse(httpRequest.responseText);
-            //             let cardContent = "";
-            //                 cardContent += "<input type='hidden' value='"+txt+"' id='id'>"
-            //                 cardContent += "<img src='/images/"+notebookList.item.image+"' class='card-img-top img-fluid' style='width: 500px; height: 400px'>";
-            //                 cardContent += "<input type='hidden' value='"+notebookList.item.id+"' id='itemId'>"
-            //                 cardContent += "<input type='text' class=\"form-control\" value='"+notebookList.item.name+"' id='name'>";
-            //                 cardContent += "<div id='modelListBody'>";
-            //                 cardContent += "</div>";
-            //                 cardContent += "<div id='selectListBody'>";
-            //                 cardContent += "</div>";
-            //                 cardContent += "<div id='videoCardListBody'>";
-            //                 cardContent += "</div>";
-            //                 cardContent +=  "<select id='diagonal' class='form-select'>";
-            //                 cardContent += "<option value='"+notebookList.diagonal+"' selected>"+notebookList.diagonal+"</option>";
-            //                 cardContent += "<option value='"+11.6+"'>"+"11.6"+"</option>";
-            //                 cardContent += "<option value='"+12.5+"'>"+"12.5"+"</option>";
-            //                 cardContent += "<option value='"+13.3+"'>"+"13.3"+"</option>";
-            //                 cardContent += "<option value='"+14+"'>"+"14"+"</option>";
-            //                 cardContent += "<option value='"+15.4+"'>"+"15.4"+"</option>";
-            //                 cardContent += "<option value='"+15.6+"'>"+"15.6"+"</option>";
-            //                 cardContent += "<option value='"+17+"'>"+"17"+"</option>";
-            //                 cardContent += "<option value='"+17.3+"'>"+"17.3"+"</option>";
-            //                 cardContent += "</select>";
-            //                 cardContent +=  "<select id='memory' class='form-select'>";
-            //                 cardContent += "<option value='"+notebookList.memory+"' selected>"+notebookList.memory+"</option>";
-            //                 cardContent += "<option value='"+32+"'>"+"32"+"</option>";
-            //                 cardContent += "<option value='"+64+"'>"+"64"+"</option>";
-            //                 cardContent += "<option value='"+128+"'>"+"128"+"</option>";
-            //                 cardContent += "<option value='"+256+"'>"+"256"+"</option>";
-            //                 cardContent += "<option value='"+500+"'>"+"500"+"</option>";
-            //                 cardContent += "<option value='"+512+"'>"+"512"+"</option>";
-            //                 cardContent += "<option value='"+1000+"'>"+"1000"+"</option>";
-            //                 cardContent += "<option value='"+1500+"'>"+"1500"+"</option>";
-            //                 cardContent += "<option value='"+2000+"'>"+"2000"+"</option>";
-            //                 cardContent += "<option value='"+3000+"'>"+"3000"+"</option>";
-            //                 cardContent += "</select>";
-            //                 cardContent +=  "<select id='ozu' class='form-select'>";
-            //                 cardContent += "<option value='"+notebookList.ozu+"' selected>"+notebookList.ozu+"</option>";
-            //                 cardContent += "<option value='"+2+"'>"+"2"+"</option>";
-            //                 cardContent += "<option value='"+4+"'>"+"4"+"</option>";
-            //                 cardContent += "<option value='"+8+"'>"+"8"+"</option>";
-            //                 cardContent += "<option value='"+16+"'>"+"16"+"</option>";
-            //                 cardContent += "<option value='"+32+"'>"+"32"+"</option>";
-            //                 cardContent += "<option value='"+64+"'>"+"64"+"</option>";
-            //                 cardContent += "</select>";
-            //                 cardContent += "<input type='text' id='description' class=\"form-control\" value='"+notebookList.item.description+"'>";
-            //                 cardContent += "<input type='number' id='price' value='"+notebookList.item.price+"'>";
-            //                 cardContent +="<div class=\"row mt-3\">";
-            //                 cardContent +=  "<div class=\"col-12\">";
-            //                 cardContent +=    "<button class=\"btn btn-success\" onclick='editLaptop()'>Редкатировать</button>";
-            //                 cardContent +=    "<button class=\"btn btn-danger\" onclick='deleteLaptop()'>Удалить</button>";
-            //                 cardContent += "</div>";
-            //                 cardContent += "</div>";
-            //                 loadComments(notebookList.item.id)
-            //                 loadProcessor(notebookList.processor.id)
-            //                 loadVideoCard(notebookList.videoCard.id)
-            //                 loadNotebookModel(notebookList.item.notebookModel.id)
-            //                 document.getElementById("cardListBody").innerHTML = cardContent;
-            //         }
-            //     }
-            //     httpRequest.send();
-            // }
             function loadNotebooks() {
                 const httpRequest = new XMLHttpRequest();
-                httpRequest.open("GET", "/notebook/" + txt, true);
+                httpRequest.open("GET", "/laptop/" + txt, true);
                 httpRequest.onreadystatechange = function () {
                     if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
-                        let notebookList = JSON.parse(httpRequest.responseText);
+                        let laptopList = JSON.parse(httpRequest.responseText);
                         let cardContent = "";
                         cardContent += "<div class=\"row\">";
                         cardContent += "<div class=\"col-sm-6\">";
-                        cardContent += "<img src='/images/" + notebookList.item.image + "' class='card-img-top img-fluid' style='width: 500px; height: 400px'>";
+                        cardContent += "<img src='/images/" + laptopList.item.image + "' class='card-img-top img-fluid' style='width: 500px; height: 400px'>";
                         cardContent += "<div class=\"mb-3 mt-3\">";
                         cardContent += "<input class=\"form-control\" type=\"file\" id=\"image\">";
                         cardContent += "</div>";
@@ -130,14 +47,14 @@
                         cardContent += "</div>";
                         cardContent += "</div>";
                         cardContent += "<div class=\"col-sm-6\">";
-                        cardContent += "<input type='hidden' value='" + txt + "' id='id'>";
-                        cardContent += "<input type='hidden' value='" + notebookList.item.image + "' id='imageSrc'>";
-                        cardContent += "<input type='hidden' value='" + notebookList.item.id + "' id='itemId'>";
+                        cardContent += "<input type='hidden' value='" + laptopList.id + "' id='id'>";
+                        cardContent += "<input type='hidden' value='" + laptopList.item.image + "' id='imageSrc'>";
+                        cardContent += "<input type='hidden' value='" + laptopList.item.id + "' id='itemId'>";
                         cardContent += "<label >Модель:</label>";
                         cardContent += "<div id='modelListBody'>";
                         cardContent += "</div>";
                         cardContent += "<label >Название:</label>";
-                        cardContent += "<input type='text' class=\"form-control\" value='" + notebookList.item.name + "' id='name'>";
+                        cardContent += "<input type='text' class=\"form-control\" value='" + laptopList.item.name + "' id='name'>";
                         cardContent += "<h3 > Технические характеристики:</h3>";
                         cardContent += "<label >Процессор:</label>";
                         cardContent += "<div id='selectListBody'>";
@@ -147,7 +64,7 @@
                         cardContent += "</div>";
                         cardContent += "<label >Диагональ:</label>";
                         cardContent += "<select id='diagonal' class='form-select'>";
-                        cardContent += "<option value='" + notebookList.diagonal + "' selected>" + notebookList.diagonal + "</option>";
+                        cardContent += "<option value='" + laptopList.diagonal + "' selected>" + laptopList.diagonal + "</option>";
                         cardContent += "<option value='" + 11.6 + "'>" + "11.6" + "</option>";
                         cardContent += "<option value='" + 12.5 + "'>" + "12.5" + "</option>";
                         cardContent += "<option value='" + 13.3 + "'>" + "13.3" + "</option>";
@@ -159,7 +76,7 @@
                         cardContent += "</select>";
                         cardContent += "<label >Объем жесткого диска:</label>";
                         cardContent += "<select id='memory' class='form-select'>";
-                        cardContent += "<option value='" + notebookList.memory + "' selected>" + notebookList.memory+ "</option>";
+                        cardContent += "<option value='" + laptopList.memory + "' selected>" + laptopList.memory+ "</option>";
                         cardContent += "<option value='" + 32 + "'>" + "32 Гб" + "</option>";
                         cardContent += "<option value='" + 64 + "'>" + "64 Гб" + "</option>";
                         cardContent += "<option value='" + 128 + "'>" + "128 Гб" + "</option>";
@@ -173,7 +90,7 @@
                         cardContent += "</select>";
                         cardContent += "<label >Объем опретивной памяти:</label>";
                         cardContent += "<select id='ozu' class='form-select'>";
-                        cardContent += "<option value='"+notebookList.ozu+"' selected>"+notebookList.ozu+"</option>";
+                        cardContent += "<option value='"+laptopList.ozu+"' selected>"+laptopList.ozu+"</option>";
                         cardContent += "<option value='"+2+"'>"+"2 Гб"+"</option>";
                         cardContent += "<option value='"+4+"'>"+"4 Гб"+"</option>";
                         cardContent += "<option value='"+8+"'>"+"8 Гб"+"</option>";
@@ -182,19 +99,19 @@
                         cardContent += "<option value='"+64+"'>"+"64 Гб"+"</option>";
                         cardContent += "</select>";
                         cardContent += "<label >Описание:</label>";
-                        cardContent += "<input type='text' id='description' class=\"form-control\" value='"+notebookList.item.description+"'>";
+                        cardContent += "<input type='text' id='description' class=\"form-control\" value='"+laptopList.item.description+"'>";
                         cardContent += "<label >Цена:</label>";
-                        cardContent += "<input class='form-control' type='number' id='price' value='"+notebookList.item.price+"'>";
+                        cardContent += "<input class='form-control' type='number' id='price' value='"+laptopList.item.price+"'>";
                         cardContent += "<div class=\"row mt-3\">";
                         cardContent += "<div class=\"col-12\">";
                         cardContent += "<button class=\"btn btn-success\" onclick='editLaptop()'>Редактировать</button>";
                         cardContent += "<button class=\"btn btn-danger\" onclick='deleteLaptop()'>Удалить</button>";
                         cardContent += "</div></div></div></div>";
 
-                        loadComments(notebookList.item.id)
-                        loadProcessor(notebookList.processor.id)
-                        loadVideoCard(notebookList.videoCard.id)
-                        loadNotebookModel(notebookList.item.notebookModel.id)
+                        loadComments(laptopList.item.id)
+                        loadProcessor(laptopList.processor.id)
+                        loadVideoCard(laptopList.videoCard.id)
+                        loadNotebookModel(laptopList.item.model.id)
 
                         document.getElementById("cardListBody").innerHTML = cardContent;
                     }
@@ -286,7 +203,7 @@
                         let modelList = JSON.parse(httpRequest.responseText);
 
                         let modelContent = "";
-                        modelContent += "<select id='notebookModel' class=\"form-select\">";
+                        modelContent += "<select id='model' class=\"form-select\">";
                         for (let i = 0; i < modelList.length; i++) {
 
                             modelContent += "<option  value='"+modelList[i].id+"'>"+ modelList[i].name+ "</option>";
@@ -317,13 +234,11 @@
                         "name": document.getElementById("name").value,
                         "description": document.getElementById("description").value,
                         "price": document.getElementById("price").value,
-                        "notebookId": document.getElementById("id").value,
-                        "phoneId": null,
                         "categories": {
                             "id": 1,
                         },
-                        "notebookModel" : {
-                            "id" : document.getElementById("notebookModel").value
+                        "model" : {
+                            "id" : document.getElementById("model").value
                         },
                         "image": document.getElementById("imageSrc").value
                     }
@@ -332,7 +247,7 @@
                 req.onload = function () {
                     loadNotebooks();
                 }
-                req.open("PUT", "http://localhost:8888/notebook",)
+                req.open("PUT", "http://localhost:8888/laptop",)
                 req.setRequestHeader("Content-type", "application/json")
                 req.send(JSON.stringify(put))
             }
@@ -342,9 +257,9 @@
 
                 if(approve){
 
-                    let Id = document.getElementById("id");
+                    let Id = document.getElementById("id").value;
                     const httpRequest = new XMLHttpRequest();
-                    httpRequest.open("DELETE", "/notebook/"+txt, true);
+                    httpRequest.open("DELETE", "/laptop/"+Id, true);
 
                     httpRequest.onreadystatechange = function () {
                         if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {

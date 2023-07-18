@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NotebookModelDto {
+public class ModelDto {
     private Long id;
     private String name;
 }

@@ -2,8 +2,10 @@ package spring.security.security.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import spring.security.security.model.Notebooks.NotebookModel;
-import spring.security.security.service.NotebookModelService;
+import spring.security.security.model.Laptop.Model;
+import spring.security.security.service.ModelService;
+//import spring.security.security.model.Notebooks.NotebookModel;
+//import spring.security.security.service.NotebookModelService;
 
 
 import java.util.List;
@@ -12,25 +14,25 @@ import java.util.List;
 @RequestMapping(value = "/model")
 @RequiredArgsConstructor
 public class ModelRestController {
-    private final NotebookModelService notebookModelService;
+    private final ModelService modelService;
     @GetMapping
-    public List<NotebookModel> notebookModelList(){
-        return notebookModelService.getNotebookModels();
+    public List<Model> ModelList(){
+        return modelService.getModels();
     }
     @GetMapping(value = "{id}")
-    public NotebookModel   getNotebookModel(@PathVariable(name = "id") Long id){
-        return notebookModelService.getNotebookModel(id);
+    public Model   getModel(@PathVariable(name = "id") Long id){
+        return modelService.getModel(id);
     }
     @PostMapping
-    public NotebookModel addNotebookModel(@RequestBody NotebookModel notebookModel){
-        return notebookModelService.addNotebookModel(notebookModel);
+    public Model addModel(@RequestBody Model model){
+        return modelService.addModel(model);
     }
     @PutMapping
-    public NotebookModel editNotebookModel(@RequestBody NotebookModel notebookModel){
-        return notebookModelService.editNotebookModel(notebookModel);
+    public Model editModel(@RequestBody Model model){
+        return modelService.editModel(model);
     }
     @DeleteMapping(value = "{id}")
     public void deleteNotebookModel(@PathVariable(name = "id")Long id){
-        notebookModelService.deleteNotebookModel(id);
+        modelService.deleteModel(id);
     }
 }

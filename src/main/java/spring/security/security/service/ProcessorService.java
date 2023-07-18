@@ -2,7 +2,7 @@ package spring.security.security.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import spring.security.security.model.Notebooks.Processor;
+import spring.security.security.model.Laptop.Processor;
 import spring.security.security.repository.ProcessorRepository;
 
 import java.util.List;

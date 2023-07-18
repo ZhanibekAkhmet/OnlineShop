@@ -2,7 +2,7 @@ package spring.security.security.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import spring.security.security.model.Notebooks.VideoCard;
+import spring.security.security.model.Laptop.VideoCard;
 import spring.security.security.repository.VideoCardRepository;
 
 import java.util.List;

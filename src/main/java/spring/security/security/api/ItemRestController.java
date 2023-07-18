@@ -16,7 +16,7 @@ public class ItemRestController {
     private final ItemService itemService;
     private final UploadImageService uploadImageService;
     @GetMapping
-    public List<ItemDto> processList(){
+    public List<ItemDto> itemdList(){
         return itemService.getItems();
     }
     @GetMapping(value = "/expensive")

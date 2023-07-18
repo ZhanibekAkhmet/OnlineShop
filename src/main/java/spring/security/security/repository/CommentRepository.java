@@ -12,4 +12,5 @@ import java.util.List;
 @Transactional
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findByItemId(Long id);
+    void deleteByItem_Id(Long id);
 }

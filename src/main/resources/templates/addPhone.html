@@ -158,7 +158,7 @@
                         let modelList = JSON.parse(httpRequest.responseText);
 
                         let modelContent = "";
-                        modelContent += "<select id='notebookModel' class=\"form-select\">";
+                        modelContent += "<select id='model' class=\"form-select\">";
                         for (let i = 0; i < modelList.length; i++) {
 
                             modelContent += "<option  value='"+modelList[i].id+"'>"+ modelList[i].name+ "</option>";
@@ -185,8 +185,8 @@
                         "categories": {
                             "id": 2,
                         },
-                        "notebookModel" : {
-                            "id" : document.getElementById("notebookModel").value
+                        "model" : {
+                            "id" : document.getElementById("model").value
                         }
                     }
                 }

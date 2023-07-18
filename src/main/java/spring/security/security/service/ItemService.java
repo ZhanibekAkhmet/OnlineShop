@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import spring.security.security.dto.ItemDto;
 import spring.security.security.mapper.ItemMapperImpl;
+import spring.security.security.repository.CommentRepository;
 import spring.security.security.repository.ItemRepository;
 import spring.security.security.repository.UserRepository;
 
@@ -16,12 +17,13 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
     public final ItemMapperImpl itemMapper;
+    private final CommentRepository commentRepository;
 
     public List<ItemDto> getItems(){
         return itemMapper.toDtoList(itemRepository.findAll());
     }
     public List<ItemDto> getItemsModel(Long id){
-        return itemMapper.toDtoList(itemRepository.findAllByNotebookModel_Id(id));
+        return itemMapper.toDtoList(itemRepository.findAllByModel_Id(id));
     }
 //    public List<ItemDto> getItemsModelPrice(Long id){
 //        return itemMapper.toDtoList(itemRepository.findAllByNotebookModel_IdOrderByPrice(id));
@@ -40,6 +42,10 @@ public class ItemService {
     }
     public List<ItemDto> getItemsCategories(Long categoryId){
         return itemMapper.toDtoList(itemRepository.findByCategoriesId(categoryId));
+    }
+    public void deleteItem(Long ItemId){
+        commentRepository.deleteByItem_Id(ItemId);
+        itemRepository.deleteById(ItemId);
     }
 
 }

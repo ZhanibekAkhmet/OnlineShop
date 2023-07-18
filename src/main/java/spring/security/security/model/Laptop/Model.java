@@ -1,4 +1,4 @@
-package spring.security.security.model.Notebooks;
+package spring.security.security.model.Laptop;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,7 +13,7 @@ import spring.security.security.model.BaseModel;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table
-public class NotebookModel extends BaseModel {
+public class Model extends BaseModel {
     @Column(name = "name")
     private String name;
 }

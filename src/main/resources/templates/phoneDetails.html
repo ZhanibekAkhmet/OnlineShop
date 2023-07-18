@@ -46,7 +46,7 @@
                         cardContent += "</div>";
                         cardContent += "</div>";
                         cardContent += "<div class=\"col-sm-6\">";
-                        cardContent += "<input type='hidden' value='" + txt + "' id='id'>";
+                        cardContent += "<input type='hidden' value='" + notebookList.id + "' id='id'>";
                         cardContent += "<input type='hidden' value='" + notebookList.item.phoneId + "' id='phoneId'>";
                         cardContent += "<input type='hidden' value='" + notebookList.item.image + "' id='imageSrc'>";
                         cardContent += "<input type='hidden' value='" + notebookList.item.id + "' id='itemId'>";
@@ -107,7 +107,7 @@
 
                         loadComments(notebookList.item.id)
                         loadProcessor(notebookList.phoneProcessor.id)
-                        loadNotebookModel(notebookList.item.notebookModel.id)
+                        loadNotebookModel(notebookList.item.model.id)
 
                         document.getElementById("cardListBody").innerHTML = cardContent;
                     }
@@ -175,7 +175,7 @@
                         let modelList = JSON.parse(httpRequest.responseText);
 
                         let modelContent = "";
-                        modelContent += "<select id='notebookModel' class=\"form-select\">";
+                        modelContent += "<select id='model' class=\"form-select\">";
                         for (let i = 0; i < modelList.length; i++) {
 
                             modelContent += "<option  value='"+modelList[i].id+"'>"+ modelList[i].name+ "</option>";
@@ -203,13 +203,11 @@
                         "name": document.getElementById("name").value,
                         "description": document.getElementById("description").value,
                         "price": document.getElementById("price").value,
-                        "phoneId": document.getElementById("phoneId").value,
-                        "notebookId": null,
                         "categories": {
                             "id": 2,
                         },
-                        "notebookModel" : {
-                            "id" : document.getElementById("notebookModel").value
+                        "model" : {
+                            "id" : document.getElementById("model").value
                         },
                         "image": document.getElementById("imageSrc").value
                     }
@@ -228,9 +226,9 @@
 
                 if(approve){
 
-                    let Id = document.getElementById("id");
+                    let Id = document.getElementById("id").value;
                     const httpRequest = new XMLHttpRequest();
-                    httpRequest.open("DELETE", "/phone/"+txt, true);
+                    httpRequest.open("DELETE", "/phone/"+Id, true);
 
                     httpRequest.onreadystatechange = function () {
                         if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {

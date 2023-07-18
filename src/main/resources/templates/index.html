@@ -51,14 +51,14 @@
                                     cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
                                     cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
 
-                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
+                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
                                     cardContent += "<div>";
                                     cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
                                     cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
                                     if (notebookList[i].categories.id==1){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                                     }else if (notebookList[i].categories.id==2){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                                     }
                                     cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
                                     cardContent += "</div>";
@@ -105,14 +105,14 @@
                                     cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
                                     cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
 
-                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
+                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
                                     cardContent += "<div>";
                                     cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
                                     cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
                                     if (notebookList[i].categories.id==1){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                                     }else if (notebookList[i].categories.id==2){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                                     }
                                     cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
                                     cardContent += "</div>";
@@ -157,14 +157,14 @@
                                     cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
                                     cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
 
-                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
+                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
                                     cardContent += "<div>";
                                     cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
                                     cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
                                     if (notebookList[i].categories.id==1){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                                     }else if (notebookList[i].categories.id==2){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                                     }
                                     cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
                                     cardContent += "</div>";
@@ -209,14 +209,14 @@
                                     cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
                                     cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
 
-                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
+                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
                                     cardContent += "<div>";
                                     cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
                                     cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
                                     if (notebookList[i].categories.id==1){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                                     }else if (notebookList[i].categories.id==2){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                                     }
                                     cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
                                     cardContent += "</div>";
@@ -263,14 +263,14 @@
                                     cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
                                     cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
 
-                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
+                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
                                     cardContent += "<div>";
                                     cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
                                     cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
                                     if (notebookList[i].categories.id==1){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                                     }else if (notebookList[i].categories.id==2){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                                     }
                                     cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
                                     cardContent += "</div>";
@@ -317,14 +317,14 @@
                                     cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
                                     cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
 
-                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
+                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
                                     cardContent += "<div>";
                                     cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
                                     cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
                                     if (notebookList[i].categories.id==1){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                                     }else if (notebookList[i].categories.id==2){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                                     }
                                     cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
                                     cardContent += "</div>";
@@ -352,14 +352,14 @@
                         cardContent += "<div class=\"col-sm-4 mt-3\">";
                         cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
                         cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
-                        cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
+                        cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
                         cardContent += "<div>";
                         cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
                         cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
                         if (notebookList[i].categories.id==1){
-                            cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                            cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                         }else if (notebookList[i].categories.id==2){
-                            cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                            cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                         }
                         // cardContent += "<input type='hidden' value='"+notebookList[i].id+"' id='LaptopId'>";
                         cardContent += "<button class=\"btn btn-primary\" onclick='addBucketLaptop(\""+notebookList[i].id+"\")'>" + "В корзину" +"</button>"
@@ -385,14 +385,14 @@
                             cardContent += "<div class=\"col-sm-4 mt-3\">";
                             cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
                             cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
-                            cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].notebookModel.name+" "+ notebookList[i].name+ "</h4>";
+                            cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
                             cardContent += "<div>";
                             cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
                             cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
                             if (notebookList[i].categories.id==1){
-                                cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].notebookId+">" + "Подробнее" +"</a>";
+                                cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                             }else if (notebookList[i].categories.id==2){
-                                cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].phoneId+">" + "Подробнее" +"</a>";
+                                cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
                             }
                             cardContent += "<button class=\"btn btn-primary\" onclick='addBucketItem(\""+notebookList[i].id+"\")'>" + "В корзину" +"</button>"
                             cardContent += "</div>";

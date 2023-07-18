@@ -1,4 +1,4 @@
-package spring.security.security.model.Notebooks;
+package spring.security.security.model.Laptop;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Table
 @AllArgsConstructor
 @NoArgsConstructor
-public class VideoCard {
+public class Processor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

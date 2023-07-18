@@ -193,7 +193,7 @@
                         let modelList = JSON.parse(httpRequest.responseText);
 
                         let modelContent = "";
-                        modelContent += "<select id='notebookModel' class=\"form-select\">";
+                        modelContent += "<select id='Model' class=\"form-select\">";
                         for (let i = 0; i < modelList.length; i++) {
 
                             modelContent += "<option  value='"+modelList[i].id+"'>"+ modelList[i].name+ "</option>";
@@ -224,8 +224,8 @@
                         "categories": {
                             "id": 1,
                         },
-                        "notebookModel" : {
-                            "id" : document.getElementById("notebookModel").value
+                        "model" : {
+                            "id" : document.getElementById("Model").value
                         }
                     }
                 }
@@ -233,7 +233,7 @@
                 req.onload = function () {
                     loadNotebooks();
                 }
-                req.open("POST", "http://localhost:8888/notebook",)
+                req.open("POST", "http://localhost:8888/laptop",)
                 req.setRequestHeader("Content-type", "application/json")
                 req.send(JSON.stringify(post))
             }

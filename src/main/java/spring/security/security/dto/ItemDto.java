@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import spring.security.security.model.Categories;
-
-import spring.security.security.model.Notebooks.NotebookModel;
+import spring.security.security.model.Laptop.Model;
 
 import java.math.BigDecimal;
 @Getter
@@ -16,13 +15,13 @@ public class ItemDto {
     private String description;
     private BigDecimal price;
 
-    @JoinColumn(name = "notebook_id")
-    private Long notebookId;
-    @JoinColumn(name = "phone_id")
-    private Long phoneId;
+//    @JoinColumn(name = "notebook_id")
+//    private Long notebookId;
+//    @JoinColumn(name = "phone_id")
+//    private Long phoneId;
     @ManyToOne
     private Categories categories;
     @ManyToOne
-    private NotebookModel notebookModel;
+    private Model model;
     private String image;
 }
