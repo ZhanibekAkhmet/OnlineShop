@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import spring.security.security.model.Diagonal;
 import spring.security.security.model.Item;
+import spring.security.security.model.Memory;
+import spring.security.security.model.Ozu;
 
 @Entity
 @Data
@@ -17,14 +20,16 @@ public class Phone {
     private Long id;
     @OneToOne(cascade = CascadeType.ALL)
     private Item item;
-    private int memory;
-    private int ozu;
+    @ManyToOne
+    private Memory memory;
+    @ManyToOne
+    private Ozu ozu;
     @ManyToOne
     private PhoneProcessor phoneProcessor;
     private int photo;
     private int frontPhoto;
-    private double diagonal;
+    @ManyToOne
+    private Diagonal diagonal;
     private int sim;
     private String OS;
-    private int weight;
 }

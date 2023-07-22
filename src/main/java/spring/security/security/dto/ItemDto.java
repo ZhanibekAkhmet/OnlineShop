@@ -14,14 +14,11 @@ public class ItemDto {
     private String name;
     private String description;
     private BigDecimal price;
-
-//    @JoinColumn(name = "notebook_id")
-//    private Long notebookId;
-//    @JoinColumn(name = "phone_id")
-//    private Long phoneId;
     @ManyToOne
     private Categories categories;
     @ManyToOne
     private Model model;
     private String image;
+    private double weight;
+    private String color;
 }

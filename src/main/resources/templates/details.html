@@ -7,6 +7,7 @@
         <div class="row" id="cardListBody">
 
         </div>
+
         <div class="row" sec:authorize="isAuthenticated()">
             <div class="mb-3">
                 <label class="form-label">Коментарий:</label>
@@ -18,6 +19,26 @@
         <div class="row" id="CommentsListBody">
 
         </div>
+<!--        <div>-->
+<!--            <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#detailListModal"> Редактировать </button>-->
+<!--        </div>-->
+
+<!--        <div class="modal fade" id="detailListModal" tabindex="-1" aria-labelledby="detailsListModalLabel" aria-hidden="true">-->
+<!--            <div class="modal-dialog">-->
+<!--                <div class="modal-content">-->
+<!--                    <div class="modal-header">-->
+<!--                        <h1 class="modal-title fs-5" id="detailsListModalLabel">Modal title</h1>-->
+<!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                    </div>-->
+<!--                    <div class="modal-body">-->
+<!--                        -->
+<!--                    </div>-->
+<!--                    <div class="modal-footer">-->
+<!--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
         <script type="text/javascript">
             let href = document.location.href
             let text = href.split('/').pop();
@@ -63,41 +84,14 @@
                         cardContent += "<div id='videoCardListBody'>";
                         cardContent += "</div>";
                         cardContent += "<label >Диагональ:</label>";
-                        cardContent += "<select id='diagonal' class='form-select'>";
-                        cardContent += "<option value='" + laptopList.diagonal + "' selected>" + laptopList.diagonal + "</option>";
-                        cardContent += "<option value='" + 11.6 + "'>" + "11.6" + "</option>";
-                        cardContent += "<option value='" + 12.5 + "'>" + "12.5" + "</option>";
-                        cardContent += "<option value='" + 13.3 + "'>" + "13.3" + "</option>";
-                        cardContent += "<option value='" + 14 + "'>" + "14" + "</option>";
-                        cardContent += "<option value='" + 15.4 + "'>" + "15.4" + "</option>";
-                        cardContent += "<option value='" + 15.6 + "'>" + "15.6" + "</option>";
-                        cardContent += "<option value='" + 17 + "'>" + "17" + "</option>";
-                        cardContent += "<option value='" + 17.3 + "'>" + "17.3" + "</option>";
-                        cardContent += "</select>";
+                        cardContent += "<div id='diagonalListBody'>";
+                        cardContent += "</div>";
                         cardContent += "<label >Объем жесткого диска:</label>";
-                        cardContent += "<select id='memory' class='form-select'>";
-                        cardContent += "<option value='" + laptopList.memory + "' selected>" + laptopList.memory+ "</option>";
-                        cardContent += "<option value='" + 32 + "'>" + "32 Гб" + "</option>";
-                        cardContent += "<option value='" + 64 + "'>" + "64 Гб" + "</option>";
-                        cardContent += "<option value='" + 128 + "'>" + "128 Гб" + "</option>";
-                        cardContent += "<option value='" + 256 + "'>" + "256 Гб" + "</option>";
-                        cardContent += "<option value='" + 500 + "'>" + "500 Гб" + "</option>";
-                        cardContent += "<option value='" + 512 + "'>" + "512 Гб" + "</option>";
-                        cardContent += "<option value='" + 1000 + "'>" + "1000 Гб" + "</option>";
-                        cardContent += "<option value='" + 1500+ "'>" +"1500 Гб"+ "</option>";
-                        cardContent += "<option value='" + 2000+ "'>" +"2000 Гб"+ "</option>";
-                        cardContent += "<option value='" + 3000+ "'>" +"3000 Гб"+ "</option>";
-                        cardContent += "</select>";
+                        cardContent += "<div id='memoryListBody'>";
+                        cardContent += "</div>";
                         cardContent += "<label >Объем опретивной памяти:</label>";
-                        cardContent += "<select id='ozu' class='form-select'>";
-                        cardContent += "<option value='"+laptopList.ozu+"' selected>"+laptopList.ozu+"</option>";
-                        cardContent += "<option value='"+2+"'>"+"2 Гб"+"</option>";
-                        cardContent += "<option value='"+4+"'>"+"4 Гб"+"</option>";
-                        cardContent += "<option value='"+8+"'>"+"8 Гб"+"</option>";
-                        cardContent += "<option value='"+16+"'>"+"16 Гб"+"</option>";
-                        cardContent += "<option value='"+32+"'>"+"32 Гб"+"</option>";
-                        cardContent += "<option value='"+64+"'>"+"64 Гб"+"</option>";
-                        cardContent += "</select>";
+                        cardContent += "<div id='ozuListBody'>";
+                        cardContent += "</div>";
                         cardContent += "<label >Описание:</label>";
                         cardContent += "<input type='text' id='description' class=\"form-control\" value='"+laptopList.item.description+"'>";
                         cardContent += "<label >Цена:</label>";
@@ -112,6 +106,9 @@
                         loadProcessor(laptopList.processor.id)
                         loadVideoCard(laptopList.videoCard.id)
                         loadNotebookModel(laptopList.item.model.id)
+                        loadOzu(laptopList.ozu.id)
+                        loadMemory(laptopList.memory.id)
+                        loadDiagonal(laptopList.diagonal.id)
 
                         document.getElementById("cardListBody").innerHTML = cardContent;
                     }
@@ -140,6 +137,78 @@
                         }
                         selectContent += "</select>";
                         document.getElementById("selectListBody").innerHTML = selectContent;
+                    }
+                }
+                httpRequest.send();
+            }
+            function loadDiagonal(id) {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/diagonal", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let diagonalList = JSON.parse(httpRequest.responseText);
+
+                        let diagonalContent = "";
+                        diagonalContent += "<select id='diagonal' class=\"form-select\">";
+                        for (let i = 0; i < diagonalList.length; i++) {
+
+                            diagonalContent += "<option  value='"+diagonalList[i].id+"'>"+ diagonalList[i].diagonal+ "</option>";
+                            if (diagonalList[i].id === id) {
+                                diagonalContent +=    "<option  value='"+diagonalList[i].id+"' selected>"+ diagonalList[i].diagonal+ "</option>"
+                            }
+                        }
+                        diagonalContent += "</select>";
+                        document.getElementById("diagonalListBody").innerHTML = diagonalContent;
+                    }
+                }
+                httpRequest.send();
+            }
+            function loadMemory(id) {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/memory", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let memoryList = JSON.parse(httpRequest.responseText);
+
+                        let memoryContent = "";
+                        memoryContent += "<select id='memory' class=\"form-select\">";
+                        for (let i = 0; i < memoryList.length; i++) {
+
+                            memoryContent += "<option  value='"+memoryList[i].id+"'>"+ memoryList[i].memory+ "</option>";
+                            if (memoryList[i].id === id) {
+                                memoryContent +=  "<option  value='"+memoryList[i].id+"' selected>"+ memoryList[i].memory+ "</option>"
+                            }
+                        }
+                        memoryContent += "</select>";
+                        document.getElementById("memoryListBody").innerHTML = memoryContent;
+                    }
+                }
+                httpRequest.send();
+            }
+            function loadOzu(id) {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/ozu", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let ozuList = JSON.parse(httpRequest.responseText);
+
+                        let ozuContent = "";
+                        ozuContent += "<select id='ozu' class=\"form-select\">";
+                        for (let i = 0; i < ozuList.length; i++) {
+
+                            ozuContent += "<option  value='"+ozuList[i].id+"'>"+ ozuList[i].ozu+ "</option>";
+                            if (ozuList[i].id === id) {
+                                ozuContent +=    "<option  value='"+ozuList[i].id+"' selected>"+ ozuList[i].ozu+ "</option>"
+                            }
+                        }
+                        ozuContent += "</select>";
+                        document.getElementById("ozuListBody").innerHTML = ozuContent;
                     }
                 }
                 httpRequest.send();
@@ -226,9 +295,9 @@
                     "videoCard" : {
                         "id" : document.getElementById("videoCard").value
                     },
-                    "memory" : document.getElementById("memory").value,
-                    "ozu" : document.getElementById("ozu").value,
-                    "diagonal" : document.getElementById("diagonal").value,
+                    "memory" : {"id":document.getElementById("memory").value},
+                    "ozu" : {"id":document.getElementById("ozu").value},
+                    "diagonal" :{"id":document.getElementById("diagonal").value} ,
                     "item": {
                         "id": document.getElementById("itemId").value,
                         "name": document.getElementById("name").value,

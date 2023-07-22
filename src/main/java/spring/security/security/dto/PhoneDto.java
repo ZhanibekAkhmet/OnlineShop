@@ -3,7 +3,10 @@ package spring.security.security.dto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import spring.security.security.model.Diagonal;
 import spring.security.security.model.Item;
+import spring.security.security.model.Memory;
+import spring.security.security.model.Ozu;
 import spring.security.security.model.Phone.PhoneProcessor;
 
 
@@ -13,13 +16,15 @@ public class PhoneDto {
     private Long id;
     @OneToOne(cascade = CascadeType.ALL)
     private Item item;
-    private int memory;
-    private int ozu;
+    @ManyToOne
+    private Memory memory;
+    @ManyToOne
+    private Ozu ozu;
     private PhoneProcessor phoneProcessor;
     private int photo;
     private int frontPhoto;
-    private double diagonal;
+    @ManyToOne
+    private Diagonal diagonal;
     private int sim;
     private String OS;
-    private int weight;
 }

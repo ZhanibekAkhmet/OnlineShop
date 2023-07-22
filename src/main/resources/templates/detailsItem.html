@@ -23,19 +23,18 @@
             let text = href.split('/').pop();
             let txt = document.location.href.split('/').pop();
             loadNotebooks();
-            loadProcessor();
             loadNotebookModel();
-
+            loadCategory();
             function loadNotebooks() {
                 const httpRequest = new XMLHttpRequest();
-                httpRequest.open("GET", "/phone/" + txt, true);
+                httpRequest.open("GET", "/items/getOne/" + txt, true);
                 httpRequest.onreadystatechange = function () {
                     if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
-                        let notebookList = JSON.parse(httpRequest.responseText);
+                        let laptopList = JSON.parse(httpRequest.responseText);
                         let cardContent = "";
                         cardContent += "<div class=\"row\">";
                         cardContent += "<div class=\"col-sm-6\">";
-                        cardContent += "<img src='/images/" + notebookList.item.image + "' class='card-img-top img-fluid' style='width: 500px; height: 400px'>";
+                        cardContent += "<img src='/images/" + laptopList.image + "' class='card-img-top img-fluid' style='width: 500px; height: 400px'>";
                         cardContent += "<div class=\"mb-3 mt-3\">";
                         cardContent += "<input class=\"form-control\" type=\"file\" id=\"image\">";
                         cardContent += "</div>";
@@ -46,44 +45,28 @@
                         cardContent += "</div>";
                         cardContent += "</div>";
                         cardContent += "<div class=\"col-sm-6\">";
-                        cardContent += "<input type='hidden' value='" + notebookList.id + "' id='id'>";
-                        cardContent += "<input type='hidden' value='" + notebookList.item.phoneId + "' id='phoneId'>";
-                        cardContent += "<input type='hidden' value='" + notebookList.item.image + "' id='imageSrc'>";
-                        cardContent += "<input type='hidden' value='" + notebookList.item.id + "' id='itemId'>";
+                        cardContent += "<input type='hidden' value='" + laptopList.id + "' id='id'>";
+                        cardContent += "<input type='hidden' value='" + laptopList.image + "' id='imageSrc'>";
                         cardContent += "<label >Модель:</label>";
                         cardContent += "<div id='modelListBody'>";
                         cardContent += "</div>";
                         cardContent += "<label >Название:</label>";
-                        cardContent += "<input type='text' class=\"form-control\" value='" + notebookList.item.name + "' id='name'>";
-                        cardContent += "<h3 > Технические характеристики:</h3>";
-                        cardContent += "<label >Процессор:</label>";
-                        cardContent += "<div id='selectListBody'>";
-                        cardContent += "</div>";
-                        cardContent += "<label >Диагональ:</label>";
-                        cardContent += "<div id='diagonalListBody'>";
-                        cardContent += "</div>";
-                        cardContent += "<label >Объем жесткого диска:</label>";
-                        cardContent += "<div id='memoryListBody'>";
-                        cardContent += "</div>";
-                        cardContent += "<label >Объем опретивной памяти:</label>";
-                        cardContent += "<div id='ozuListBody'>";
+                        cardContent += "<input type='text' class=\"form-control\" value='" + laptopList.name + "' id='name'>";
+                        cardContent += "<label >Категория:</label>";
+                        cardContent += "<div id='categoryListBody'>";
                         cardContent += "</div>";
                         cardContent += "<label >Описание:</label>";
-                        cardContent += "<input type='text' id='description' class=\"form-control\" value='"+notebookList.item.description+"'>";
+                        cardContent += "<input type='text' id='description' class=\"form-control\" value='"+laptopList.description+"'>";
                         cardContent += "<label >Цена:</label>";
-                        cardContent += "<input class='form-control' type='number' id='price' value='"+notebookList.item.price+"'>";
+                        cardContent += "<input class='form-control' type='number' id='price' value='"+laptopList.price+"'>";
                         cardContent += "<div class=\"row mt-3\">";
                         cardContent += "<div class=\"col-12\">";
                         cardContent += "<button class=\"btn btn-success\" onclick='editLaptop()'>Редактировать</button>";
                         cardContent += "<button class=\"btn btn-danger\" onclick='deleteLaptop()'>Удалить</button>";
                         cardContent += "</div></div></div></div>";
 
-                        loadComments(notebookList.item.id)
-                        loadProcessor(notebookList.phoneProcessor.id)
-                        loadNotebookModel(notebookList.item.model.id)
-                        loadOzu(notebookList.ozu.id)
-                        loadMemory(notebookList.memory.id)
-                        loadDiagonal(notebookList.diagonal.id)
+                        loadNotebookModel(laptopList.model.id)
+                        loadCategory(laptopList.categories.id)
 
                         document.getElementById("cardListBody").innerHTML = cardContent;
                     }
@@ -91,103 +74,6 @@
                 httpRequest.send();
             }
 
-
-            function loadProcessor(id) {
-
-                const httpRequest = new XMLHttpRequest();
-                httpRequest.open("GET", "/PhoneProcessor", true);
-                httpRequest.onreadystatechange = function () {
-                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
-
-                        let processorList = JSON.parse(httpRequest.responseText);
-
-                        let selectContent = "";
-                        selectContent += "<select id='processor' class=\"form-select\">";
-                        for (let i = 0; i < processorList.length; i++) {
-
-                            selectContent += "<option  value='"+processorList[i].id+"'>"+ processorList[i].name+ "</option>";
-                            if (processorList[i].id === id) {
-                                selectContent +=    "<option  value='"+processorList[i].id+"' selected>"+ processorList[i].name+ "</option>"
-                            }
-                        }
-                        selectContent += "</select>";
-                        document.getElementById("selectListBody").innerHTML = selectContent;
-                    }
-                }
-                httpRequest.send();
-            }
-            function loadDiagonal(id) {
-
-                const httpRequest = new XMLHttpRequest();
-                httpRequest.open("GET", "/diagonal", true);
-                httpRequest.onreadystatechange = function () {
-                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
-
-                        let diagonalList = JSON.parse(httpRequest.responseText);
-
-                        let diagonalContent = "";
-                        diagonalContent += "<select id='diagonal' class=\"form-select\">";
-                        for (let i = 0; i < diagonalList.length; i++) {
-
-                            diagonalContent += "<option  value='"+diagonalList[i].id+"'>"+ diagonalList[i].diagonal+ "</option>";
-                            if (diagonalList[i].id === id) {
-                                diagonalContent +=    "<option  value='"+diagonalList[i].id+"' selected>"+ diagonalList[i].diagonal+ "</option>"
-                            }
-                        }
-                        diagonalContent += "</select>";
-                        document.getElementById("diagonalListBody").innerHTML = diagonalContent;
-                    }
-                }
-                httpRequest.send();
-            }
-            function loadMemory(id) {
-
-                const httpRequest = new XMLHttpRequest();
-                httpRequest.open("GET", "/memory", true);
-                httpRequest.onreadystatechange = function () {
-                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
-
-                        let memoryList = JSON.parse(httpRequest.responseText);
-
-                        let memoryContent = "";
-                        memoryContent += "<select id='memory' class=\"form-select\">";
-                        for (let i = 0; i < memoryList.length; i++) {
-
-                            memoryContent += "<option  value='"+memoryList[i].id+"'>"+ memoryList[i].memory+ "</option>";
-                            if (memoryList[i].id === id) {
-                                memoryContent +=  "<option  value='"+memoryList[i].id+"' selected>"+ memoryList[i].memory+ "</option>"
-                            }
-                        }
-                        memoryContent += "</select>";
-                        document.getElementById("memoryListBody").innerHTML = memoryContent;
-                    }
-                }
-                httpRequest.send();
-            }
-            function loadOzu(id) {
-
-                const httpRequest = new XMLHttpRequest();
-                httpRequest.open("GET", "/ozu", true);
-                httpRequest.onreadystatechange = function () {
-                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
-
-                        let ozuList = JSON.parse(httpRequest.responseText);
-
-                        let ozuContent = "";
-                        ozuContent += "<select id='ozu' class=\"form-select\">";
-                        for (let i = 0; i < ozuList.length; i++) {
-
-                            ozuContent += "<option  value='"+ozuList[i].id+"'>"+ ozuList[i].ozu+ "</option>";
-                            if (ozuList[i].id === id) {
-                                ozuContent +=    "<option  value='"+ozuList[i].id+"' selected>"+ ozuList[i].ozu+ "</option>"
-                            }
-                        }
-                        ozuContent += "</select>";
-                        document.getElementById("ozuListBody").innerHTML = ozuContent;
-                    }
-                }
-                httpRequest.send();
-            }
             function loadComments(id) {
 
                 const httpRequest = new XMLHttpRequest();
@@ -213,6 +99,7 @@
                 }
                 httpRequest.send();
             }
+
             function loadNotebookModel(id) {
 
                 const httpRequest = new XMLHttpRequest();
@@ -237,34 +124,49 @@
                 }
                 httpRequest.send();
             }
+            function loadCategory(id) {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/categories", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let modelList = JSON.parse(httpRequest.responseText);
+
+                        let modelContent = "";
+                        modelContent += "<select id='category' class=\"form-select\">";
+                        for (let i = 0; i < modelList.length; i++) {
+
+                            modelContent += "<option  value='"+modelList[i].id+"'>"+ modelList[i].name+ "</option>";
+                            if (modelList[i].id === id) {
+                                modelContent += "<option  value='"+modelList[i].id+"' selected>"+ modelList[i].name+ "</option>"
+                            }
+                        }
+                        modelContent += "</select>";
+                        document.getElementById("categoryListBody").innerHTML = modelContent;
+                    }
+                }
+                httpRequest.send();
+            }
             function editLaptop() {
                 let put = {
-                    "id" : document.getElementById("id").value,
-                    "phoneProcessor" : {
-                        "id" : document.getElementById("processor").value
-                    },
-                    "memory" : {"id":document.getElementById("memory").value},
-                    "ozu" : {"id":document.getElementById("ozu").value},
-                    "diagonal" :{"id":document.getElementById("diagonal").value} ,
-                    "item": {
-                        "id": document.getElementById("itemId").value,
+                         "id": document.getElementById("id").value,
                         "name": document.getElementById("name").value,
                         "description": document.getElementById("description").value,
                         "price": document.getElementById("price").value,
                         "categories": {
-                            "id": 2,
+                            "id": document.getElementById("category").value,
                         },
                         "model" : {
                             "id" : document.getElementById("model").value
                         },
                         "image": document.getElementById("imageSrc").value
-                    }
                 }
                 let req = new XMLHttpRequest();
                 req.onload = function () {
                     loadNotebooks();
                 }
-                req.open("PUT", "http://localhost:8888/phone",)
+                req.open("PUT", "http://localhost:8888/items",)
                 req.setRequestHeader("Content-type", "application/json")
                 req.send(JSON.stringify(put))
             }
@@ -276,11 +178,11 @@
 
                     let Id = document.getElementById("id").value;
                     const httpRequest = new XMLHttpRequest();
-                    httpRequest.open("DELETE", "/phone/"+Id, true);
+                    httpRequest.open("DELETE", "/items/"+Id, true);
 
                     httpRequest.onreadystatechange = function () {
                         if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
-                           alert("Смартфон удален");
+                           alert("Ноутбук удален");
                         }
                     };
 
@@ -295,12 +197,12 @@
                     "userN": document.getElementById("user").value,
 
                     "item": {
-                        "id": document.getElementById("itemId").value
+                        "id": document.getElementById("id").value
                     }
                 }
                 let req = new XMLHttpRequest();
                 req.onload = function () {
-                    loadComments(document.getElementById("itemId").value);
+                    loadComments(document.getElementById("id").value);
                 }
                 req.open("POST", "http://localhost:8888/comment",)
                 req.setRequestHeader("Content-type", "application/json")
@@ -308,7 +210,7 @@
             }
             function addImage() {
                 let formData = new FormData();
-                formData.append('id', document.getElementById('itemId').value);
+                formData.append('id', document.getElementById('id').value);
                 // Добавление MultipartFile
                 let imageFile = document.getElementById('image').files[0];
                 formData.append('image', imageFile);

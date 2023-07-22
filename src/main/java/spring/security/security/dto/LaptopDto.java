@@ -5,10 +5,12 @@ import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
+import spring.security.security.model.Diagonal;
 import spring.security.security.model.Item;
 import spring.security.security.model.Laptop.Processor;
 import spring.security.security.model.Laptop.VideoCard;
-
+import spring.security.security.model.Memory;
+import spring.security.security.model.Ozu;
 
 
 @Getter
@@ -19,9 +21,12 @@ public class LaptopDto {
     private Processor processor;
     @ManyToOne
     private VideoCard videoCard;
-    private int memory;
-    private int ozu;
-    private double diagonal;
+    @ManyToOne
+    private Memory memory;
+    @ManyToOne
+    private Ozu ozu;
+    @ManyToOne
+    private Diagonal diagonal;
     @OneToOne
     private Item item;
 }

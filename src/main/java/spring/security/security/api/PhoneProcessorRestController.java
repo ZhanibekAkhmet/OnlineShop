@@ -29,7 +29,7 @@ public class PhoneProcessorRestController {
         return processorService.editProcessor(processor);
     }
     @DeleteMapping(value = "{id}")
-    public void deleteNotebook(@PathVariable(name = "id")Long id){
+    public void deleteProcessor(@PathVariable(name = "id")Long id){
         processorService.deleteProcessor(id);
     }
 }

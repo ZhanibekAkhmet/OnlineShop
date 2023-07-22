@@ -3,407 +3,276 @@
       layout:decorate="/layout/main.html"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div layout:fragment="productsContent">
-        <!-- Other form elements here -->
-    <button class="btn btn-success" onclick="loadItems()">Все товары</button>
-    <button class="btn btn-success" onclick="loadLaptop()">Ноутбуки</button>
-    <button class="btn btn-success" onclick="loadPhone()">Телефоны</button>
+    <div class="mt-2 d-flex justify-content-lg-end" id="quantityListBody"></div>
+    <div class="row mt-2">
+        <div class="col-12 d-flex justify-content-lg-start">
+                        <!-- Top controls -->
+            <div id="categories"></div>
+            <div id="model"></div>
 
-    <div class="mt-2" id="quantityListBody"></div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-12 d-flex justify-content-lg-start">
+            <button id="cheapButton" class="btn btn-success mb-2 me-2" style="width: 150px" onclick="loadCheap()">Сначала дешевые</button>
+            <button id="expensiveButton" class="btn btn-success mb-2 me-2" style="width: 150px" onclick="loadExpensive()">Сначала дорогие</button>
+        </div>
 
-    <div  class="row mt-2" id="cardListBody">
+    </div>
+    <div  class="row mt-2" id="cardContent">
+
     </div>
 
 
-
-        <script type="text/javascript">
+    <script type="text/javascript">
 
             loadItems();
-            loadQuantity()
+            loadQuantity();
+            loadModels();
+            loadCategories()
+
+            function loadCategory(value){
+                let numValue = parseInt(value);
+                if (numValue===0){
+                    loadItems()
+                }else if (numValue===1){
+                    loadLaptop()
+                }else if (numValue===2){
+                    loadPhone()
+                }else loadItemCategory(numValue)
+            }
+            function generateCardContent(itemsList) {
+                let cardContent = '';
+                for (let i = 0; i < itemsList.length; i++) {
+                    cardContent += "<div class=\"col-sm-4 mt-3\">";
+                    cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
+                    cardContent += "<img src='/images/"+itemsList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
+
+                    cardContent += "<h4 class=\"text-center bg-light\">"+itemsList[i].model.name+" "+ itemsList[i].name+ "</h4>";
+                    cardContent += "<div>";
+                    cardContent += "<p class=\"card-text text-center\">" + itemsList[i].description + "</p>";
+                    cardContent += "<h5 class=\"card-title text-center\">" + itemsList[i].price +" тенге" +"</h5>";
+                    if (itemsList[i].categories.id==1){
+                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+itemsList[i].id+">" + "Подробнее" +"</a>";
+                    }else if (itemsList[i].categories.id==2){
+                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+itemsList[i].id+">" + "Подробнее" +"</a>";
+                    } else {
+                        cardContent += "<a class=\"btn btn-dark\" href=detailsItem/"+itemsList[i].id+">" + "Подробнее" +"</a>";
+                    }
+                    cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+itemsList[i].id+"\")'>"+"В корзину"+"</button></button>";
+                    cardContent += "</div>";
+                    cardContent += "</div>";
+                    cardContent += "</div>";
+                }
+                return cardContent;
+            }
+            function generateModel(modelList) {
+                let model = '';
+                model += "<select class=\"form-select form-select-sm mb-2 me-2\" style=\"width: 150px\" id='ModelSelect' onchange='loadModelsById()'>";
+                // model += "<option value='all'>All Notebook Models</option>";
+                for (let i = 0; i < modelList.length; i++) {
+                    model += "<option value='" + modelList[i].id + "'>" + modelList[i].name + "</option>";
+                }
+                model += "</select>";
+                return model;
+            }
+            function generateCategories(categoriesList) {
+                let categories = '';
+                categories += "<select class=\"form-select form-select-sm mb-2 me-2\" style=\"width: 150px\" id='CategoriesSelect' onchange='loadCategory(this.value)'>";
+                categories += "<option value='"+0+"'>All Categories</option>";
+                for (let i = 0; i < categoriesList.length; i++) {
+                    categories += "<option value='" + categoriesList[i].id + "'>" + categoriesList[i].name + "</option>";
+                }
+                categories += "</select>";
+                return categories;
+            }
             function loadItems() {
-                // Retrieve the list of NotebookModels
-                const notebookModelRequest = new XMLHttpRequest();
-                notebookModelRequest.open("GET", "/model", true);
-                notebookModelRequest.onreadystatechange = function () {
-                    if (notebookModelRequest.readyState == XMLHttpRequest.DONE && notebookModelRequest.status == 200) {
-                        let notebookModels = JSON.parse(notebookModelRequest.responseText);
-
-                        // Retrieve the list of items
-                        const itemsRequest = new XMLHttpRequest();
-                        itemsRequest.open("GET", "/items", true);
-                        itemsRequest.onreadystatechange = function () {
-                            if (itemsRequest.readyState == XMLHttpRequest.DONE && itemsRequest.status == 200) {
-                                let notebookList = JSON.parse(itemsRequest.responseText);
-                                let cardContent = "";
-                                cardContent += "<div class=\"row\">";
-                                cardContent += "<div class=\"col-sm-12\">";
-                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsCheap()\">Сначала дешевые</button>";
-                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsExpensive()\">Сначала дорогие</button>";
-                                cardContent += "<select class='form-select' id='notebookModelSelect' onchange='loadItemsModel()'>";
-                                cardContent += "<option value='all'>All Notebook Models</option>";
-                                for (let i = 0; i < notebookModels.length; i++) {
-                                    cardContent += "<option value='" + notebookModels[i].id + "'>" + notebookModels[i].name + "</option>";
-                                }
-                                cardContent += "</select>";
-                                cardContent += "</div>";
-                                cardContent += "</div>";
-                                for (let i = 0; i < notebookList.length; i++) {
-                                    cardContent += "<div class=\"col-sm-4 mt-3\">";
-                                    cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
-                                    cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
-
-                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
-                                    cardContent += "<div>";
-                                    cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
-                                    cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
-                                    if (notebookList[i].categories.id==1){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                                    }else if (notebookList[i].categories.id==2){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                                    }
-                                    cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
-                                    cardContent += "</div>";
-                                    cardContent += "</div>";
-                                    cardContent += "</div>";
-                                }
-                                document.getElementById("cardListBody").innerHTML = cardContent;
-                            }
-                        }
-                        itemsRequest.send();
-                    }
-                }
-                notebookModelRequest.send();
+                fetch('/items')
+                    .then(response => response.json())
+                    .then(itemsList => {
+                        const cardContent = generateCardContent(itemsList);
+                        // Add the generated content to the page
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                        updateButtons('items');
+                    });
+            }
+            function loadCheap() {
+                fetch('/items/cheap')
+                    .then(response => response.json())
+                    .then(itemsList => {
+                        const cardContent = generateCardContent(itemsList);
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                    });
+            }
+            function loadExpensive() {
+                fetch('/items/expensive')
+                    .then(response => response.json())
+                    .then(itemsList => {
+                        const cardContent = generateCardContent(itemsList);
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                    });
             }
 
-            function loadItemsCheap() {
-
-                const notebookModelRequest = new XMLHttpRequest();
-                notebookModelRequest.open("GET", "/model", true);
-                notebookModelRequest.onreadystatechange = function () {
-                    if (notebookModelRequest.readyState == XMLHttpRequest.DONE && notebookModelRequest.status == 200) {
-                        let notebookModels = JSON.parse(notebookModelRequest.responseText);
-
-                        // Retrieve the list of items
-                        const itemsRequest = new XMLHttpRequest();
-                        itemsRequest.open("GET", "/items/cheap", true);
-                        itemsRequest.onreadystatechange = function () {
-                            if (itemsRequest.readyState == XMLHttpRequest.DONE && itemsRequest.status == 200) {
-                                let notebookList = JSON.parse(itemsRequest.responseText);
-                                let cardContent = "";
-                                cardContent += "<div class=\"row\">";
-                                cardContent += "<div class=\"col-sm-12\">";
-                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsCheap()\">Сначала дешевые</button>";
-                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsExpensive()\">Сначала дорогие</button>";
-                                cardContent += "<select class='form-select' id='notebookModelSelect' onchange='loadItemsModel()'>";
-                                for (let i = 0; i < notebookModels.length; i++) {
-                                    cardContent += "<option value='" + notebookModels[i].id + "'>" + notebookModels[i].name + "</option>";
-                                }
-                                cardContent += "</select>";
-                                cardContent += "</div>";
-                                cardContent += "</div>";
-                                for (let i = 0; i < notebookList.length; i++) {
-                                    cardContent += "<div class=\"col-sm-4 mt-3\">";
-                                    cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
-                                    cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
-
-                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
-                                    cardContent += "<div>";
-                                    cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
-                                    cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
-                                    if (notebookList[i].categories.id==1){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                                    }else if (notebookList[i].categories.id==2){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                                    }
-                                    cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
-                                    cardContent += "</div>";
-                                    cardContent += "</div>";
-                                    cardContent += "</div>";
-                                }
-                                document.getElementById("cardListBody").innerHTML = cardContent;
-                            }
-                        }
-                        itemsRequest.send();
-                    }
-                }
-                notebookModelRequest.send();
+            function loadCheapPhone() {
+                const categoryId = 2;
+                fetch(`/items/cheap/${categoryId}`)
+                    .then(response => response.json())
+                    .then(itemsPhoneList => {
+                        const cardContent = generateCardContent(itemsPhoneList);
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                        updateButtons('phones');
+                    });
             }
-            function loadItemsCheapModel(id) {
-                const notebookModelRequest = new XMLHttpRequest();
-                notebookModelRequest.open("GET", "/model", true);
-                notebookModelRequest.onreadystatechange = function () {
-                    if (notebookModelRequest.readyState == XMLHttpRequest.DONE && notebookModelRequest.status == 200) {
-                        let notebookModels = JSON.parse(notebookModelRequest.responseText);
-
-                        // Retrieve the list of items
-                        const itemsRequest = new XMLHttpRequest();
-                        itemsRequest.open("GET", "/items/modelPrice/"+id, true);
-                        itemsRequest.onreadystatechange = function () {
-                            if (itemsRequest.readyState == XMLHttpRequest.DONE && itemsRequest.status == 200) {
-                                let notebookList = JSON.parse(itemsRequest.responseText);
-                                let cardContent = "";
-                                cardContent += "<div class=\"row\">";
-                                cardContent += "<div class=\"col-sm-12\">";
-                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsCheap()\">Сначала дешевые</button>";
-                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsExpensive()\">Сначала дорогие</button>";
-                                cardContent += "<select class='form-select' id='notebookModelSelect' onchange='loadItemsModel()'>";
-                                for (let i = 0; i < notebookModels.length; i++) {
-                                    cardContent += "<option value='" + notebookModels[i].id + "'>" + notebookModels[i].name + "</option>";
-                                }
-                                cardContent += "</select>";
-                                cardContent += "</div>";
-                                cardContent += "</div>";
-                                for (let i = 0; i < notebookList.length; i++) {
-                                    cardContent += "<div class=\"col-sm-4 mt-3\">";
-                                    cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
-                                    cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
-
-                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
-                                    cardContent += "<div>";
-                                    cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
-                                    cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
-                                    if (notebookList[i].categories.id==1){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                                    }else if (notebookList[i].categories.id==2){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                                    }
-                                    cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
-                                    cardContent += "</div>";
-                                    cardContent += "</div>";
-                                    cardContent += "</div>";
-                                }
-                                document.getElementById("cardListBody").innerHTML = cardContent;
-                            }
-                        }
-                        itemsRequest.send();
-                    }
-                }
-                notebookModelRequest.send();
+            function loadExpensivePhone() {
+                const categoryId = 2;
+                fetch(`/items/expensive/${categoryId}`)
+                    .then(response => response.json())
+                    .then(itemsPhoneList => {
+                        const cardContent = generateCardContent(itemsPhoneList);
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                        updateButtons('phones');
+                    });
             }
-            function loadItemExpensiveModel(id) {
-                const notebookModelRequest = new XMLHttpRequest();
-                notebookModelRequest.open("GET", "/model", true);
-                notebookModelRequest.onreadystatechange = function () {
-                    if (notebookModelRequest.readyState == XMLHttpRequest.DONE && notebookModelRequest.status == 200) {
-                        let notebookModels = JSON.parse(notebookModelRequest.responseText);
-
-                        // Retrieve the list of items
-                        const itemsRequest = new XMLHttpRequest();
-                        itemsRequest.open("GET", "/items/modelPriceDesc/"+id, true);
-                        itemsRequest.onreadystatechange = function () {
-                            if (itemsRequest.readyState == XMLHttpRequest.DONE && itemsRequest.status == 200) {
-                                let notebookList = JSON.parse(itemsRequest.responseText);
-                                let cardContent = "";
-                                cardContent += "<div class=\"row\">";
-                                cardContent += "<div class=\"col-sm-12\">";
-                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsCheap()\">Сначала дешевые</button>";
-                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsExpensive()\">Сначала дорогие</button>";
-                                cardContent += "<select class='form-select' id='notebookModelSelect' onchange='loadItemsModel()'>";
-                                for (let i = 0; i < notebookModels.length; i++) {
-                                    cardContent += "<option value='" + notebookModels[i].id + "'>" + notebookModels[i].name + "</option>";
-                                }
-                                cardContent += "</select>";
-                                cardContent += "</div>";
-                                cardContent += "</div>";
-                                for (let i = 0; i < notebookList.length; i++) {
-                                    cardContent += "<div class=\"col-sm-4 mt-3\">";
-                                    cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
-                                    cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
-
-                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
-                                    cardContent += "<div>";
-                                    cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
-                                    cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
-                                    if (notebookList[i].categories.id==1){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                                    }else if (notebookList[i].categories.id==2){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                                    }
-                                    cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
-                                    cardContent += "</div>";
-                                    cardContent += "</div>";
-                                    cardContent += "</div>";
-                                }
-                                document.getElementById("cardListBody").innerHTML = cardContent;
-                            }
-                        }
-                        itemsRequest.send();
-                    }
-                }
-                notebookModelRequest.send();
+            function loadCheapItemCategory(id) {
+                const categoryId = id;
+                fetch(`/items/cheap/${categoryId}`)
+                    .then(response => response.json())
+                    .then(itemsPhoneList => {
+                        const cardContent = generateCardContent(itemsPhoneList);
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                    });
             }
-            function loadItemsModel() {
-                let id = document.getElementById("notebookModelSelect").value;
-                const notebookModelRequest = new XMLHttpRequest();
-                notebookModelRequest.open("GET", "/model", true);
-                notebookModelRequest.onreadystatechange = function () {
-                    if (notebookModelRequest.readyState == XMLHttpRequest.DONE && notebookModelRequest.status == 200) {
-                        let notebookModels = JSON.parse(notebookModelRequest.responseText);
-
-                        // Retrieve the list of items
-                        const itemsRequest = new XMLHttpRequest();
-                        itemsRequest.open("GET", "/items/model/"+id, true);
-                        itemsRequest.onreadystatechange = function () {
-                            if (itemsRequest.readyState == XMLHttpRequest.DONE && itemsRequest.status == 200) {
-                                let notebookList = JSON.parse(itemsRequest.responseText);
-                                let cardContent = "";
-                                cardContent += "<div class=\"row\">";
-                                cardContent += "<div class=\"col-sm-12\">";
-                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsCheap\">Сначала дешевые</button>";
-                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsExpensive()\">Сначала дорогие</button>";
-                                cardContent += "<select class='form-select' id='notebookModelSelect' onchange='loadItemsModel()'>";
-                                cardContent += "<option value='all'>All Notebook Models</option>";
-                                for (let i = 0; i < notebookModels.length; i++) {
-                                    cardContent += "<option value='" + notebookModels[i].id + "'>" + notebookModels[i].name + "</option>";
-                                }
-                                cardContent += "</select>";
-                                cardContent += "</div>";
-                                cardContent += "</div>";
-                                for (let i = 0; i < notebookList.length; i++) {
-                                    cardContent += "<div class=\"col-sm-4 mt-3\">";
-                                    cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
-                                    cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
-
-                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
-                                    cardContent += "<div>";
-                                    cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
-                                    cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
-                                    if (notebookList[i].categories.id==1){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                                    }else if (notebookList[i].categories.id==2){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                                    }
-                                    cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
-                                    cardContent += "</div>";
-                                    cardContent += "</div>";
-                                    cardContent += "</div>";
-                                }
-                                document.getElementById("cardListBody").innerHTML = cardContent;
-                            }
-                        }
-                        itemsRequest.send();
-                    }
-                }
-                notebookModelRequest.send();
+            function loadExpensiveItemCategory(id) {
+                const categoryId = id;
+                fetch(`/items/expensive/${categoryId}`)
+                    .then(response => response.json())
+                    .then(itemsPhoneList => {
+                        const cardContent = generateCardContent(itemsPhoneList);
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                    });
             }
-            function loadItemsExpensive() {
-
-                const notebookModelRequest = new XMLHttpRequest();
-                notebookModelRequest.open("GET", "/model", true);
-                notebookModelRequest.onreadystatechange = function () {
-                    if (notebookModelRequest.readyState == XMLHttpRequest.DONE && notebookModelRequest.status == 200) {
-                        let notebookModels = JSON.parse(notebookModelRequest.responseText);
-
-                        // Retrieve the list of items
-                        const itemsRequest = new XMLHttpRequest();
-                        itemsRequest.open("GET", "/items/expensive", true);
-                        itemsRequest.onreadystatechange = function () {
-                            if (itemsRequest.readyState == XMLHttpRequest.DONE && itemsRequest.status == 200) {
-                                let notebookList = JSON.parse(itemsRequest.responseText);
-                                let cardContent = "";
-                                cardContent += "<div class=\"row\">";
-                                cardContent += "<div class=\"col-sm-12\">";
-                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsCheap()\">Сначала дешевые</button>";
-                                cardContent += "<button class=\"btn btn-success\" onClick=\"loadItemsExpensive()\">Сначала дорогие</button>";
-                                cardContent += "<select class='form-select' id='notebookModelSelect' onchange='loadItemsModel()'>";
-                                cardContent += "<option value='all'>All Notebook Models</option>";
-                                for (let i = 0; i < notebookModels.length; i++) {
-                                    cardContent += "<option value='" + notebookModels[i].id + "'>" + notebookModels[i].name + "</option>";
-                                }
-                                cardContent += "</select>";
-                                cardContent += "</div>";
-                                cardContent += "</div>";
-                                for (let i = 0; i < notebookList.length; i++) {
-                                    cardContent += "<div class=\"col-sm-4 mt-3\">";
-                                    cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
-                                    cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
-
-                                    cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
-                                    cardContent += "<div>";
-                                    cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
-                                    cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
-                                    if (notebookList[i].categories.id==1){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                                    }else if (notebookList[i].categories.id==2){
-                                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                                    }
-                                    cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+notebookList[i].id+"\")'>"+"В корзину"+"</button></button>";
-                                    cardContent += "</div>";
-                                    cardContent += "</div>";
-                                    cardContent += "</div>";
-                                }
-                                document.getElementById("cardListBody").innerHTML = cardContent;
-                            }
-                        }
-                        itemsRequest.send();
-                    }
-                }
-                notebookModelRequest.send();
+            function loadLaptop(){
+                const categoryId = 1;
+                fetch(`/items/${categoryId}`)
+                    .then(response => response.json())
+                    .then(itemsList => {
+                        const cardContent = generateCardContent(itemsList);
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                        updateButtons('laptops');
+                    });
             }
-        function loadLaptop() {
+            function loadItemCategory(id){
+                const categoryId = id;
+                fetch(`/items/${categoryId}`)
+                    .then(response => response.json())
+                    .then(itemsList => {
+                        const cardContent = generateCardContent(itemsList);
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                        updateButtons('category', categoryId);
+                    });
+            }
 
-            const httpRequest = new XMLHttpRequest();
-            httpRequest.open("GET", "/items/1", true);
-            httpRequest.onreadystatechange = function () {
-                if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
 
-                    let notebookList = JSON.parse(httpRequest.responseText);
-                    let cardContent = "";
-                    for (let i = 0; i < notebookList.length; i++) {
-                        cardContent += "<div class=\"col-sm-4 mt-3\">";
-                        cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
-                        cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
-                        cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
-                        cardContent += "<div>";
-                        cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
-                        cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
-                        if (notebookList[i].categories.id==1){
-                            cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                        }else if (notebookList[i].categories.id==2){
-                            cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                        }
-                        // cardContent += "<input type='hidden' value='"+notebookList[i].id+"' id='LaptopId'>";
-                        cardContent += "<button class=\"btn btn-primary\" onclick='addBucketLaptop(\""+notebookList[i].id+"\")'>" + "В корзину" +"</button>"
-                        cardContent += "</div>";
-                        cardContent += "</div>";
-                        cardContent += "</div>";
-                    }
-                    document.getElementById("cardListBody").innerHTML = cardContent;
+            function loadPhone(){
+                const categoryId = 2;
+                fetch(`/items/${categoryId}`)
+                    .then(response => response.json())
+                    .then(itemsList => {
+                        const cardContent = generateCardContent(itemsList);
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                        updateButtons('phones');
+                    });
+            }
+            function loadModelsById() {
+                const categoryId = document.getElementById("ModelSelect").value;
+                fetch(`/items/model/${categoryId}`)
+                    .then(response => response.json())
+                    .then(itemsList => {
+                        const cardContent = generateCardContent(itemsList);
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                        updateButtons('models');
+                    });
+            }
+            function loadModelsByIdCheap(){
+                const categoryId = document.getElementById("ModelSelect").value; // Замените на нужный ID категории
+                fetch(`/items/model/cheap/${categoryId}`)
+                    .then(response => response.json())
+                    .then(itemsList => {
+                        const cardContent = generateCardContent(itemsList);
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                    });
+            }
+            function loadModelsByIdExpensive(){
+                const categoryId = document.getElementById("ModelSelect").value; // Замените на нужный ID категории
+                fetch(`/items/model/expensive/${categoryId}`)
+                    .then(response => response.json())
+                    .then(itemsList => {
+                        const cardContent = generateCardContent(itemsList);
+                        // Add the generated content to the page
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                    });
+            }
+            function loadCheapLaptop() {
+                const categoryId = 1;
+                fetch(`/items/cheap/${categoryId}`)
+                    .then(response => response.json())
+                    .then(itemsList => {
+                        const cardContent = generateCardContent(itemsList);
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                        updateButtons('laptops');
+                    });
+            }
+            function loadExpensiveLaptop() {
+                const categoryId = 1;
+                fetch(`/items/expensive/${categoryId}`)
+                    .then(response => response.json())
+                    .then(itemsList => {
+                        const cardContent = generateCardContent(itemsList);
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                        updateButtons('laptops');
+                    });
+            }
+            function loadCategories(){
+                fetch('/categories')
+                    .then(response => response.json())
+                    .then(categoriesList => {
+                        const categories = generateCategories(categoriesList);
+                        document.querySelector('#categories').innerHTML= categories;
+                    });
+            }
+
+
+            function updateButtons(view, categoryId) {
+                let cheapButton = document.querySelector('#cheapButton');
+                let expensiveButton = document.querySelector('#expensiveButton');
+                if (view === 'items') {
+                    cheapButton.setAttribute('onclick', 'loadCheap()');
+                    expensiveButton.setAttribute('onclick', 'loadExpensive()');
+                } else if (view === 'laptops') {
+                    cheapButton.setAttribute('onclick', 'loadCheapLaptop()');
+                    expensiveButton.setAttribute('onclick', 'loadExpensiveLaptop()');
+                } else if (view === 'phones') {
+                    cheapButton.setAttribute('onclick', 'loadCheapPhone()');
+                    expensiveButton.setAttribute('onclick', 'loadExpensivePhone()');
+                } else if (view === 'models') {
+                    cheapButton.setAttribute('onclick', 'loadModelsByIdCheap()');
+                    expensiveButton.setAttribute('onclick', 'loadModelsByIdExpensive()');
+                } else if (view === 'category') {
+                    cheapButton.setAttribute('onclick', `loadCheapItemCategory(${categoryId})`);
+                    expensiveButton.setAttribute('onclick', `loadExpensiveItemCategory(${categoryId})`);
                 }
             }
-            httpRequest.send();
-        }
-            function loadPhone() {
 
-                const httpRequest = new XMLHttpRequest();
-                httpRequest.open("GET", "/items/2", true);
-                httpRequest.onreadystatechange = function () {
-                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
-
-                        let notebookList = JSON.parse(httpRequest.responseText);
-                        let cardContent = "";
-                        for (let i = 0; i < notebookList.length; i++) {
-                            cardContent += "<div class=\"col-sm-4 mt-3\">";
-                            cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
-                            cardContent += "<img src='/images/"+notebookList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
-                            cardContent += "<h4 class=\"text-center bg-light\">"+notebookList[i].model.name+" "+ notebookList[i].name+ "</h4>";
-                            cardContent += "<div>";
-                            cardContent += "<p class=\"card-text text-center\">" + notebookList[i].description + "</p>";
-                            cardContent += "<h5 class=\"card-title text-center\">" + notebookList[i].price +" тенге" +"</h5>";
-                            if (notebookList[i].categories.id==1){
-                                cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                            }else if (notebookList[i].categories.id==2){
-                                cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+notebookList[i].id+">" + "Подробнее" +"</a>";
-                            }
-                            cardContent += "<button class=\"btn btn-primary\" onclick='addBucketItem(\""+notebookList[i].id+"\")'>" + "В корзину" +"</button>"
-                            cardContent += "</div>";
-                            cardContent += "</div>";
-                            cardContent += "</div>";
-                        }
-                        document.getElementById("cardListBody").innerHTML = cardContent;
-                    }
-                }
-                httpRequest.send();
+            function loadModels() {
+                fetch('/model')
+                    .then(response => response.json())
+                    .then(modelList => {
+                        const model = generateModel(modelList);
+                        // Add the generated content to the page
+                        document.querySelector('#model').innerHTML = model;
+                    });
             }
+
             function addBucket(id) {
                 let req = new XMLHttpRequest();
                 req.onload = function () {

@@ -37,6 +37,26 @@
             </div>
             <div class="row mt-3">
                 <div class="col-12">
+                    <label>Цвет : </label>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <input type="text" class="form-control" id="color">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <label>Вес : </label>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <input type="number" step="0.01" class="form-control" id="weight">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
                     <label>Processor : </label>
                 </div>
             </div>
@@ -44,6 +64,10 @@
                 <div class="col-12">
                     <div  id="selectListBody">
 
+                    </div>
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#processorModal"> Добавить процессор</button>
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#processorListModal"> Список процессоров</button>
                     </div>
                 </div>
             </div>
@@ -57,6 +81,10 @@
                     <div  id="videoCardListBody">
 
                     </div>
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#videoModal"> Добавить видеокарту</button>
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#videoListModal"> Список видеокарт</button>
+                    </div>
                 </div>
             </div>
             <div class="row mt-3">
@@ -69,6 +97,10 @@
                     <div  id="modelListBody">
 
                     </div>
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#modelModal"> Добавить бренд</button>
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#modelListModal"> Список брендов</button>
+                    </div>
                 </div>
             </div>
             <div class="row mt-3">
@@ -78,14 +110,13 @@
             </div>
             <div class="row mt-2">
                 <div class="col-12">
-                   <select class="form-select" id="ozu">
-                       <option value="2">2 ГБ</option>
-                       <option value="4">4 ГБ</option>
-                       <option value="8">8 ГБ</option>
-                       <option value="16">16 ГБ</option>
-                       <option value="32">32 ГБ</option>
-                       <option value="64">64 ГБ</option>
-                   </select>
+                    <div  id="ozuListBody">
+
+                    </div>
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#ozuModal"> Добавить </button>
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#ozuListModal"> Список </button>
+                    </div>
                 </div>
             </div>
             <div class="row mt-3">
@@ -95,18 +126,13 @@
             </div>
             <div class="row mt-2">
                 <div class="col-12">
-                    <select class="form-select" id="memory">
-                        <option value="32">32 ГБ</option>
-                        <option value="64">64 ГБ</option>
-                        <option value="128">128 ГБ</option>
-                        <option value="256">256 ГБ</option>
-                        <option value="500">500 ГБ</option>
-                        <option value="512">512 ГБ</option>
-                        <option value="1000">1000 ГБ</option>
-                        <option value="1500">1500 ГБ</option>
-                        <option value="2000">2000 ГБ</option>
-                        <option value="3000">3000 ГБ</option>
-                    </select>
+                    <div  id="memoryListBody">
+
+                    </div>
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#memoryModal"> Добавить </button>
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#memoryListModal"> Список </button>
+                    </div>
                 </div>
             </div>
             <div class="row mt-3">
@@ -116,16 +142,13 @@
             </div>
             <div class="row mt-2">
                 <div class="col-12">
-                    <select class="form-select" id="diagonal">
-                        <option value="11.6">11.6 </option>
-                        <option value="12.5">12.5 </option>
-                        <option value="13.3">13.3 </option>
-                        <option value="14">14 </option>
-                        <option value="15.4">15.4 </option>
-                        <option value="15.6">15.6 </option>
-                        <option value="17">17 </option>
-                        <option value="17.3">17.3 </option>
-                    </select>
+                    <div  id="diagonalListBody">
+
+                    </div>
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#diagonalModal"> Добавить </button>
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#diagonalListModal"> Список </button>
+                    </div>
                 </div>
             </div>
             <div class="row mt-3">
@@ -135,10 +158,350 @@
             </div>
 
         </div>
+        <div class="modal fade" id="processorModal" tabindex="-1" aria-labelledby="processorModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="processorModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label> Название процессора: </label>
+                        <input class="form-control mt-2" type="text" id="ProcessorName" placeholder="Название:">
+                        <button class="btn btn-success mt-2" onclick="addProcessor()">Добавить</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="ozuModal" tabindex="-1" aria-labelledby="ozuModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="ozuModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label> Количество OZU: </label>
+                        <input class="form-control mt-2" type="number" id="ozuName" placeholder="Количество:">
+                        <button class="btn btn-success mt-2" onclick="addOzu()">Добавить</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="memoryModal" tabindex="-1" aria-labelledby="memoryModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="memoryModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label> Количество памяти: </label>
+                        <input class="form-control mt-2" type="number" id="memoryName" placeholder="Название:">
+                        <button class="btn btn-success mt-2" onclick="addMemory()">Добавить</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="diagonalModal" tabindex="-1" aria-labelledby="diagonalModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="diagonalModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label> Количество памяти: </label>
+                        <input class="form-control mt-2" type="number" step="0.01" id="diagonalName" placeholder="Название:">
+                        <button class="btn btn-success mt-2" onclick="addDiagonal()">Добавить</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modelModal" tabindex="-1" aria-labelledby="modelModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modelModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label> Название процессора: </label>
+                        <input class="form-control mt-2" type="text" id="modelName" placeholder="Название:">
+                        <button class="btn btn-success mt-2" onclick="addModel()">Добавить</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="videoModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label> Название видеокарты: </label>
+                        <input class="form-control mt-2" type="text" id="VideoName" placeholder="Название:">
+                        <button class="btn btn-success mt-2" onclick="addVideoCard()">Добавить</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="processorListModal" tabindex="-1" aria-labelledby="processorListModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="processorListModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead >
+                            <tr>
+                                <td>
+                                    ID
+                                </td>
+                                <td>
+                                    Name
+                                </td>
+                                <td>
+                                    Изменить
+                                </td>
+                                <td>
+                                    Удалить
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody id="processors">
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="videoListModal" tabindex="-1" aria-labelledby="videoListModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="videoListModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead >
+                            <tr>
+                                <td>
+                                    ID
+                                </td>
+                                <td>
+                                    Name
+                                </td>
+                                <td>
+                                    Изменить
+                                </td>
+                                <td>
+                                    Удалить
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody id="videoCards">
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modelListModal" tabindex="-1" aria-labelledby="modelListModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modelListModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead >
+                            <tr>
+                                <td>
+                                    ID
+                                </td>
+                                <td>
+                                    Name
+                                </td>
+                                <td>
+                                    Изменить
+                                </td>
+                                <td>
+                                    Удалить
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody id="models">
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="ozuListModal" tabindex="-1" aria-labelledby="ozuListModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="ozuListModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead >
+                            <tr>
+                                <td>
+                                    ID
+                                </td>
+                                <td>
+                                    Name
+                                </td>
+                                <td>
+                                    Изменить
+                                </td>
+                                <td>
+                                    Удалить
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody id="AllOzu">
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="memoryListModal" tabindex="-1" aria-labelledby="memoryListModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="memoryListModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead >
+                            <tr>
+                                <td>
+                                    ID
+                                </td>
+                                <td>
+                                    Name
+                                </td>
+                                <td>
+                                    Изменить
+                                </td>
+                                <td>
+                                    Удалить
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody id="AllMemory">
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="diagonalListModal" tabindex="-1" aria-labelledby="diagonalListModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="diagonalListModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead >
+                            <tr>
+                                <td>
+                                    ID
+                                </td>
+                                <td>
+                                    Name
+                                </td>
+                                <td>
+                                    Изменить
+                                </td>
+                                <td>
+                                    Удалить
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody id="AllDiagonal">
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script type="text/javascript">
             loadProcessor();
             loadVideoCard();
-            loadNotebookModel();
+            loadModel();
+            loadProcessors();
+            loadVideoCards();
+            loadModels();
+            loadMemory();
+            loadOzu();
+            loadDiagonal();
+            loadDiagonals();
+            loadAllOzu();
+            loadMemories();
             function loadProcessor() {
 
                 const httpRequest = new XMLHttpRequest();
@@ -183,7 +546,73 @@
                 }
                 httpRequest.send();
             }
-            function loadNotebookModel() {
+            function loadMemory() {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/memory", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let memoryList = JSON.parse(httpRequest.responseText);
+
+                        let memoryContent = "";
+                        memoryContent += "<select id='memory' class=\"form-select\">";
+                        for (let i = 0; i < memoryList.length; i++) {
+
+                            memoryContent += "<option  value='"+memoryList[i].id+"'>"+ memoryList[i].memory+ "</option>";
+
+                        }
+                        memoryContent += "</select>";
+                        document.getElementById("memoryListBody").innerHTML = memoryContent;
+                    }
+                }
+                httpRequest.send();
+            }
+            function loadOzu() {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/ozu", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let ozuList = JSON.parse(httpRequest.responseText);
+
+                        let ozuContent = "";
+                        ozuContent += "<select id='ozu' class=\"form-select\">";
+                        for (let i = 0; i < ozuList.length; i++) {
+
+                            ozuContent += "<option  value='"+ozuList[i].id+"'>"+ ozuList[i].ozu+ "</option>";
+
+                        }
+                        ozuContent += "</select>";
+                        document.getElementById("ozuListBody").innerHTML = ozuContent;
+                    }
+                }
+                httpRequest.send();
+            }
+            function loadDiagonal() {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/diagonal", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let diagonalList = JSON.parse(httpRequest.responseText);
+
+                        let diagonalContent = "";
+                        diagonalContent += "<select id='diagonal' class=\"form-select\">";
+                        for (let i = 0; i < diagonalList.length; i++) {
+
+                            diagonalContent += "<option  value='"+diagonalList[i].id+"'>"+ diagonalList[i].diagonal+ "</option>";
+
+                        }
+                        diagonalContent += "</select>";
+                        document.getElementById("diagonalListBody").innerHTML = diagonalContent;
+                    }
+                }
+                httpRequest.send();
+            }
+            function loadModel() {
 
                 const httpRequest = new XMLHttpRequest();
                 httpRequest.open("GET", "/model", true);
@@ -205,6 +634,128 @@
                 }
                 httpRequest.send();
             }
+
+            function loadProcessors(){
+                fetch('/processor')
+                    .then(response => response.json())
+                    .then( processorsList=> {
+                        const processors = generateProcessors(processorsList);
+                        document.querySelector('#processors').innerHTML= processors;
+                    });
+            }
+            function loadVideoCards(){
+                fetch('/videoCard')
+                    .then(response => response.json())
+                    .then( videocardsList=> {
+                        const videoCards = generateVideoCards(videocardsList);
+                        document.querySelector('#videoCards').innerHTML= videoCards;
+                    });
+            }
+            function generateProcessors(processorsList) {
+                let processors = '';
+
+                for (let i = 0; i < processorsList.length; i++) {
+                    let inputId = 'catName' + processorsList[i].id;
+                    processors +="<tr>";
+                    processors += "<td value='" + processorsList[i].id + "' id='procId'>" + processorsList[i].id + "</td>";
+                    processors += "<td>" + "<input class='form-control' type='text' value='"+processorsList[i].model+"' id='"+inputId+"'>" + "</td>";
+                    processors += "<td >" + "<button class='btn btn-success' onclick='updateProcessorFromInput("+processorsList[i].id+",\""+inputId+"\")'>"+"Изменить"+"</button>" + "</td>";
+                    processors += "<td >" + "<button class='btn btn-success' onclick='deleteProcessor("+processorsList[i].id+")'>"+"Удалить"+"</button>" + "</td>";
+                    processors +="</tr>";
+                }
+
+                return processors;
+            }
+            function generateVideoCards(videocardsList) {
+                let videoCards = '';
+
+                for (let i = 0; i < videocardsList.length; i++) {
+                    let inputVideoId = 'vidName' + videocardsList[i].id;
+                    videoCards +="<tr>";
+                    videoCards += "<td value='" + videocardsList[i].id + "' id='procId'>" + videocardsList[i].id + "</td>";
+                    videoCards += "<td>" + "<input class='form-control' type='text' value='"+videocardsList[i].model+"' id='"+inputVideoId+"'>" + "</td>";
+                    videoCards += "<td >" + "<button class='btn btn-success' onclick='updateVideoFromInput("+videocardsList[i].id+",\""+inputVideoId+"\")'>"+"Изменить"+"</button>" + "</td>";
+                    videoCards += "<td >" + "<button class='btn btn-success' onclick='deleteVideoCard("+videocardsList[i].id+")'>"+"Удалить"+"</button>" + "</td>";
+                    videoCards +="</tr>";
+                }
+
+                return videoCards;
+            }
+            function updateProcessorFromInput(id, inputId) {
+                let name = document.getElementById(inputId).value;
+                updateProcessor(id, name);
+            }
+            function updateVideoFromInput(id, inputVideoId) {
+                let name = document.getElementById(inputVideoId).value;
+                updateVideo(id, name);
+            }
+
+            function updateVideo(id,name) {
+
+                let updatedVideo = {
+                    // define the properties of the updated category here
+                    id: id,
+                    model: name
+                };
+
+                fetch('/videoCard', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedVideo)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        loadVideoCards()
+                        loadVideoCard()
+                        console.log(data);
+                    });
+            }
+            function updateProcessor(id,name) {
+
+                let updatedCategory = {
+                    // define the properties of the updated category here
+                    id: id,
+                    model: name
+                };
+
+                fetch('/processor', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedCategory)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        loadProcessors()
+                        loadProcessor()
+                        console.log(data);
+                    });
+            }
+            function deleteProcessor(id) {
+
+                fetch('/processor/' + id, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        loadProcessors()
+                        loadProcessor()
+                        console.log(response);
+                    });
+            }
+            function deleteVideoCard(id) {
+
+                fetch('/videoCard/' + id, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        loadVideoCards()
+                        loadVideoCard()
+                        console.log(response);
+                    });
+            }
             function addLaptop() {
                 let post = {
                     "processor" : {
@@ -214,9 +765,9 @@
                         "id" : document.getElementById("videoCard").value
                     },
 
-                    "memory" : document.getElementById("memory").value,
-                    "ozu" : document.getElementById("ozu").value,
-                    "diagonal" : document.getElementById("diagonal").value,
+                    "memory" : {"id":document.getElementById("memory").value},
+                    "ozu" : {"id":document.getElementById("ozu").value},
+                    "diagonal" :{"id":document.getElementById("diagonal").value} ,
                     "item": {
                         "name": document.getElementById("title").value,
                         "description": document.getElementById("description").value,
@@ -227,15 +778,377 @@
                         "model" : {
                             "id" : document.getElementById("Model").value
                         }
-                    }
+                    },
+                    "weight": document.getElementById("weight").value,
+                    "color": document.getElementById("color").value
                 }
                 let req = new XMLHttpRequest();
                 req.onload = function () {
-                    loadNotebooks();
+                    alert("Ноутбук добавлен")
                 }
                 req.open("POST", "http://localhost:8888/laptop",)
                 req.setRequestHeader("Content-type", "application/json")
                 req.send(JSON.stringify(post))
+            }
+            function addProcessor() {
+                let newModel = {
+                    // define the properties of the new category here
+                    model: document.getElementById("ProcessorName").value
+                };
+
+                fetch('/processor', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newModel)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        loadProcessor()
+                        loadProcessors()
+                        console.log(data);
+                    });
+            }
+            function addVideoCard() {
+                let newVideo = {
+                    // define the properties of the new category here
+                    model: document.getElementById("VideoName").value
+                };
+
+                fetch('/videoCard', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newVideo)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        loadVideoCards()
+                        loadVideoCard()
+                        console.log(data);
+                    });
+            }
+            function addModel() {
+                let newModel = {
+                    // define the properties of the new category here
+                    name: document.getElementById("modelName").value
+                };
+
+                fetch('/model', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newModel)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        loadModels();
+                        loadModelsSelect()
+                        console.log(data);
+                    });
+            }
+            function addOzu() {
+                let newModel = {
+                    // define the properties of the new category here
+                    ozu: parseInt(document.getElementById("ozuName").value)
+                };
+
+                fetch('/ozu', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newModel)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        loadOzu()
+                        loadAllOzu()
+                        console.log(data);
+                    });
+            }
+            function addMemory() {
+                let newModel = {
+                    // define the properties of the new category here
+                    memory: parseInt(document.getElementById("memoryName").value)
+                };
+
+                fetch('/memory', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newModel)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        loadMemory()
+                        loadMemories()
+                        console.log(data);
+                    });
+            }
+            function addDiagonal() {
+                let newModel = {
+                    // define the properties of the new category here
+                    diagonal: parseFloat(document.getElementById("diagonalName").value)
+                };
+
+                fetch('/diagonal', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newModel)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        loadDiagonal()
+                        loadDiagonals()
+                        console.log(data);
+                    });
+            }
+            function generateModels(modelList) {
+                let models = '';
+
+                for (let i = 0; i < modelList.length; i++) {
+                    let inputModelId = 'modelName' + modelList[i].id;
+                    models +="<tr>";
+                    models += "<td value='" + modelList[i].id + "' id='modelId'>" + modelList[i].id + "</td>";
+                    models += "<td>" + "<input class='form-control' type='text' value='"+modelList[i].name+"' id='"+inputModelId+"'>" + "</td>";
+                    models += "<td >" + "<button class='btn btn-success' onclick='updateModelFromInput("+modelList[i].id+",\""+inputModelId+"\")'>"+"Изменить"+"</button>" + "</td>";
+                    models += "<td >" + "<button class='btn btn-success' onclick='deleteModel("+modelList[i].id+")'>"+"Удалить"+"</button>" + "</td>";
+                    models +="</tr>";
+                }
+
+                return models;
+            }
+            function generateOzu(ozuList) {
+                let ozu = '';
+
+                for (let i = 0; i < ozuList.length; i++) {
+                    let inputOzuId = 'ozuName' + ozuList[i].id;
+                    ozu +="<tr>";
+                    ozu += "<td value='" + ozuList[i].id + "' id='ozuId'>" + ozuList[i].id + "</td>";
+                    ozu += "<td>" + "<input class='form-control' type='number' value='"+ozuList[i].ozu+"' id='"+inputOzuId+"'>" + "</td>";
+                    ozu += "<td >" + "<button class='btn btn-success' onclick='updateOzuFromInput("+ozuList[i].id+",\""+inputOzuId+"\")'>"+"Изменить"+"</button>" + "</td>";
+                    ozu += "<td >" + "<button class='btn btn-success' onclick='deleteOzu("+ozuList[i].id+")'>"+"Удалить"+"</button>" + "</td>";
+                    ozu +="</tr>";
+                }
+
+                return ozu;
+            }
+            function generateMemory(memoryList) {
+                let memory = '';
+
+                for (let i = 0; i < memoryList.length; i++) {
+                    let inputMemoryId = 'memoryName' + memoryList[i].id;
+                    memory +="<tr>";
+                    memory += "<td value='" + memoryList[i].id + "' id='memoryId'>" + memoryList[i].id + "</td>";
+                    memory += "<td>" + "<input class='form-control' type='number' value='"+memoryList[i].memory+"' id='"+inputMemoryId+"'>" + "</td>";
+                    memory += "<td >" + "<button class='btn btn-success' onclick='updateMemoryFromInput("+memoryList[i].id+",\""+inputMemoryId+"\")'>"+"Изменить"+"</button>" + "</td>";
+                    memory += "<td >" + "<button class='btn btn-success' onclick='deleteMemory("+memoryList[i].id+")'>"+"Удалить"+"</button>" + "</td>";
+                    memory +="</tr>";
+                }
+
+                return memory;
+            }
+            function generateDiagonal(diagonalList) {
+                let diagonal = '';
+
+                for (let i = 0; i < diagonalList.length; i++) {
+                    let inputDiagonalId = 'diagonalName' + diagonalList[i].id;
+                    diagonal +="<tr>";
+                    diagonal += "<td value='" + diagonalList[i].id + "' id='diagonalId'>" + diagonalList[i].id + "</td>";
+                    diagonal += "<td>" + "<input class='form-control' type='number' step='0.01' value='"+diagonalList[i].diagonal+"' id='"+inputDiagonalId+"'>" + "</td>";
+                    diagonal += "<td >" + "<button class='btn btn-success' onclick='updateDiagonalFromInput("+diagonalList[i].id+",\""+inputDiagonalId+"\")'>"+"Изменить"+"</button>" + "</td>";
+                    diagonal += "<td >" + "<button class='btn btn-success' onclick='deleteDiagonal("+diagonalList[i].id+")'>"+"Удалить"+"</button>" + "</td>";
+                    diagonal +="</tr>";
+                }
+
+                return diagonal;
+            }
+            function loadModels(){
+                fetch('/model')
+                    .then(response => response.json())
+                    .then(modelList => {
+                        const models = generateModels(modelList);
+                        document.querySelector('#models').innerHTML= models;
+                    });
+            }
+            function loadAllOzu(){
+                fetch('/ozu')
+                    .then(response => response.json())
+                    .then(ozuList => {
+                        const AllOzu = generateOzu(ozuList);
+                        document.querySelector('#AllOzu').innerHTML= AllOzu;
+                    });
+            }
+            function loadMemories(){
+                fetch('/memory')
+                    .then(response => response.json())
+                    .then(memoryList => {
+                        const AllMemory = generateMemory(memoryList);
+                        document.querySelector('#AllMemory').innerHTML= AllMemory;
+                    });
+            }
+            function loadDiagonals(){
+                fetch('/diagonal')
+                    .then(response => response.json())
+                    .then(diagonalList => {
+                        const AllDiagonal = generateDiagonal(diagonalList);
+                        document.querySelector('#AllDiagonal').innerHTML= AllDiagonal;
+                    });
+            }
+            function updateModelFromInput(id, inputModelId) {
+                let name = document.getElementById(inputModelId).value;
+                updateModel(id, name);
+            }
+            function updateOzuFromInput(id, inputOzuId) {
+                let name = document.getElementById(inputOzuId).value;
+                updateOzu(id, name);
+            }
+            function updateMemoryFromInput(id, inputMemoryId) {
+                let name = document.getElementById(inputMemoryId).value;
+                updateMemory(id, name);
+            }
+            function updateDiagonalFromInput(id, inputDiagonalId) {
+                let name = document.getElementById(inputDiagonalId).value;
+                updateDiagonal(id, name);
+            }
+            function updateModel(id,name) {
+
+                let updatedModel = {
+                    // define the properties of the updated category here
+                    id: id,
+                    name: name
+                };
+
+                fetch('/model', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedModel)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        loadModels();
+                        loadNotebookModel()
+                        console.log(data);
+                    });
+            }
+            function updateOzu(id,name) {
+
+                let updatedOzu = {
+                    // define the properties of the updated category here
+                    id: id,
+                    ozu: parseInt(name)
+                };
+
+                fetch('/ozu', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedOzu)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        loadOzu();
+                        loadAllOzu();
+                        console.log(data);
+                    });
+            }
+            function updateDiagonal(id,name) {
+
+                let updatedDiagonal = {
+                    // define the properties of the updated category here
+                    id: id,
+                    diagonal: parseFloat(name)
+                };
+
+                fetch('/diagonal', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedDiagonal)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        loadDiagonal()
+                        loadDiagonals()
+                        console.log(data);
+                    });
+            }
+            function updateMemory(id,name) {
+
+                let updatedMemory = {
+                    // define the properties of the updated category here
+                    id: id,
+                    memory: parseInt(name)
+                };
+
+                fetch('/memory', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedMemory)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                       loadMemory()
+                        loadMemories()
+                        console.log(data);
+                    });
+            }
+            function deleteModel(id) {
+
+                fetch('/model/' + id, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        loadModels()
+                        loadNotebookModel()
+                        console.log(response);
+                    });
+            }
+            function deleteOzu(id) {
+
+                fetch('/ozu/' + id, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                       loadOzu()
+                        loadAllOzu()
+                        console.log(response);
+                    });
+            }
+            function deleteMemory(id) {
+
+                fetch('/memory/' + id, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        loadMemories()
+                        loadMemory()
+                        console.log(response);
+                    });
+            }
+            function deleteDiagonal(id) {
+
+                fetch('/diagonal/' + id, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        loadDiagonal()
+                        loadDiagonals()
+                        console.log(response);
+                    });
             }
         </script>
     </div>
