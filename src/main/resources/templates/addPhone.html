@@ -541,7 +541,7 @@
                 }
                 let req = new XMLHttpRequest();
                 req.onload = function () {
-                    alert("Смартфон добавлен")
+                    window.location.href = "detailsPhone/" + JSON.parse(req.responseText).item.id;
                 }
                 req.open("POST", "http://localhost:8888/phone",)
                 req.setRequestHeader("Content-type", "application/json")

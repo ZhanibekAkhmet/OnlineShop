@@ -4,7 +4,23 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div layout:fragment="productsContent">
     <div class="row mb-3" >
-        <div class="row" id="cardListBody">
+        <div class="row">
+            <div class="col-sm-6">
+                <div id="img1ListBody">
+
+                </div>
+                <div id="upload1ListBody" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+
+                </div>
+            </div>
+            <div class="col-sm-6" >
+                <div class="row" id="user1ListBody" >
+
+                </div>
+                <button type="button" sec:authorize="hasAnyRole('ROLE_ADMIN')" class="btn btn-primary mb-2 me-2 mt-2" style="width: 150px"data-bs-toggle="modal" data-bs-target="#editModal">
+                    Редактировать
+                </button>
+            </div>
 
         </div>
 
@@ -13,32 +29,33 @@
                 <label class="form-label">Коментарий:</label>
                 <input type="hidden" th:value="${#authentication.principal.fullName}" id="user">
                 <textarea class="form-control" id="comment" rows="3"></textarea>
-                <button class="btn btn-primary" onclick="addComment()">Отправить</button>
+                <button class="btn btn-primary mt-2" onclick="addComment()">Отправить</button>
             </div>
         </div>
-        <div class="row" id="CommentsListBody">
+        <h3 class="mt-3">Отзывы: </h3>
+        <div class="row mt-3" id="CommentsListBody">
 
         </div>
-<!--        <div>-->
-<!--            <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#detailListModal"> Редактировать </button>-->
-<!--        </div>-->
 
-<!--        <div class="modal fade" id="detailListModal" tabindex="-1" aria-labelledby="detailsListModalLabel" aria-hidden="true">-->
-<!--            <div class="modal-dialog">-->
-<!--                <div class="modal-content">-->
-<!--                    <div class="modal-header">-->
-<!--                        <h1 class="modal-title fs-5" id="detailsListModalLabel">Modal title</h1>-->
-<!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--                    </div>-->
-<!--                    <div class="modal-body">-->
-<!--                        -->
-<!--                    </div>-->
-<!--                    <div class="modal-footer">-->
-<!--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="modelModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modelModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="card1ListBody">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script type="text/javascript">
             let href = document.location.href
             let text = href.split('/').pop();
@@ -55,28 +72,52 @@
                     if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
                         let laptopList = JSON.parse(httpRequest.responseText);
                         let cardContent = "";
-                        cardContent += "<div class=\"row\">";
-                        cardContent += "<div class=\"col-sm-6\">";
-                        cardContent += "<img src='/images/" + laptopList.item.image + "' class='card-img-top img-fluid' style='width: 500px; height: 400px'>";
-                        cardContent += "<div class=\"mb-3 mt-3\">";
-                        cardContent += "<input class=\"form-control\" type=\"file\" id=\"image\">";
-                        cardContent += "</div>";
-                        cardContent += "<div class=\"row\">";
-                        cardContent += "<div class=\"col-12\">";
-                        cardContent += "<button class=\"btn btn-success\" onclick=\"addImage()\">Загрузить</button>";
-                        cardContent += "</div>";
-                        cardContent += "</div>";
-                        cardContent += "</div>";
-                        cardContent += "<div class=\"col-sm-6\">";
+                        let imgContent = "";
+                        let uploadContent = "";
+                        let userContent = "";
+                        userContent += "<h3 > Технические характеристики:</h3>";
+                        userContent += "<label >Процессор:</label>";
+                        userContent += "<h5>"+laptopList.processor.model+"</h5>";
+                        userContent += "<label >Видекарта:</label>";
+                        userContent += "<h5>"+laptopList.videoCard.model+"</h5>";
+                        userContent += "<label >Диагональ:</label>";
+                        userContent += "<h5>"+laptopList.diagonal.diagonal+"</h5>";
+                        userContent += "<label >Объем жесткого диска:</label>";
+                        userContent += "<h5>"+laptopList.memory.memory+"</h5>";
+                        userContent += "<label >Объем опретивной памяти:</label>";
+                        userContent += "<h5>"+laptopList.ozu.ozu+"</h5>";
+                        userContent += "<label >Цвет:</label>";
+                        userContent += "<h5>"+laptopList.item.color+"</h5>";
+                        userContent += "<label >Вес:</label>";
+                        userContent += "<h5>"+laptopList.item.weight+" " +"грамм"+"</h5>";
+                        userContent += "<label >Цена:</label>";
+                        userContent += "<h5>"+laptopList.item.price+"</h5>";
+
+                        imgContent += "<img src='/images/" + laptopList.item.image + "' class='card-img-top img-fluid' style='width: 500px; height: 400px'>";
+                        imgContent += "<h4 class=' mt-2'>"+"Название: "+"</h4>";
+                        imgContent += "<h2 class=' mt-2'>"+laptopList.item.model.name+" "+laptopList.item.name+"</h2>";
+                        imgContent += "<label >Описание:</label>";
+                        imgContent += "<textarea class='form-control' readonly>"+laptopList.item.description+"</textarea>";
+                        uploadContent += "<div class=\"mb-3 mt-3\" >";
+                        uploadContent += "<input class=\"form-control\" type=\"file\" id=\"image\">";
+                        uploadContent += "</div>";
+                        // uploadContent += "<div class=\"row\">";
+                        // uploadContent += "<div class=\"col-12\">";
+                        uploadContent += "<button class=\"btn btn-success\" onclick=\"addImage()\">Загрузить</button>";
+
+                        // uploadContent += "</div>";
+
+                        // cardContent += "<div class=\"col-sm-6\">";
                         cardContent += "<input type='hidden' value='" + laptopList.id + "' id='id'>";
                         cardContent += "<input type='hidden' value='" + laptopList.item.image + "' id='imageSrc'>";
                         cardContent += "<input type='hidden' value='" + laptopList.item.id + "' id='itemId'>";
                         cardContent += "<label >Модель:</label>";
                         cardContent += "<div id='modelListBody'>";
+                        // userContent += "<label >Модель:</label>";
+                        // userContent += "<h5 class='form-control'>"+laptopList.item.model+"</h5>";
                         cardContent += "</div>";
                         cardContent += "<label >Название:</label>";
                         cardContent += "<input type='text' class=\"form-control\" value='" + laptopList.item.name + "' id='name'>";
-                        cardContent += "<h3 > Технические характеристики:</h3>";
                         cardContent += "<label >Процессор:</label>";
                         cardContent += "<div id='selectListBody'>";
                         cardContent += "</div>";
@@ -92,6 +133,10 @@
                         cardContent += "<label >Объем опретивной памяти:</label>";
                         cardContent += "<div id='ozuListBody'>";
                         cardContent += "</div>";
+                        cardContent += "<label >Цвет:</label>";
+                        cardContent += "<input class='form-control' type='text' id='color' value='"+laptopList.item.color+"'>";
+                        cardContent += "<label >Вес:</label>";
+                        cardContent += "<input class='form-control' type='number' step='0.01' id='weight' value='"+laptopList.item.weight+"'>";
                         cardContent += "<label >Описание:</label>";
                         cardContent += "<input type='text' id='description' class=\"form-control\" value='"+laptopList.item.description+"'>";
                         cardContent += "<label >Цена:</label>";
@@ -100,7 +145,7 @@
                         cardContent += "<div class=\"col-12\">";
                         cardContent += "<button class=\"btn btn-success\" onclick='editLaptop()'>Редактировать</button>";
                         cardContent += "<button class=\"btn btn-danger\" onclick='deleteLaptop()'>Удалить</button>";
-                        cardContent += "</div></div></div></div>";
+                        cardContent += "</div></div></div>";
 
                         loadComments(laptopList.item.id)
                         loadProcessor(laptopList.processor.id)
@@ -110,11 +155,17 @@
                         loadMemory(laptopList.memory.id)
                         loadDiagonal(laptopList.diagonal.id)
 
-                        document.getElementById("cardListBody").innerHTML = cardContent;
+
+                        document.getElementById("user1ListBody").innerHTML = userContent;
+                        document.getElementById("card1ListBody").innerHTML = cardContent;
+                        document.getElementById("img1ListBody").innerHTML = imgContent;
+                        document.getElementById("upload1ListBody").innerHTML = uploadContent;
+
                     }
                 }
                 httpRequest.send();
             }
+
 
 
             function loadProcessor(id) {
@@ -229,7 +280,7 @@
                             CommentsContent += "<div class=\"row\">"
                                 CommentsContent += "<div class=\"mb-3\">"
                                 CommentsContent +=  "<label class=\"form-label\">"+CommentsList[i].userN+" :"+"</label>"
-                                CommentsContent +=  "<textarea class=\"form-control\" rows=\"3\">"+CommentsList[i].text+"</textarea>"
+                                CommentsContent +=  "<textarea class=\"form-control\" readonly rows=\"3\">"+CommentsList[i].text+"</textarea>"
                                 CommentsContent +=  "</div>";
                                 CommentsContent +=  "</div>";
                         }
@@ -303,6 +354,8 @@
                         "name": document.getElementById("name").value,
                         "description": document.getElementById("description").value,
                         "price": document.getElementById("price").value,
+                        "color":document.getElementById("color").value,
+                        "weight":document.getElementById("weight").value,
                         "categories": {
                             "id": 1,
                         },

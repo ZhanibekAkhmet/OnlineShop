@@ -65,4 +65,15 @@ public class ItemService {
 
         return itemMapper.toDto(itemRepository.save(itemMapper.toModel(itemDto))) ;
     }
+    public List<ItemDto> searchItems(String query) {
+
+            String[] parts = query.split(" ");
+            if (parts.length == 1) {
+                return itemMapper.toDtoList(itemRepository.findByNameContainingIgnoreCaseOrModelNameContainingIgnoreCase(parts[0], parts[0]));
+            } else {
+                return itemMapper.toDtoList(itemRepository.findByNameContainingIgnoreCaseOrModelNameContainingIgnoreCase(parts[0], parts[1]));
+            }
+
+//        return itemMapper.toDtoList(itemRepository.findByNameContainingIgnoreCaseOrModelNameContainingIgnoreCase(query, query));
+    }
 }

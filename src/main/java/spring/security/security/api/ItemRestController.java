@@ -28,6 +28,14 @@ public class ItemRestController {
     public List<ItemDto> cheapList(){
         return itemService.getItemsSortByPrice();
     }
+    @GetMapping(value = "/search")
+    public List<ItemDto> searchItemList(@RequestParam(required = false) String query){
+        if (query == null || query.isEmpty()) {
+            return itemService.getItems();
+        } else {
+            return itemService.searchItems(query);
+        }
+    }
     @GetMapping(value = "/model/{id}")
     public List<ItemDto> modelItemList(@PathVariable(name = "id") Long id){
         return itemService.getItemsModel(id);

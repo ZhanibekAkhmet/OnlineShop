@@ -1,6 +1,7 @@
 package spring.security.security.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import spring.security.security.model.*;
 import spring.security.security.repository.OrderItemRepository;
@@ -51,7 +52,13 @@ public class OrderService {
         return orderRepository.save(order);
     }
     public List<Order> getOrders() {
-        return orderRepository.findAll();
+        return orderRepository.findAll(Sort.by("createdDate"));
+    }
+    public List<Order> getOrdersStatus(int statusId) {
+        return orderRepository.findAllByStatusOrderByCreatedDate(statusId);
+    }
+    public List<Order> getSearchOrder(String query) {
+        return orderRepository.findByUserEmailIgnoreCaseOrUserFullNameIgnoreCaseOrUserPhoneIgnoreCase(query,query,query);
     }
     public List<Order> getOrdersUser(Long id) {
         return orderRepository.findAllByUserId(id);

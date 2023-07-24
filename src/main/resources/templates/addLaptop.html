@@ -777,14 +777,15 @@
                         },
                         "model" : {
                             "id" : document.getElementById("Model").value
-                        }
-                    },
-                    "weight": document.getElementById("weight").value,
-                    "color": document.getElementById("color").value
+                        },
+                        "weight": document.getElementById("weight").value,
+                        "color": document.getElementById("color").value
+                    }
+
                 }
                 let req = new XMLHttpRequest();
                 req.onload = function () {
-                    alert("Ноутбук добавлен")
+                    window.location.href = "detailsLaptop/" + JSON.parse(req.responseText).item.id;
                 }
                 req.open("POST", "http://localhost:8888/laptop",)
                 req.setRequestHeader("Content-type", "application/json")

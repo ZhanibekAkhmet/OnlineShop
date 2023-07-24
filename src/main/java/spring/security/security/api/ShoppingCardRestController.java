@@ -38,6 +38,10 @@ public class ShoppingCardRestController {
     public void deleteItem(@PathVariable(name = "id") Long id) {
         shoppingCart.removeItemById(id);
     }
+    @DeleteMapping("/delete")
+    public void deleteItem() {
+        shoppingCart.clearCart();
+    }
     @GetMapping("/quantity")
     public int getItemQuantity() {
         return shoppingCart.getTotalQuantity();

@@ -28,6 +28,22 @@ public class OrderRestController {
         List<Order> orders = orderService.getOrders();
         return ResponseEntity.ok(orders);
     }
+    @GetMapping (value = "/status/{statusId}")
+    public ResponseEntity<List<Order>> getOrdersByStatus(@PathVariable int statusId) {
+        List<Order> orders = orderService.getOrdersStatus(statusId);
+        return ResponseEntity.ok(orders);
+    }
+    @GetMapping (value = "/search")
+    public ResponseEntity<List<Order>> getOrdersSearch(@RequestParam(required = false) String query) {
+        List<Order> orders;
+        if (query == null || query.isEmpty()) {
+            orders = orderService.getOrders();
+        } else {
+            orders = orderService.getSearchOrder(query);
+        }
+        return ResponseEntity.ok(orders);
+
+    }
     @GetMapping(value = "{id}")
     public ResponseEntity<List<Order>> getOrdersUser(@PathVariable Long id) {
         List<Order> orders = orderService.getOrdersUser(id);

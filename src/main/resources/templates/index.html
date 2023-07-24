@@ -3,6 +3,12 @@
       layout:decorate="/layout/main.html"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div layout:fragment="productsContent">
+        <div class="col-sm-6">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="query">
+            <button class="btn btn-outline-success mt-2" type="submit" onclick="loadItemsSearch()">Search</button>
+        </div>
+
+
     <div class="mt-2 d-flex justify-content-lg-end" id="quantityListBody"></div>
     <div class="row mt-2">
         <div class="col-12 d-flex justify-content-lg-start">
@@ -53,11 +59,11 @@
                     cardContent += "<p class=\"card-text text-center\">" + itemsList[i].description + "</p>";
                     cardContent += "<h5 class=\"card-title text-center\">" + itemsList[i].price +" тенге" +"</h5>";
                     if (itemsList[i].categories.id==1){
-                        cardContent += "<a class=\"btn btn-dark\" href=detailsLaptop/"+itemsList[i].id+">" + "Подробнее" +"</a>";
+                        cardContent += "<a class=\"btn btn-dark\"  href=detailsLaptop/"+itemsList[i].id+">" + "Подробнее" +"</a>";
                     }else if (itemsList[i].categories.id==2){
-                        cardContent += "<a class=\"btn btn-dark\" href=detailsPhone/"+itemsList[i].id+">" + "Подробнее" +"</a>";
+                        cardContent += "<a class=\"btn btn-dark\"  href=detailsPhone/"+itemsList[i].id+">" + "Подробнее" +"</a>";
                     } else {
-                        cardContent += "<a class=\"btn btn-dark\" href=detailsItem/"+itemsList[i].id+">" + "Подробнее" +"</a>";
+                        cardContent += "<a class=\"btn btn-dark\"  href=detailsItem/"+itemsList[i].id+">" + "Подробнее" +"</a>";
                     }
                     cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+itemsList[i].id+"\")'>"+"В корзину"+"</button></button>";
                     cardContent += "</div>";
@@ -96,6 +102,18 @@
                         updateButtons('items');
                     });
             }
+            function loadItemsSearch() {
+                let query = document.getElementById("query").value;
+                fetch('/items/search?query=' + encodeURIComponent(query))
+                    .then(response => response.json())
+                    .then(itemsList => {
+                        const cardContent = generateCardContent(itemsList);
+                        // Add the generated content to the page
+                        document.querySelector('#cardContent').innerHTML = cardContent;
+                        updateButtons('items');
+                    });
+            }
+
             function loadCheap() {
                 fetch('/items/cheap')
                     .then(response => response.json())

@@ -3,6 +3,17 @@
       layout:decorate="/layout/main.html">
 <div layout:fragment="productsContent">
     <h1 class="text-center">Заказы</h1>
+
+        <input class="form-control me-2" type="search" placeholder="Search" id="search" aria-label="Search">
+        <button class="btn btn-outline-success mt-2" type="submit" onclick="loadSearchOrder()">Search</button>
+
+    <select class="form-control mt-3" onchange="loadOrderStatus(this.value)">;
+        <option value="4">Все заказы</option>";
+        <option value="0">Новые заказы</option>";
+        <option value="1">Обрабатываются</option>";
+        <option value="2">Купленные</option>";
+        <option value="3">Отмененные</option>";
+    </select>
     <div class="row" id="cardListBody">
 
     </div>
@@ -51,6 +62,99 @@
             }
             httpRequest.send();
         }
+        function loadSearchOrder() {
+            let query = document.getElementById("search").value;
+            const httpRequest = new XMLHttpRequest();
+            httpRequest.open("GET", "/orders/search?query=" + encodeURIComponent(query), true);
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+                    let ordersList = JSON.parse(httpRequest.responseText);
+                    let cardContent = "";
+                    for (let i = 0; i < ordersList.length; i++) {
+                        cardContent += "<div class=\"col-sm-12 mt-3\">";
+                        cardContent += "<div class=\"border border-dark p-3\">";
+                        cardContent += "<div class=\"d-flex justify-content-between\">";
+                        cardContent += "<select class=\"form-control\" onchange=\"updateOrderStatus(" + ordersList[i].id + ", this.value)\">";
+                        cardContent += "<option value=\"0\"" + (ordersList[i].status == 0 ? " selected" : "") + ">Новый заказ</option>";
+                        cardContent += "<option value=\"1\"" + (ordersList[i].status == 1 ? " selected" : "") + ">Обрабатывается</option>";
+                        cardContent += "<option value=\"2\"" + (ordersList[i].status == 2 ? " selected" : "") + ">Заказ куплен</option>";
+                        cardContent += "<option value=\"3\"" + (ordersList[i].status == 3 ? " selected" : "") + ">Отказались в покупке</option>";
+                        cardContent += "</select>";
+                        cardContent += "<div><strong>Total: " + ordersList[i].total + "</strong></div>";
+                        cardContent += "</div>";
+                        cardContent += "<h4 class=\"text-center bg-light\">Order #" + ordersList[i].id +"   Имя: " +ordersList[i].user.fullName+";   email: "+ordersList[i].user.email+ "; Телефон: "+ordersList[i].user.phone+"</h4>";
+                        cardContent += "<table class=\"table\">";
+                        cardContent += "<thead><tr><th>Model</th><th>Name</th><th>Price</th><th>Quantity</th></tr></thead>";
+                        cardContent += "<tbody>";
+                        for (let j = 0; j < ordersList[i].orderItems.length; j++) {
+                            let orderItem = ordersList[i].orderItems[j];
+                            cardContent += "<tr>";
+                            cardContent += "<td>" + orderItem.item.model.name + "</td>";
+                            cardContent += "<td>" + orderItem.item.name + "</td>";
+                            cardContent += "<td>" + orderItem.item.price + "</td>";
+                            cardContent += "<td>" + orderItem.quantity + "</td>";
+                            cardContent += "</tr>";
+                        }
+                        cardContent += "</tbody></table>";
+                        if (ordersList[i].status == 3 || ordersList[i].status == 2) {
+                            cardContent += "<div class=\"text-right\"><button class=\"btn btn-danger\" onclick='deleteOrder(" + ordersList[i].id + ")'>Удалить</button></div>";
+                        }
+                        cardContent += "</div></div>";
+                    }
+                    document.getElementById("cardListBody").innerHTML = cardContent;
+                }
+            }
+            httpRequest.send();
+        }
+        function loadOrderStatus(id) {
+            if (id==4){
+                loadOrder();
+            }else {
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/orders/status/"+id, true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+                        let ordersList = JSON.parse(httpRequest.responseText);
+                        let cardContent = "";
+                        for (let i = 0; i < ordersList.length; i++) {
+                            cardContent += "<div class=\"col-sm-12 mt-3\">";
+                            cardContent += "<div class=\"border border-dark p-3\">";
+                            cardContent += "<div class=\"d-flex justify-content-between\">";
+                            cardContent += "<select class=\"form-control\" onchange=\"updateOrderStatus(" + ordersList[i].id + ", this.value)\">";
+                            cardContent += "<option value=\"0\"" + (ordersList[i].status == 0 ? " selected" : "") + ">Новый заказ</option>";
+                            cardContent += "<option value=\"1\"" + (ordersList[i].status == 1 ? " selected" : "") + ">Обрабатывается</option>";
+                            cardContent += "<option value=\"2\"" + (ordersList[i].status == 2 ? " selected" : "") + ">Заказ куплен</option>";
+                            cardContent += "<option value=\"3\"" + (ordersList[i].status == 3 ? " selected" : "") + ">Отказались в покупке</option>";
+                            cardContent += "</select>";
+                            cardContent += "<div><strong>Total: " + ordersList[i].total + "</strong></div>";
+                            cardContent += "</div>";
+                            cardContent += "<h4 class=\"text-center bg-light\">Order #" + ordersList[i].id +"   Имя: " +ordersList[i].user.fullName+";   email: "+ordersList[i].user.email+ "; Телефон: "+ordersList[i].user.phone+"</h4>";
+                            cardContent += "<table class=\"table\">";
+                            cardContent += "<thead><tr><th>Model</th><th>Name</th><th>Price</th><th>Quantity</th></tr></thead>";
+                            cardContent += "<tbody>";
+                            for (let j = 0; j < ordersList[i].orderItems.length; j++) {
+                                let orderItem = ordersList[i].orderItems[j];
+                                cardContent += "<tr>";
+                                cardContent += "<td>" + orderItem.item.model.name + "</td>";
+                                cardContent += "<td>" + orderItem.item.name + "</td>";
+                                cardContent += "<td>" + orderItem.item.price + "</td>";
+                                cardContent += "<td>" + orderItem.quantity + "</td>";
+                                cardContent += "</tr>";
+                            }
+                            cardContent += "</tbody></table>";
+                            if (ordersList[i].status == 3 || ordersList[i].status == 2) {
+                                cardContent += "<div class=\"text-right\"><button class=\"btn btn-danger\" onclick='deleteOrder(" + ordersList[i].id + ")'>Удалить</button></div>";
+                            }
+                            cardContent += "</div></div>";
+                        }
+                        document.getElementById("cardListBody").innerHTML = cardContent;
+                    }
+                }
+                httpRequest.send();
+            }
+
+        }
+
 
 
         function deleteOrder(orderId) {

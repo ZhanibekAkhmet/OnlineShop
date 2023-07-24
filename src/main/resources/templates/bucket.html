@@ -12,6 +12,7 @@
 
     <input type="hidden"  th:value="${#authentication.principal.id}" id="user">
     <div class="row mt-2" >
+        <button class="btn btn-danger" onclick="deleteCart()">Удалить</button>
         <button class="btn btn-success" onclick="createOrderFromShoppingCart(document.getElementById('user').value)">Заказать</button>
     </div>
     <script>
@@ -92,6 +93,22 @@
             if(approve){
                 const httpRequest = new XMLHttpRequest();
                 httpRequest.open("DELETE", "/shopping-cart/delete/"+id, true);
+
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+                        loadCart();
+                    }
+                };
+                httpRequest.send();
+            }
+
+        }
+        function deleteCart(){
+            let approve = confirm("Вы уверены?");
+
+            if(approve){
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("DELETE", "/shopping-cart/delete", true);
 
                 httpRequest.onreadystatechange = function () {
                     if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
