@@ -2,6 +2,7 @@ package spring.security.security.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import spring.security.security.dto.DiagonalDto;
 import spring.security.security.model.Diagonal;
 import spring.security.security.model.Ozu;
 import spring.security.security.service.DiagonalService;
@@ -15,19 +16,19 @@ import java.util.List;
 public class DiagonalRestController {
     private final DiagonalService diagonalService;
     @GetMapping
-    public List<Diagonal> diagonalList(){
+    public List<DiagonalDto> diagonalList(){
         return diagonalService.getDiagonals();
     }
     @GetMapping(value = "{id}")
-    public Diagonal   getDiagonal(@PathVariable(name = "id") Long id){
+    public DiagonalDto   getDiagonal(@PathVariable(name = "id") Long id){
         return diagonalService.getDiagonal(id);
     }
     @PostMapping
-    public Diagonal addDiagonal(@RequestBody Diagonal diagonal){
+    public DiagonalDto addDiagonal(@RequestBody DiagonalDto diagonal){
         return diagonalService.addDiagonal(diagonal);
     }
     @PutMapping
-    public Diagonal editDiagonal(@RequestBody Diagonal diagonal){
+    public DiagonalDto editDiagonal(@RequestBody DiagonalDto diagonal){
         return diagonalService.editDiagonal(diagonal);
     }
     @DeleteMapping(value = "{id}")

@@ -38,4 +38,9 @@ public class adminController {
     public String addPhonePage(){
         return "addPhone";
     }
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping(value = "/addItems")
+    public String addItemsPage(){
+        return "addItems";
+    }
 }

@@ -19,10 +19,7 @@ public class HomeController {
     public String indexPage(){
         return "index";
     }
-    @GetMapping(value = "/addItems")
-    public String addItemsPage(){
-        return "addItems";
-    }
+
     @GetMapping(value = "/detailsLaptop/{id}")
     public String detailsPage(){
         return "details";

@@ -2,6 +2,8 @@ package spring.security.security.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import spring.security.security.dto.CategoriesDto;
+import spring.security.security.mapper.CategoriesMapper;
 import spring.security.security.model.Categories;
 import spring.security.security.model.Comment;
 import spring.security.security.repository.CategoriesRepository;
@@ -13,18 +15,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoriesService {
     private final CategoriesRepository categoriesRepository;
+    private final CategoriesMapper categoriesMapper;
 
-    public List<Categories> getCategories(){
-        return categoriesRepository.findAll();
+    public List<CategoriesDto> getCategories(){
+        return categoriesMapper.toDtoList(categoriesRepository.findAll());
     }
-    public Categories addCategories(Categories categories){
-        return categoriesRepository.save(categories);
+    public CategoriesDto addCategories(CategoriesDto categories){
+        return categoriesMapper.toDto(categoriesRepository.save(categoriesMapper.toModel(categories)));
     }
-    public Categories getCategory(Long id){
-        return categoriesRepository.findById(id).orElseThrow();
+    public CategoriesDto getCategory(Long id){
+        return categoriesMapper.toDto(categoriesRepository.findById(id).orElseThrow());
     }
-    public Categories editCategories(Categories categories){
-        return categoriesRepository.save(categories);
+    public CategoriesDto editCategories(CategoriesDto categories){
+        return categoriesMapper.toDto(categoriesRepository.save(categoriesMapper.toModel(categories)));
     }
     public void deleteCategories(Long id){
         categoriesRepository.deleteById(id);

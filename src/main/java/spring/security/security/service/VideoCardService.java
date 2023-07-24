@@ -2,6 +2,8 @@ package spring.security.security.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import spring.security.security.dto.VideoCardDto;
+import spring.security.security.mapper.VideoCardMapper;
 import spring.security.security.model.Laptop.VideoCard;
 import spring.security.security.repository.VideoCardRepository;
 
@@ -11,18 +13,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VideoCardService {
     private final VideoCardRepository videoCardRepository;
+    private final VideoCardMapper videoCardMapper;
 
-    public List<VideoCard> getVideoCards(){
-        return videoCardRepository.findAll();
+    public List<VideoCardDto> getVideoCards(){
+        return videoCardMapper.toDtoList(videoCardRepository.findAll());
     }
-    public VideoCard addVideoCard(VideoCard videoCard){
-        return videoCardRepository.save(videoCard);
+    public VideoCardDto addVideoCard(VideoCardDto videoCard){
+        return videoCardMapper.toDto(videoCardRepository.save(videoCardMapper.toModel(videoCard)));
     }
-    public VideoCard getVideoCard(Long id){
-        return videoCardRepository.findById(id).orElseThrow();
+    public VideoCardDto getVideoCard(Long id){
+        return videoCardMapper.toDto(videoCardRepository.findById(id).orElseThrow());
     }
-    public VideoCard editVideoCard(VideoCard videoCard){
-        return videoCardRepository.save(videoCard);
+    public VideoCardDto editVideoCard(VideoCardDto videoCard){
+        return videoCardMapper.toDto(videoCardRepository.save(videoCardMapper.toModel(videoCard)));
     }
     public void deleteVideoCard(Long id){
         videoCardRepository.deleteById(id);

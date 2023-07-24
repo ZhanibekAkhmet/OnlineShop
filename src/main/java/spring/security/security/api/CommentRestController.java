@@ -2,7 +2,7 @@ package spring.security.security.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import spring.security.security.model.Comment;
+import spring.security.security.dto.CommentDto;
 import spring.security.security.service.CommentService;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,20 +13,20 @@ import java.util.List;
 public class CommentRestController {
     private final CommentService commentService;
     @GetMapping(value = "/itemComment/{id}")
-    public List<Comment> comentModelList(@PathVariable(name = "id") Long id){
+    public List<CommentDto> comentModelList(@PathVariable(name = "id") Long id){
         return commentService.getComments(id);
     }
     @GetMapping(value = "{id}")
-    public Comment   getComment(@PathVariable(name = "id") Long id){
+    public CommentDto   getComment(@PathVariable(name = "id") Long id){
         return commentService.getNComment(id);
     }
     @PostMapping
-    public Comment addComment(@RequestBody Comment comment){
+    public CommentDto addComment(@RequestBody CommentDto comment){
         comment.setTime(LocalDateTime.now());
         return commentService.addComment(comment);
     }
     @PutMapping
-    public Comment editComment(@RequestBody Comment comment){
+    public CommentDto editComment(@RequestBody CommentDto comment){
         return commentService.editComment(comment);
     }
     @DeleteMapping(value = "{id}")

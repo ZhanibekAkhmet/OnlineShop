@@ -2,7 +2,7 @@ package spring.security.security.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import spring.security.security.model.Laptop.Processor;
+import spring.security.security.dto.ProcessorDto;
 import spring.security.security.service.ProcessorService;
 
 import java.util.List;
@@ -13,19 +13,19 @@ import java.util.List;
 public class ProcessorRestController {
     private final ProcessorService processorService;
     @GetMapping
-    public List<Processor> processList(){
+    public List<ProcessorDto> processList(){
         return processorService.getProcessors();
     }
     @GetMapping(value = "{id}")
-    public Processor   getProcessor(@PathVariable(name = "id") Long id){
+    public ProcessorDto   getProcessor(@PathVariable(name = "id") Long id){
         return processorService.getProcessor(id);
     }
     @PostMapping
-    public Processor addProcessor(@RequestBody Processor processor){
+    public ProcessorDto addProcessor(@RequestBody ProcessorDto processor){
         return processorService.addProcessor(processor);
     }
     @PutMapping
-    public Processor editProcessor(@RequestBody Processor processor){
+    public ProcessorDto editProcessor(@RequestBody ProcessorDto processor){
         return processorService.editProcessor(processor);
     }
     @DeleteMapping(value = "{id}")

@@ -2,6 +2,7 @@ package spring.security.security.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import spring.security.security.dto.OzuDto;
 import spring.security.security.model.Memory;
 import spring.security.security.model.Ozu;
 import spring.security.security.service.MemoryService;
@@ -15,19 +16,19 @@ import java.util.List;
 public class OzuRestController {
     private final OzuService ozuService;
     @GetMapping
-    public List<Ozu> ozuList(){
+    public List<OzuDto> ozuList(){
         return ozuService.getAllOzu();
     }
     @GetMapping(value = "{id}")
-    public Ozu   getOzu(@PathVariable(name = "id") Long id){
+    public OzuDto   getOzu(@PathVariable(name = "id") Long id){
         return ozuService.getOzu(id);
     }
     @PostMapping
-    public Ozu addOzu(@RequestBody Ozu ozu){
+    public OzuDto addOzu(@RequestBody OzuDto ozu){
         return ozuService.addOzu(ozu);
     }
     @PutMapping
-    public Ozu editOzu(@RequestBody Ozu ozu){
+    public OzuDto editOzu(@RequestBody OzuDto ozu){
         return ozuService.editOzu(ozu);
     }
     @DeleteMapping(value = "{id}")

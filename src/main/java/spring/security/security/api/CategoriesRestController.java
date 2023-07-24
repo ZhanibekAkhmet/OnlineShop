@@ -2,6 +2,7 @@ package spring.security.security.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import spring.security.security.dto.CategoriesDto;
 import spring.security.security.model.Categories;
 import spring.security.security.model.Laptop.Processor;
 import spring.security.security.service.CategoriesService;
@@ -15,19 +16,19 @@ import java.util.List;
 public class CategoriesRestController {
     private final CategoriesService categoriesService;
     @GetMapping
-    public List<Categories> categoriesList(){
+    public List<CategoriesDto> categoriesList(){
         return categoriesService.getCategories();
     }
     @GetMapping(value = "{id}")
-    public Categories   getCategory(@PathVariable(name = "id") Long id){
+    public CategoriesDto   getCategory(@PathVariable(name = "id") Long id){
         return categoriesService.getCategory(id);
     }
     @PostMapping
-    public Categories addCategory(@RequestBody Categories categories){
+    public CategoriesDto addCategory(@RequestBody CategoriesDto categories){
         return categoriesService.addCategories(categories);
     }
     @PutMapping
-    public Categories editCategory(@RequestBody Categories categories){
+    public CategoriesDto editCategory(@RequestBody CategoriesDto categories){
         return categoriesService.editCategories(categories);
     }
     @DeleteMapping(value = "{id}")

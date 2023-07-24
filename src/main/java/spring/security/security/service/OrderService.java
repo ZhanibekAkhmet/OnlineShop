@@ -3,6 +3,8 @@ package spring.security.security.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import spring.security.security.dto.OrderDto;
+import spring.security.security.mapper.OrderMapper;
 import spring.security.security.model.*;
 import spring.security.security.repository.OrderItemRepository;
 import spring.security.security.repository.OrderRepository;
@@ -13,14 +15,19 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
+
 public class OrderService {
     private final OrderRepository orderRepository;
+    @Autowired
+    private  OrderMapper orderMapper;
     @Autowired
     private  ShoppingCart shoppingCart;
     @Autowired
     private  UserRepository userRepository;
     @Autowired
     private  OrderItemRepository orderItemRepository;
+
+
 
     public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
@@ -29,7 +36,7 @@ public class OrderService {
 
 
     // In OrderService
-    public Order createOrderFromShoppingCart(Long userId) {
+    public OrderDto createOrderFromShoppingCart(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         List<Item> items = shoppingCart.getItems();
         List<OrderItem> orderItems = new ArrayList<>();
@@ -41,7 +48,7 @@ public class OrderService {
             orderItems.add(orderItem);
         }
 
-        Order order = new Order();
+        OrderDto order = new OrderDto();
         order.setUser(user);
         order.setOrderItems(orderItems);
         order.setTotal(shoppingCart.getTotal());
@@ -49,19 +56,19 @@ public class OrderService {
         order.setStatus(0);
 
         shoppingCart.clearCart();
-        return orderRepository.save(order);
+        return orderMapper.toDto(orderRepository.save(orderMapper.toModel(order)));
     }
-    public List<Order> getOrders() {
-        return orderRepository.findAll(Sort.by("createdDate"));
+    public List<OrderDto> getOrders() {
+        return orderMapper.toDtoList(orderRepository.findAll(Sort.by("createdDate")));
     }
-    public List<Order> getOrdersStatus(int statusId) {
-        return orderRepository.findAllByStatusOrderByCreatedDate(statusId);
+    public List<OrderDto> getOrdersStatus(int statusId) {
+        return orderMapper.toDtoList(orderRepository.findAllByStatusOrderByCreatedDate(statusId));
     }
-    public List<Order> getSearchOrder(String query) {
-        return orderRepository.findByUserEmailIgnoreCaseOrUserFullNameIgnoreCaseOrUserPhoneIgnoreCase(query,query,query);
+    public List<OrderDto> getSearchOrder(String query) {
+        return orderMapper.toDtoList(orderRepository.findByUserEmailIgnoreCaseOrUserFullNameIgnoreCaseOrUserPhoneIgnoreCase(query,query,query));
     }
-    public List<Order> getOrdersUser(Long id) {
-        return orderRepository.findAllByUserId(id);
+    public List<OrderDto> getOrdersUser(Long id) {
+        return orderMapper.toDtoList(orderRepository.findAllByUserId(id));
     }
     public List<OrderItem>getItems(){
         return orderItemRepository.findAll();
@@ -71,9 +78,9 @@ public class OrderService {
         orderRepository.deleteById(orderId);
     }
 
-    public Order updateOrderStatus(Long orderId, Integer status) {
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
+    public OrderDto updateOrderStatus(Long orderId, Integer status) {
+        OrderDto order = orderMapper.toDto(orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found")));
         order.setStatus(status);
-        return orderRepository.save(order);
+        return orderMapper.toDto(orderRepository.save(orderMapper.toModel(order)));
     }
 }

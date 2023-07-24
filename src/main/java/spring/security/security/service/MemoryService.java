@@ -2,10 +2,11 @@ package spring.security.security.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import spring.security.security.model.Memory;
-import spring.security.security.model.Phone.PhoneProcessor;
+import spring.security.security.dto.MemoryDto;
+import spring.security.security.mapper.MemoryMapper;
+
 import spring.security.security.repository.MemoryRepository;
-import spring.security.security.repository.PhoneProcessorRepository;
+
 
 import java.util.List;
 
@@ -13,18 +14,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemoryService {
     private final MemoryRepository memoryRepository;
+    private final MemoryMapper memoryMapper;
 
-    public List<Memory> getMemories(){
-        return memoryRepository.findAll();
+    public List<MemoryDto> getMemories(){
+        return memoryMapper.toDtoList(memoryRepository.findAll());
     }
-    public Memory addMemory(Memory memory){
-        return memoryRepository.save(memory);
+    public MemoryDto addMemory(MemoryDto memory){
+        return memoryMapper.toDto(memoryRepository.save(memoryMapper.toModel(memory)));
     }
-    public Memory getMemory(Long id){
-        return memoryRepository.findById(id).orElseThrow();
+    public MemoryDto getMemory(Long id){
+        return memoryMapper.toDto(memoryRepository.findById(id).orElseThrow());
     }
-    public Memory editMemory(Memory memory){
-        return memoryRepository.save(memory);
+    public MemoryDto editMemory(MemoryDto memory){
+        return memoryMapper.toDto(memoryRepository.save(memoryMapper.toModel(memory)));
     }
     public void deleteMemory(Long id){
         memoryRepository.deleteById(id);

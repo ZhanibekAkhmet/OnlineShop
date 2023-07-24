@@ -2,6 +2,7 @@ package spring.security.security.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import spring.security.security.dto.MemoryDto;
 import spring.security.security.model.Memory;
 import spring.security.security.service.MemoryService;
 
@@ -13,19 +14,19 @@ import java.util.List;
 public class MemoryRestController {
     private final MemoryService memoryService;
     @GetMapping
-    public List<Memory> memoryList(){
+    public List<MemoryDto> memoryList(){
         return memoryService.getMemories();
     }
     @GetMapping(value = "{id}")
-    public Memory   getMemory(@PathVariable(name = "id") Long id){
+    public MemoryDto   getMemory(@PathVariable(name = "id") Long id){
         return memoryService.getMemory(id);
     }
     @PostMapping
-    public Memory addMemory(@RequestBody Memory memory){
+    public MemoryDto addMemory(@RequestBody MemoryDto memory){
         return memoryService.addMemory(memory);
     }
     @PutMapping
-    public Memory editMemory(@RequestBody Memory memory){
+    public MemoryDto editMemory(@RequestBody MemoryDto memory){
         return memoryService.editMemory(memory);
     }
     @DeleteMapping(value = "{id}")
