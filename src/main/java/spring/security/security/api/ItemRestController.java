@@ -1,13 +1,20 @@
 package spring.security.security.api;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 import spring.security.security.dto.ItemDto;
 import spring.security.security.dto.LaptopDto;
 import spring.security.security.service.ItemService;
 import spring.security.security.service.UploadImageService;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -16,6 +23,8 @@ import java.util.List;
 public class ItemRestController {
     private final ItemService itemService;
     private final UploadImageService uploadImageService;
+    @Value("${uploadURL}")
+    private String fileUploadURL;
     @GetMapping
     public List<ItemDto> itemdList(){
         return itemService.getItems();
@@ -69,6 +78,25 @@ public class ItemRestController {
                          @RequestParam(name = "id") Long id){
             uploadImageService.UploadPicture(file,id);
     }
+    @GetMapping(value = "/itemImage/{url}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] avatar(@PathVariable(name = "url", required = false) String url) throws IOException {
+
+        String picURL = fileUploadURL + "default.jpg";
+        if(url!=null){
+            picURL = fileUploadURL + url;
+        }
+        InputStream in;
+        try{
+            ClassPathResource classPathResource = new ClassPathResource(picURL);
+            in = classPathResource.getInputStream();
+        }catch (Exception e){
+            picURL = fileUploadURL + "default.jpg";
+            ClassPathResource classPathResource = new ClassPathResource(picURL);
+            in = classPathResource.getInputStream();
+        }
+
+        return IOUtils.toByteArray(in);
+    }
 
     @PostMapping
     public ItemDto addItemDto(@RequestBody ItemDto itemDto){
@@ -80,6 +108,13 @@ public class ItemRestController {
     }
     @DeleteMapping(value = "{id}")
     public void deleteItemDto(@PathVariable(name = "id")Long id){
+
         itemService.deleteItem(id);
+
     }
+//    @DeleteMapping(value = "{id}")
+//    public RedirectView deleteItemDto(@PathVariable(name = "id") Long id) {
+//    itemService.deleteItem(id);
+//    return new RedirectView("/");
+
 }

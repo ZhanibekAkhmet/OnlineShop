@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import spring.security.security.dto.PhoneDto;
 //import spring.security.security.mapper.NotebookMapperImpl;
 import spring.security.security.mapper.PhoneMapperImpl;
+import spring.security.security.model.Item;
 import spring.security.security.model.Phone.Phone;
 import spring.security.security.repository.CommentRepository;
 import spring.security.security.repository.ItemRepository;
@@ -41,9 +42,20 @@ public class PhoneService {
         return phoneMapper.toDto(phoneRepository.save(phoneMapper.toModel(phoneDto))) ;
     }
     public void deletePhone(Long id){
-        Long itemId = getPhone(id).getItem().getId();
-        commentRepository.deleteByItem_Id(itemId);
-        phoneRepository.deleteById(id);
+        PhoneDto phone = getPhone(id);
+//        if (phone != null) {
+//
+//        }
+        try {
+            Item item = phone.getItem();
+            if (item != null) {
+                Long itemId = item.getId();
+                commentRepository.deleteByItem_Id(itemId);
+            }
+            phoneRepository.deleteById(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

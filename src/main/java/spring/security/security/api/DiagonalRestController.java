@@ -3,10 +3,7 @@ package spring.security.security.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import spring.security.security.dto.DiagonalDto;
-import spring.security.security.model.Diagonal;
-import spring.security.security.model.Ozu;
 import spring.security.security.service.DiagonalService;
-import spring.security.security.service.OzuService;
 
 import java.util.List;
 

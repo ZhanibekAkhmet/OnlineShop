@@ -11,9 +11,11 @@
     </div>
 
     <input type="hidden"  th:value="${#authentication.principal.id}" id="user">
-    <div class="row mt-2" >
-        <button class="btn btn-danger" onclick="deleteCart()">Удалить</button>
-        <button class="btn btn-success" onclick="createOrderFromShoppingCart(document.getElementById('user').value)">Заказать</button>
+    <div class="row">
+        <div class="mt-2 d-flex justify-content-lg-start">
+            <button class="btn btn-success m-lg-2" onclick="createOrderFromShoppingCart(document.getElementById('user').value)">Заказать</button>
+            <button class="btn btn-danger m-lg-2" onclick="deleteCart()">Очистить корзину</button>
+        </div>
     </div>
     <script>
         loadCart();
@@ -31,15 +33,15 @@
                         let price = item.price*quantity;
                         cardContent += "<div class=\"col-sm-4 mt-3\">";
                         cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
-                        cardContent += "<img src='/images/" + item.image + "' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
+                        cardContent += "<img src='/items/itemImage/" + item.image + "' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
                         cardContent += "<h4 class=\"text-center bg-light\">" + item.model.name + " " + item.name + "</h4>";
                         cardContent += "<div>";
                         cardContent += "<p class=\"card-text text-center\">" + item.description + "</p>";
                         cardContent += "<h5 class=\"card-title text-center\">" + price + " тенге" + "</h5>";
                         cardContent += "<h5 class=\"card-title text-center\">Количество: " + quantity + "</h5>";
-                        cardContent += "<button class='btn btn-danger' onclick='deleteItem(\"" + item.id + "\")'>Удалить</button>";
-                        cardContent += "<button class='btn btn-danger' onclick='removeItem(\"" + item.id + "\")'>-</button>";
-                        cardContent += "<button class='btn btn-primary' onclick='addBucketItem(\"" + item.id + "\")'>+</button>";
+                        cardContent += "<button class='btn btn-danger m-lg-2' onclick='deleteItem(\"" + item.id + "\")'>Удалить</button>";
+                        cardContent += "<button class='btn btn-danger m-lg-2' onclick='removeItem(\"" + item.id + "\")'>-</button>";
+                        cardContent += "<button class='btn btn-primary m-lg-2' onclick='addBucketItem(\"" + item.id + "\")'>+</button>";
                         cardContent += "</div>";
                         cardContent += "</div>";
                         cardContent += "</div>";
@@ -130,18 +132,34 @@
             };
             httpRequest.send();
         }
+        // function createOrderFromShoppingCart(userId) {
+        //     const httpRequest = new XMLHttpRequest();
+        //     httpRequest.open("POST", "/orders?userId=" + userId, true);
+        //     httpRequest.onreadystatechange = function () {
+        //         if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 201) {
+        //             console.log("Order created successfully");
+        //             alert("Ваш заказ создан, статус вашего заказа вы можете посмотреть в вашем личном кабинете.")
+        //             loadCart();
+        //         }
+        //     }
+        //     httpRequest.send();
+        // }
         function createOrderFromShoppingCart(userId) {
             const httpRequest = new XMLHttpRequest();
             httpRequest.open("POST", "/orders?userId=" + userId, true);
             httpRequest.onreadystatechange = function () {
-                if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 201) {
-                    console.log("Order created successfully");
-                    alert("Ваш заказ создан, статус вашего заказа вы можете посмотреть в вашем личном кабинете.")
-                    loadCart();
+                if (httpRequest.readyState == XMLHttpRequest.DONE) {
+                    if (httpRequest.status == 201) {
+                        console.log("Order created successfully");
+                        alert("Ваш заказ создан, статус вашего заказа вы можете посмотреть в вашем личном кабинете.");
+                        loadCart();
+                    } else if (httpRequest.status == 400) {
+                        alert("Корзина пуста");
+                    }
                 }
             }
             httpRequest.send();
         }
-    </script>
+    </script
 </div>
 </html>

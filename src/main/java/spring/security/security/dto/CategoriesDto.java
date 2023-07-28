@@ -1,5 +1,6 @@
 package spring.security.security.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

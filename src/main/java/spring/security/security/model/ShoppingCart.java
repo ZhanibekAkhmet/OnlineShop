@@ -18,8 +18,6 @@ public class ShoppingCart {
     private Map<Long, Item> itemMap;
     private Map<Long, Integer> itemQuantityMap;
 
-    @Autowired
-    private ItemRepository itemRepository;
 
     public ShoppingCart() {
         this.itemMap = new HashMap<>();

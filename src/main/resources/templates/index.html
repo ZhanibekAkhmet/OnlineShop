@@ -52,20 +52,20 @@
                 for (let i = 0; i < itemsList.length; i++) {
                     cardContent += "<div class=\"col-sm-4 mt-3\">";
                     cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
-                    cardContent += "<img src='/images/"+itemsList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
+                    cardContent += "<img src='/items/itemImage/"+itemsList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
 
                     cardContent += "<h4 class=\"text-center bg-light\">"+itemsList[i].model.name+" "+ itemsList[i].name+ "</h4>";
                     cardContent += "<div>";
                     cardContent += "<p class=\"card-text text-center\">" + itemsList[i].description + "</p>";
                     cardContent += "<h5 class=\"card-title text-center\">" + itemsList[i].price +" тенге" +"</h5>";
                     if (itemsList[i].categories.id==1){
-                        cardContent += "<a class=\"btn btn-dark\"  href=detailsLaptop/"+itemsList[i].id+">" + "Подробнее" +"</a>";
+                        cardContent += "<a class=\"btn btn-dark m-lg-2\"  href=detailsLaptop/"+itemsList[i].id+">" + "Подробнее" +"</a>";
                     }else if (itemsList[i].categories.id==2){
-                        cardContent += "<a class=\"btn btn-dark\"  href=detailsPhone/"+itemsList[i].id+">" + "Подробнее" +"</a>";
+                        cardContent += "<a class=\"btn btn-dark m-lg-2\"  href=detailsPhone/"+itemsList[i].id+">" + "Подробнее" +"</a>";
                     } else {
-                        cardContent += "<a class=\"btn btn-dark\"  href=detailsItem/"+itemsList[i].id+">" + "Подробнее" +"</a>";
+                        cardContent += "<a class=\"btn btn-dark m-lg-2\"  href=detailsItem/"+itemsList[i].id+">" + "Подробнее" +"</a>";
                     }
-                    cardContent += "<button class='btn btn-primary' onclick='addBucket(\""+itemsList[i].id+"\")'>"+"В корзину"+"</button></button>";
+                    cardContent += "<button class='btn btn-primary m-lg-2' onclick='addBucket(\""+itemsList[i].id+"\")'>"+"В корзину"+"</button></button>";
                     cardContent += "</div>";
                     cardContent += "</div>";
                     cardContent += "</div>";

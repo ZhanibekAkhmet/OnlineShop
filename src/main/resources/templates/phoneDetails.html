@@ -5,6 +5,7 @@
 <div layout:fragment="productsContent">
     <div class="row mb-3" >
         <div class="row">
+            <div class="mt-2 d-flex justify-content-lg-end" id="quantityListBody"></div>
             <div class="col-sm-6">
                 <div id="imgListBody">
 
@@ -13,10 +14,15 @@
 
                 </div>
             </div>
-            <div class="col-sm-6" >
-                <div class="row" id="userListBody" >
+            <div class="col-sm-6 mt-3" >
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row" id="userListBody" >
 
+                        </div>
+                    </div>
                 </div>
+
                 <button type="button" sec:authorize="hasAnyRole('ROLE_ADMIN')" class="btn btn-primary mb-2 me-2 mt-2" style="width: 150px" data-bs-toggle="modal" data-bs-target="#editModal" >
                     Редактировать
                 </button>
@@ -28,13 +34,21 @@
                 <label class="form-label">Коментарий:</label>
                 <input type="hidden" th:value="${#authentication.principal.fullName}" id="user">
                 <textarea class="form-control" id="comment" rows="3"></textarea>
-                <button class="btn btn-primary" onclick="addComment()">Отправить</button>
+                <button class="btn btn-primary mt-2" onclick="addComment()">Отправить</button>
             </div>
         </div>
-        <h3 class="mt-3">Отзывы: </h3>
-        <div class="row mt-3" id="CommentsListBody">
+        <div class="row">
+                <div class="card mb-4">
+                    <h4 class="mt-3">Отзывы: </h4>
+                    <div class="card-body">
 
+                        <div class="row mt-3" id="CommentsListBody">
+
+                        </div>
+                    </div>
+            </div>
         </div>
+
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -60,6 +74,7 @@
             loadNotebooks();
             loadProcessor();
             loadNotebookModel();
+            loadQuantity();
 
             function loadNotebooks() {
                 const httpRequest = new XMLHttpRequest();
@@ -96,7 +111,10 @@
                         userContent += "<h5>"+notebookList.item.weight+" " +"грамм"+"</h5>";
                         userContent += "<label >Цена:</label>";
                         userContent += "<h5>"+notebookList.item.price+"</h5>";
-                        imgContent += "<img src='/images/" + notebookList.item.image + "' class='card-img-top img-fluid' style='width: 500px; height: 400px'>";
+                        userContent += "<div class=\"mt-2 d-flex justify-content-lg-start\" >";
+                        userContent += "<button class='btn btn-primary ' onclick='addBucket(\""+notebookList.item.id+"\")'>"+"В корзину"+"</button></button>";
+                        userContent += "</div>";
+                        imgContent += "<img src='/items/itemImage/" + notebookList.item.image + "' class='card-img-top img-fluid' style='width: 500px; height: 400px'>";
                         imgContent += "<h4 class=' mt-2'>"+"Название: "+"</h4>";
                         imgContent += "<h2 class=' mt-2'>"+notebookList.item.model.name+" "+notebookList.item.name+"</h2>";
                         imgContent += "<label >Описание:</label>";
@@ -150,7 +168,7 @@
                         cardContent += "<label >sim:</label>";
                         cardContent += "<input class='form-control' type='number' id='sim' value='"+notebookList.sim+"'>";
                         cardContent += "<div class=\"row mt-3\">";
-                        cardContent += "<div class=\"col-12\">";
+                        cardContent += "<div class=\"col-12 \">";
                         cardContent += "<button class=\"btn btn-success\" onclick='editLaptop()'>Редактировать</button>";
                         cardContent += "<button class=\"btn btn-danger\" onclick='deleteLaptop()'>Удалить</button>";
                         cardContent += "</div></div>";
@@ -281,12 +299,14 @@
                         let CommentsList = JSON.parse(httpRequest.responseText);
 
                         let CommentsContent = "";
-
                         for (let i = 0; i < CommentsList.length; i++) {
-
+                            const trimmedTime = CommentsList[i].time.slice(0, 10);
                             CommentsContent += "<div class=\"row\">"
                                 CommentsContent += "<div class=\"mb-3\">"
-                                CommentsContent +=  "<label class=\"form-label\">"+CommentsList[i].userN+" :"+"</label>"
+                                CommentsContent +=  "<label class=\"form-label\">"+CommentsList[i].userN+" : "+"</label>"
+                                CommentsContent += "<div class=\"mb-3\">"
+                                CommentsContent +=  "<label class=\"form-label\">"+trimmedTime+" "+"</label>"
+                                CommentsContent +=  "</div>";
                                 CommentsContent +=  "<textarea class=\"form-control\" rows=\"3\">"+CommentsList[i].text+"</textarea>"
                                 CommentsContent +=  "</div>";
                                 CommentsContent +=  "</div>";
@@ -368,8 +388,11 @@
                     httpRequest.open("DELETE", "/phone/"+Id, true);
 
                     httpRequest.onreadystatechange = function () {
-                        if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
-                           alert("Смартфон удален");
+                        if (httpRequest.status == 200) {
+                            alert("Товар удален");
+                            window.location.href = "http://localhost:8888/";
+                        } else if (httpRequest.status == 500 ) {
+                            alert("Перед удалением удалите заказы с этим товаром");
                         }
                     };
 
@@ -408,6 +431,31 @@
                 };
                 req.open('POST', 'http://localhost:8888/items/upload');
                 req.send(formData);
+            }
+            function addBucket(id) {
+                let req = new XMLHttpRequest();
+                req.onload = function () {
+                    loadQuantity()
+                }
+                req.open("POST", "http://localhost:8888/shopping-cart/add/"+id)
+                req.setRequestHeader("Content-type", "application/json")
+                req.send()
+            }
+            function loadQuantity() {
+
+                const httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", "/shopping-cart/quantity", true);
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                        let cartList = httpRequest.responseText;
+                        let cardContent = "";
+                        cardContent += "<a class='btn btn-primary' href='/bucket'>"+"Корзина "+cartList+"</a>";
+
+                        document.getElementById("quantityListBody").innerHTML = cardContent;
+                    }
+                }
+                httpRequest.send();
             }
         </script>
 

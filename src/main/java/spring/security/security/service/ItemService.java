@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemService {
     private final ItemRepository itemRepository;
-    public final ItemMapperImpl itemMapper;
+    public final ItemMapper itemMapper;
     private final CommentRepository commentRepository;
 
     public List<ItemDto> getItems(){

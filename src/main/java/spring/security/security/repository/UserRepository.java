@@ -9,5 +9,5 @@ import spring.security.security.model.User;
 @Transactional
 public interface UserRepository extends JpaRepository<User,Long>{
     User findByEmail(String email);
-    User findByFullName(String fullName);
+//    User findByFullName(String fullName);
 }

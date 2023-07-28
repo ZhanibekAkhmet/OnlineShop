@@ -19,11 +19,20 @@ public class OrderRestController {
     private  OrderService orderService;
     @Autowired
     private ItemRepository itemRepository;
-    @PostMapping
-    public ResponseEntity<OrderDto> createOrderFromShoppingCart(@RequestParam Long userId) {
-        OrderDto order = orderService.createOrderFromShoppingCart(userId);
+//    @PostMapping
+//    public ResponseEntity<OrderDto> createOrderFromShoppingCart(@RequestParam Long userId) {
+//        OrderDto order = orderService.createOrderFromShoppingCart(userId);
+//        return new ResponseEntity<>(order, HttpStatus.CREATED);
+//    }
+@PostMapping
+public ResponseEntity<OrderDto> createOrderFromShoppingCart(@RequestParam Long userId) {
+    OrderDto order = orderService.createOrderFromShoppingCart(userId);
+    if (order == null) {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    } else {
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
+}
     @GetMapping
     public ResponseEntity<List<OrderDto>> getOrders() {
         List<OrderDto> orders = orderService.getOrders();
