@@ -5,6 +5,7 @@
     <h1 class="text-center">HELLO <span th:text="${#authentication.principal.fullName}"></span></h1>
     <input type="hidden" th:value="${#authentication.principal.id}" id="userID">
     <div class="row" id="cardListBody"></div>
+
     <script>
         loadOrder()
         function loadOrder() {

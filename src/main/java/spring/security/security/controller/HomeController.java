@@ -91,6 +91,26 @@ public class HomeController {
                     return "redirect:/update-password-page?passwordmismatch";
                 }
     }
+    @PostMapping(value = "/to-update-profile")
+    public String toUpdateProfile(@RequestParam(name = "user_password") String password,
+                                    @RequestParam(name = "user_email_name") String new_email_name,
+                                    @RequestParam(name = "user_full_name") String new_full_name,
+                                   @RequestParam(name = "user_phone_number") String new_phone,
+                                  @RequestParam(name = "id")Long id){
+        User user = new User();
+        user.setFullName(new_full_name);
+        user.setPhone(new_phone);
+        user.setId(id);
+        user.setPassword(password);
+        user.setEmail(new_email_name);
+        userService.saveUser(user);
+        return "redirect:/to-do-update-profile";
+    }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping  (value = "/to-do-update-profile")
+    public String updateProfile(){
+        return "update-profile";
+    }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping  (value = "/bucket")

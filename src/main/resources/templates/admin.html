@@ -36,22 +36,23 @@
                         cardContent += "<option value=\"2\"" + (ordersList[i].status == 2 ? " selected" : "") + ">Заказ куплен</option>";
                         cardContent += "<option value=\"3\"" + (ordersList[i].status == 3 ? " selected" : "") + ">Отказались в покупке</option>";
                         cardContent += "</select>";
-                        cardContent += "<div><strong>Total: " + ordersList[i].total + "</strong></div>";
+                        cardContent += "<div><strong>Сумма: " + ordersList[i].total +" "+"тенге "+"</strong></div>";
                         cardContent += "</div>";
-                        cardContent += "<h4 class=\"text-center bg-light\">Order #" + ordersList[i].id +"   Имя: " +ordersList[i].user.fullName+";   email: "+ordersList[i].user.email+ "; Телефон: "+ordersList[i].user.phone+"</h4>";
+                        cardContent += "<h4 class=\"text-center bg-light\">Номер заказа #" + ordersList[i].id +"   Имя: " +ordersList[i].user.fullName+";   email: "+ordersList[i].user.email+ "; Телефон: "+ordersList[i].user.phone+"</h4>";
                         cardContent += "<table class=\"table\">";
-                        cardContent += "<thead><tr><th>Model</th><th>Name</th><th>Price</th><th>Quantity</th></tr></thead>";
+                        cardContent += "<thead><tr><th>Бренд</th><th>Название</th><th>Цена</th><th>Количество</th></tr></thead>";
                         cardContent += "<tbody>";
                         for (let j = 0; j < ordersList[i].orderItems.length; j++) {
                             let orderItem = ordersList[i].orderItems[j];
                             cardContent += "<tr>";
                             cardContent += "<td>" + orderItem.item.model.name + "</td>";
                             cardContent += "<td>" + orderItem.item.name + "</td>";
-                            cardContent += "<td>" + orderItem.item.price + "</td>";
+                            cardContent += "<td>" + orderItem.item.price +" "+"тенге "+"</td>";
                             cardContent += "<td>" + orderItem.quantity + "</td>";
                             cardContent += "</tr>";
                         }
                         cardContent += "</tbody></table>";
+                        cardContent += "<div><h6 class='text-sm-end'>"+ordersList[i].createdDate+"</h6></div>";
                         if (ordersList[i].status == 3 || ordersList[i].status == 2) {
                             cardContent += "<div class=\"text-right\"><button class=\"btn btn-danger\" onclick='deleteOrder(" + ordersList[i].id + ")'>Удалить</button></div>";
                         }
@@ -80,22 +81,23 @@
                         cardContent += "<option value=\"2\"" + (ordersList[i].status == 2 ? " selected" : "") + ">Заказ куплен</option>";
                         cardContent += "<option value=\"3\"" + (ordersList[i].status == 3 ? " selected" : "") + ">Отказались в покупке</option>";
                         cardContent += "</select>";
-                        cardContent += "<div><strong>Total: " + ordersList[i].total + "</strong></div>";
+                        cardContent += "<div><strong>Сумма: " + ordersList[i].total +" "+"тенге"+ "</strong></div>";
                         cardContent += "</div>";
-                        cardContent += "<h4 class=\"text-center bg-light\">Order #" + ordersList[i].id +"   Имя: " +ordersList[i].user.fullName+";   email: "+ordersList[i].user.email+ "; Телефон: "+ordersList[i].user.phone+"</h4>";
+                        cardContent += "<h4 class=\"text-center bg-light\">Номер заказа #" + ordersList[i].id +"   Имя: " +ordersList[i].user.fullName+";   email: "+ordersList[i].user.email+ "; Телефон: "+ordersList[i].user.phone+"</h4>";
                         cardContent += "<table class=\"table\">";
-                        cardContent += "<thead><tr><th>Model</th><th>Name</th><th>Price</th><th>Quantity</th></tr></thead>";
+                        cardContent += "<thead><tr><th>Бренд</th><th>Название</th><th>Цена</th><th>Количество</th></tr></thead>";
                         cardContent += "<tbody>";
                         for (let j = 0; j < ordersList[i].orderItems.length; j++) {
                             let orderItem = ordersList[i].orderItems[j];
                             cardContent += "<tr>";
                             cardContent += "<td>" + orderItem.item.model.name + "</td>";
                             cardContent += "<td>" + orderItem.item.name + "</td>";
-                            cardContent += "<td>" + orderItem.item.price + "</td>";
+                            cardContent += "<td>" + orderItem.item.price +" "+"тенге "+ "</td>";
                             cardContent += "<td>" + orderItem.quantity + "</td>";
                             cardContent += "</tr>";
                         }
                         cardContent += "</tbody></table>";
+                        cardContent += "<div><h6 class='text-sm-end'>"+ordersList[i].createdDate+"</h6></div>";
                         if (ordersList[i].status == 3 || ordersList[i].status == 2) {
                             cardContent += "<div class=\"text-right\"><button class=\"btn btn-danger\" onclick='deleteOrder(" + ordersList[i].id + ")'>Удалить</button></div>";
                         }
@@ -126,22 +128,23 @@
                             cardContent += "<option value=\"2\"" + (ordersList[i].status == 2 ? " selected" : "") + ">Заказ куплен</option>";
                             cardContent += "<option value=\"3\"" + (ordersList[i].status == 3 ? " selected" : "") + ">Отказались в покупке</option>";
                             cardContent += "</select>";
-                            cardContent += "<div><strong>Total: " + ordersList[i].total + "</strong></div>";
+                            cardContent += "<div><strong>Сумма: " + ordersList[i].total + " "+"тенге "+"</strong></div>";
                             cardContent += "</div>";
-                            cardContent += "<h4 class=\"text-center bg-light\">Order #" + ordersList[i].id +"   Имя: " +ordersList[i].user.fullName+";   email: "+ordersList[i].user.email+ "; Телефон: "+ordersList[i].user.phone+"</h4>";
+                            cardContent += "<h4 class=\"text-center bg-light\">Номер заявки #" + ordersList[i].id +"   Имя: " +ordersList[i].user.fullName+";   email: "+ordersList[i].user.email+ "; Телефон: "+ordersList[i].user.phone+"</h4>";
                             cardContent += "<table class=\"table\">";
-                            cardContent += "<thead><tr><th>Model</th><th>Name</th><th>Price</th><th>Quantity</th></tr></thead>";
+                            cardContent += "<thead><tr><th>Бренд</th><th>Название</th><th>Цена</th><th>Количество</th></tr></thead>";
                             cardContent += "<tbody>";
                             for (let j = 0; j < ordersList[i].orderItems.length; j++) {
                                 let orderItem = ordersList[i].orderItems[j];
                                 cardContent += "<tr>";
                                 cardContent += "<td>" + orderItem.item.model.name + "</td>";
                                 cardContent += "<td>" + orderItem.item.name + "</td>";
-                                cardContent += "<td>" + orderItem.item.price + "</td>";
+                                cardContent += "<td>" + orderItem.item.price +" "+"тенге "+"</td>";
                                 cardContent += "<td>" + orderItem.quantity + "</td>";
                                 cardContent += "</tr>";
                             }
                             cardContent += "</tbody></table>";
+                            cardContent += "<div><h6 class='text-sm-end'>"+ordersList[i].createdDate+"</h6></div>";
                             if (ordersList[i].status == 3 || ordersList[i].status == 2) {
                                 cardContent += "<div class=\"text-right\"><button class=\"btn btn-danger\" onclick='deleteOrder(" + ordersList[i].id + ")'>Удалить</button></div>";
                             }

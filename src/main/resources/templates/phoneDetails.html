@@ -37,7 +37,7 @@
                 <button class="btn btn-primary mt-2" onclick="addComment()">Отправить</button>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-3">
                 <div class="card mb-4">
                     <h4 class="mt-3">Отзывы: </h4>
                     <div class="card-body">
@@ -94,15 +94,15 @@
                         userContent += "<label >Диагональ:</label>";
                         userContent += "<h5>"+notebookList.diagonal.diagonal+"</h5>";
                         userContent += "<label >Объем жесткого диска:</label>";
-                        userContent += "<h5>"+notebookList.memory.memory+"</h5>";
+                        userContent += "<h5>"+notebookList.memory.memory+" "+"ГБ"+"</h5>";
                         userContent += "<label >Объем опретивной памяти:</label>";
-                        userContent += "<h5>"+notebookList.ozu.ozu+"</h5>";
+                        userContent += "<h5>"+notebookList.ozu.ozu+" "+"ГБ"+"</h5>";
                         userContent += "<label >Операционная система:</label>";
                         userContent += "<h5>"+notebookList.os+"</h5>";
                         userContent += "<label >Основаня камера:</label>";
-                        userContent += "<h5>"+notebookList.photo+"</h5>";
+                        userContent += "<h5>"+notebookList.photo+" "+"мегапикселей"+"</h5>";
                         userContent += "<label >Фронтальная камера:</label>";
-                        userContent += "<h5>"+notebookList.frontPhoto+"</h5>";
+                        userContent += "<h5>"+notebookList.frontPhoto+" "+"мегапикселей"+"</h5>";
                         userContent += "<label >Количество SIM:</label>";
                         userContent += "<h5>"+notebookList.sim+"</h5>";
                         userContent += "<label >Цвет:</label>";
@@ -110,7 +110,7 @@
                         userContent += "<label >Вес:</label>";
                         userContent += "<h5>"+notebookList.item.weight+" " +"грамм"+"</h5>";
                         userContent += "<label >Цена:</label>";
-                        userContent += "<h5>"+notebookList.item.price+"</h5>";
+                        userContent += "<h5>"+notebookList.item.price+" "+"тенге"+"</h5>";
                         userContent += "<div class=\"mt-2 d-flex justify-content-lg-start\" >";
                         userContent += "<button class='btn btn-primary ' onclick='addBucket(\""+notebookList.item.id+"\")'>"+"В корзину"+"</button></button>";
                         userContent += "</div>";
@@ -118,7 +118,7 @@
                         imgContent += "<h4 class=' mt-2'>"+"Название: "+"</h4>";
                         imgContent += "<h2 class=' mt-2'>"+notebookList.item.model.name+" "+notebookList.item.name+"</h2>";
                         imgContent += "<label >Описание:</label>";
-                        imgContent += "<textarea class='form-control' readonly>"+notebookList.item.description+"</textarea>";
+                        imgContent += "<textarea class='form-control' rows='5' readonly>"+notebookList.item.description+"</textarea>";
                         uploadContent += "<div class=\"mb-3 mt-3\" >";
                         uploadContent += "<input class=\"form-control\" type=\"file\" id=\"image\">";
                         uploadContent += "</div>";

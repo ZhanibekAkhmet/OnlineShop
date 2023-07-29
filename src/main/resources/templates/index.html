@@ -52,11 +52,11 @@
                 for (let i = 0; i < itemsList.length; i++) {
                     cardContent += "<div class=\"col-sm-4 mt-3\">";
                     cardContent += "<div class=\"card\" style=\"width: 18rem;\">";
-                    cardContent += "<img src='/items/itemImage/"+itemsList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 200px'>";
+                    cardContent += "<img src='/items/itemImage/"+itemsList[i].image+"' class='card-img-top img-fluid' style='width: 300px; height: 250px'>";
 
                     cardContent += "<h4 class=\"text-center bg-light\">"+itemsList[i].model.name+" "+ itemsList[i].name+ "</h4>";
                     cardContent += "<div>";
-                    cardContent += "<p class=\"card-text text-center\">" + itemsList[i].description + "</p>";
+                    // cardContent += "<p class=\"card-text text-center\">" + itemsList[i].description + "</p>";
                     cardContent += "<h5 class=\"card-title text-center\">" + itemsList[i].price +" тенге" +"</h5>";
                     if (itemsList[i].categories.id==1){
                         cardContent += "<a class=\"btn btn-dark m-lg-2\"  href=detailsLaptop/"+itemsList[i].id+">" + "Подробнее" +"</a>";
