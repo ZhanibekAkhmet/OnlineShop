@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   backend:
-    image: 'techboot-docker-iso'
+    image: 'zhanibekakhmet/onlineshop-final'
     container_name: 'self-generated-backend-container'
     depends_on:
       - pgdb
