@@ -3,7 +3,6 @@ package spring.security.security.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import spring.security.security.dto.VideoCardDto;
-import spring.security.security.model.Laptop.VideoCard;
 import spring.security.security.service.VideoCardService;
 
 import java.util.List;

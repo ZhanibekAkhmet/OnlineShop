@@ -1,9 +1,7 @@
 package spring.security.security.mapper;
 
 import org.mapstruct.Mapper;
-import spring.security.security.dto.CategoriesDto;
 import spring.security.security.dto.DiagonalDto;
-import spring.security.security.model.Categories;
 import spring.security.security.model.Diagonal;
 
 import java.util.List;

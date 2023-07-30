@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.security.security.dto.VideoCardDto;
 import spring.security.security.mapper.VideoCardMapper;
-import spring.security.security.model.Laptop.VideoCard;
 import spring.security.security.repository.VideoCardRepository;
 
 import java.util.List;

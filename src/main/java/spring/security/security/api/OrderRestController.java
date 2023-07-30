@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import spring.security.security.dto.OrderDto;
-import spring.security.security.model.*;
 
 import spring.security.security.repository.ItemRepository;
 import spring.security.security.service.OrderService;
@@ -19,11 +18,7 @@ public class OrderRestController {
     private  OrderService orderService;
     @Autowired
     private ItemRepository itemRepository;
-//    @PostMapping
-//    public ResponseEntity<OrderDto> createOrderFromShoppingCart(@RequestParam Long userId) {
-//        OrderDto order = orderService.createOrderFromShoppingCart(userId);
-//        return new ResponseEntity<>(order, HttpStatus.CREATED);
-//    }
+
 @PostMapping
 public ResponseEntity<OrderDto> createOrderFromShoppingCart(@RequestParam Long userId) {
     OrderDto order = orderService.createOrderFromShoppingCart(userId);

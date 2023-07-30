@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="/layout/main.html"
+      layout:decorate="main.html"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div layout:fragment="productsContent">
     <div class="row mb-3" >
@@ -244,30 +244,10 @@
                 req.onload = function () {
                     loadNotebooks();
                 }
-                req.open("PUT", "http://localhost:8888/items",)
+                req.open("PUT", "/items",)
                 req.setRequestHeader("Content-type", "application/json")
                 req.send(JSON.stringify(put))
             }
-            // function deleteLaptop(){
-            //
-            //     let approve = confirm("Вы уверены?");
-            //
-            //     if(approve){
-            //
-            //         let Id = document.getElementById("id").value;
-            //         const httpRequest = new XMLHttpRequest();
-            //         httpRequest.open("DELETE", "/items/"+Id, true);
-            //
-            //         httpRequest.onreadystatechange = function () {
-            //             if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
-            //                alert("Товар удален");
-            //             }
-            //         };
-            //
-            //         httpRequest.send();
-            //     }
-            //
-            // }
             function deleteLaptop() {
                 let approve = confirm("Вы уверены?");
                 if (approve) {
@@ -277,7 +257,7 @@
                     httpRequest.onreadystatechange = function () {
                         if (httpRequest.status == 200) {
                             alert("Товар удален");
-                            window.location.href = "http://localhost:8888/";
+                            window.location.href = "/";
                         } else if (httpRequest.status == 500 ) {
                             alert("Перед удалением удалите заказы с этим товаром");
                         }
@@ -300,7 +280,7 @@
                 req.onload = function () {
                     loadComments(document.getElementById("id").value);
                 }
-                req.open("POST", "http://localhost:8888/comment",)
+                req.open("POST", "/comment",)
                 req.setRequestHeader("Content-type", "application/json")
                 req.send(JSON.stringify(post))
             }
@@ -315,7 +295,7 @@
                 req.onload = function () {
                     loadNotebooks();
                 };
-                req.open('POST', 'http://localhost:8888/items/upload');
+                req.open('POST', '/items/upload');
                 req.send(formData);
             }
             function addBucket(id) {
@@ -323,7 +303,7 @@
                 req.onload = function () {
                     loadQuantity()
                 }
-                req.open("POST", "http://localhost:8888/shopping-cart/add/"+id)
+                req.open("POST", "/shopping-cart/add/"+id)
                 req.setRequestHeader("Content-type", "application/json")
                 req.send()
             }

@@ -3,12 +3,12 @@ package spring.security.security.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.security.security.dto.PhoneDto;
-//import spring.security.security.mapper.NotebookMapperImpl;
+
 import spring.security.security.mapper.PhoneMapperImpl;
 import spring.security.security.model.Item;
 import spring.security.security.model.Phone.Phone;
 import spring.security.security.repository.CommentRepository;
-import spring.security.security.repository.ItemRepository;
+
 import spring.security.security.repository.PhoneRepository;
 
 import java.util.List;

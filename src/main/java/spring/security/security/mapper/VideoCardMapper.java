@@ -1,9 +1,7 @@
 package spring.security.security.mapper;
 
 import org.mapstruct.Mapper;
-import spring.security.security.dto.ProcessorDto;
 import spring.security.security.dto.VideoCardDto;
-import spring.security.security.model.Laptop.Processor;
 import spring.security.security.model.Laptop.VideoCard;
 
 import java.util.List;

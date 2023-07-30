@@ -1,9 +1,9 @@
 package spring.security.security.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
-import spring.security.security.repository.ItemRepository;
+
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

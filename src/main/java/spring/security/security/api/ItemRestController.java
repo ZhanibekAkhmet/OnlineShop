@@ -7,9 +7,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.RedirectView;
 import spring.security.security.dto.ItemDto;
-import spring.security.security.dto.LaptopDto;
 import spring.security.security.service.ItemService;
 import spring.security.security.service.UploadImageService;
 
@@ -112,9 +110,6 @@ public class ItemRestController {
         itemService.deleteItem(id);
 
     }
-//    @DeleteMapping(value = "{id}")
-//    public RedirectView deleteItemDto(@PathVariable(name = "id") Long id) {
-//    itemService.deleteItem(id);
-//    return new RedirectView("/");
+
 
 }

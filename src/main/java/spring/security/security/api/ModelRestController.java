@@ -3,10 +3,7 @@ package spring.security.security.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import spring.security.security.dto.ModelDto;
-import spring.security.security.model.Laptop.Model;
 import spring.security.security.service.ModelService;
-//import spring.security.security.model.Notebooks.NotebookModel;
-//import spring.security.security.service.NotebookModelService;
 
 
 import java.util.List;

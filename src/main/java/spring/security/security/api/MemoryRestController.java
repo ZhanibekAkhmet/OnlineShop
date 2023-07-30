@@ -3,7 +3,6 @@ package spring.security.security.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import spring.security.security.dto.MemoryDto;
-import spring.security.security.model.Memory;
 import spring.security.security.service.MemoryService;
 
 import java.util.List;

@@ -1,9 +1,7 @@
 package spring.security.security.mapper;
 
 import org.mapstruct.Mapper;
-import spring.security.security.dto.CategoriesDto;
 import spring.security.security.dto.CommentDto;
-import spring.security.security.model.Categories;
 import spring.security.security.model.Comment;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package spring.security.security.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import spring.security.security.dto.OrderDto;
@@ -11,22 +11,22 @@ import spring.security.security.repository.OrderItemRepository;
 import spring.security.security.repository.OrderRepository;
 import spring.security.security.repository.UserRepository;
 
-import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class OrderService {
-//    @Autowired
+
     private final OrderRepository orderRepository;
-//    @Autowired
+
     private final   OrderMapper orderMapper;
-//    @Autowired
+
     private final   ShoppingCart shoppingCart;
 
     private final UserRepository userRepository;
-//    @Autowired
+
     private final OrderItemRepository orderItemRepository;
 
 
@@ -35,11 +35,7 @@ public class OrderService {
         List<Item> items = shoppingCart.getItems();
 
         if (items.isEmpty()) {
-            // Действия при пустой корзине
-            // Например, можно вывести сообщение пользователю или выполнить другие действия
-            // Здесь можно обработать ситуацию с пустой корзиной и предоставить информацию о пустой корзине
-            // или выполнить другие операции, которые следует предпринять в этом случае.
-            return null; // Или вернуть какое-то значение по умолчанию или null
+            return null;
         } else {
             List<OrderItem> orderItems = new ArrayList<>();
             for (Item item : items) {

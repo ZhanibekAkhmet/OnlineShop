@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  backend:
+    image: 'techboot-docker-iso'
+    container_name: 'self-generated-backend-container'
+    depends_on:
+      - pgdb
+    environment:
+      - SERVER_PORT=8888
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://pgdb:5432/postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
+      - SPRING_JPA_SHOW_SQL=false
+    ports:
+      - 8003:8888
+
+  pgdb:
+    image: postgres
+    container_name: 'pg-container'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 2345:5432

@@ -3,9 +3,6 @@ package spring.security.security.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import spring.security.security.dto.OzuDto;
-import spring.security.security.model.Memory;
-import spring.security.security.model.Ozu;
-import spring.security.security.service.MemoryService;
 import spring.security.security.service.OzuService;
 
 import java.util.List;

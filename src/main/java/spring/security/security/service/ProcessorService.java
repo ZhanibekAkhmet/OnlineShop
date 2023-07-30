@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.security.security.dto.ProcessorDto;
 import spring.security.security.mapper.ProcessorMapper;
-import spring.security.security.model.Laptop.Processor;
 import spring.security.security.repository.ProcessorRepository;
 
 import java.util.List;

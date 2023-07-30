@@ -4,10 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.security.security.dto.CategoriesDto;
 import spring.security.security.mapper.CategoriesMapper;
-import spring.security.security.model.Categories;
-import spring.security.security.model.Comment;
+
 import spring.security.security.repository.CategoriesRepository;
-import spring.security.security.repository.CommentRepository;
+
 
 import java.util.List;
 

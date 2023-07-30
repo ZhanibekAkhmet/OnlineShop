@@ -1,10 +1,8 @@
 package spring.security.security.mapper;
 
 import org.mapstruct.Mapper;
-import spring.security.security.dto.PhoneProcessorDto;
 import spring.security.security.dto.ProcessorDto;
 import spring.security.security.model.Laptop.Processor;
-import spring.security.security.model.Phone.PhoneProcessor;
 
 import java.util.List;
 

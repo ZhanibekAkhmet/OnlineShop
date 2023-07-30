@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="/layout/main.html"
+      layout:decorate="main.html"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div layout:fragment="productsContent">
     <div class="row mb-3" >
@@ -545,7 +545,7 @@
                 req.onload = function () {
                     window.location.href = "detailsPhone/" + JSON.parse(req.responseText).item.id;
                 }
-                req.open("POST", "http://localhost:8888/phone",)
+                req.open("POST", "/phone",)
                 req.setRequestHeader("Content-type", "application/json")
                 req.send(JSON.stringify(post))
             }

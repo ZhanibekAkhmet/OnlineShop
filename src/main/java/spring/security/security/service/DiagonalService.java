@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.security.security.dto.DiagonalDto;
 import spring.security.security.mapper.DiagonalMapper;
-import spring.security.security.model.Diagonal;
-import spring.security.security.model.Memory;
 import spring.security.security.repository.DiagonalRepository;
-import spring.security.security.repository.MemoryRepository;
 
 import java.util.List;
 

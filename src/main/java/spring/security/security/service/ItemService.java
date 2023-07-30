@@ -4,14 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import spring.security.security.dto.ItemDto;
-import spring.security.security.dto.LaptopDto;
+
 import spring.security.security.mapper.ItemMapper;
-import spring.security.security.mapper.ItemMapperImpl;
+
 import spring.security.security.model.Item;
-import spring.security.security.model.Laptop.Laptop;
+
 import spring.security.security.repository.CommentRepository;
 import spring.security.security.repository.ItemRepository;
-import spring.security.security.repository.UserRepository;
 
 import java.util.List;
 
@@ -74,6 +73,5 @@ public class ItemService {
                 return itemMapper.toDtoList(itemRepository.findByNameContainingIgnoreCaseOrModelNameContainingIgnoreCase(parts[0], parts[1]));
             }
 
-//        return itemMapper.toDtoList(itemRepository.findByNameContainingIgnoreCaseOrModelNameContainingIgnoreCase(query, query));
     }
 }

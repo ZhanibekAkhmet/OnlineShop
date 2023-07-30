@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.security.security.dto.PhoneProcessorDto;
 import spring.security.security.mapper.PhoneProcessorMapper;
-import spring.security.security.model.Phone.PhoneProcessor;
 import spring.security.security.repository.PhoneProcessorRepository;
 
 

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.security.security.dto.ModelDto;
 import spring.security.security.mapper.ModelMapper;
-import spring.security.security.model.Laptop.Model;
 import spring.security.security.repository.ModelRepository;
 
 

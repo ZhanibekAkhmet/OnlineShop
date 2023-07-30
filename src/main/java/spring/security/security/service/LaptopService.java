@@ -7,7 +7,7 @@ import spring.security.security.mapper.LaptopMapper;
 import spring.security.security.model.Item;
 import spring.security.security.model.Laptop.Laptop;
 import spring.security.security.repository.CommentRepository;
-import spring.security.security.repository.ItemRepository;
+
 import spring.security.security.repository.LaptopRepository;
 
 
@@ -41,11 +41,9 @@ public class LaptopService {
         return laptopMapper.toDto(laptopRepository.save(laptopMapper.toModel(laptopDto))) ;
     }
     public void deleteLaptop(Long id){
-//        Long itemId = getLaptop(id).getItem().getId();
-//        commentRepository.deleteByItem_Id(itemId);
-//        laptopRepository.deleteById(id);
+
         LaptopDto laptopDto = getLaptop(id);
-        try {
+        try{
             Item item = laptopDto.getItem();
             if (item != null) {
                 Long itemId = item.getId();

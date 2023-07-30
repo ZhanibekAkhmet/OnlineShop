@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.security.security.dto.OzuDto;
 import spring.security.security.mapper.OzuMapper;
-import spring.security.security.model.Memory;
-import spring.security.security.model.Ozu;
-import spring.security.security.repository.MemoryRepository;
+
 import spring.security.security.repository.OzuRepository;
 
 import java.util.List;

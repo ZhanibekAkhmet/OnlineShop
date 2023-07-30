@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.security.security.dto.CommentDto;
 import spring.security.security.mapper.CommentMapper;
-import spring.security.security.model.Comment;
 import spring.security.security.repository.CommentRepository;
 
 import java.util.List;
